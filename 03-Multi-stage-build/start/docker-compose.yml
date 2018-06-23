@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  multistage:
+    build:
+      context: src
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000

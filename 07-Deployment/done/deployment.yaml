@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hellonode-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hellonode
+  template:
+    # the pod.yaml file ... except:
+    # no apiVersion or kind
+    metadata:
+      # no name
+      labels:
+        app: hellonode
+        version: v0.1
+    spec:
+      containers:
+      - name: hellonode
+        image: hellonode:0.1
+        ports:
+        - containerPort: 3000

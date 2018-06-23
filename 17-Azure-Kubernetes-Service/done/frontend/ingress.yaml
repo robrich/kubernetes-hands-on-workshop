@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: frontend
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: frontend.HTTP_ROUTING_DOMAIN
+    http:
+      paths:
+      - backend:
+          serviceName: frontend
+          servicePort: 3000
+        path: /
