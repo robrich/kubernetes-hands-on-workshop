@@ -25,6 +25,8 @@ Step 1: Craft a deployment.yaml file
 
 1. Copy the `pod.yaml` file, and rename it `deployment.yaml`.
 
+   **Pro tip:** Don't copy and paste the files, rather re-type them to get more experience with this content.
+
 2. Open `deployment.yaml` in a text editor.
 
 3. At the very top, add a bunch of blank space above `apiVersion: v1`.
@@ -126,13 +128,13 @@ Step 2: Schedule the deployment
    ```
 
    Do you see your deployment?
-   
+
 3. Run this command:
 
    ```
    kubectl get pods
    ```
-   
+
    Do you see the pods spinning up?
 
    Good thing we built the image on Kubernetes so it doesn't need to pull this image from Docker hub.
