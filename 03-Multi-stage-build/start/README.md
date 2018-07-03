@@ -97,7 +97,7 @@ Step 1: Build the Dockerfile
 Step 2: Build the Dockerfile into an image
 ------------------------------------------
 
-1. From a command prompt within the folder with the `src` folder with the `Dockerfile` in it, run this:
+1. Start a command prompt in the `src` folder, (the folder with the `Dockerfile` in it) and then run this:
 
    ```
    docker build --tag hellodotnet:0.1 .
@@ -264,6 +264,8 @@ Our goal with this multi-stage build is to get a smaller image.  Let's see if we
 2. On the far right (it may have wrapped to the next line) look at the image size for `hellodotnet:0.1` and `hellodotnet:0.2`.
 
 3. Note that version `0.2` is significantly smaller than `0.1`.
+
+Docker built two images.  One named `<none>` has the build tools and is larger, one is named `hellodotnet:0.2` and is smaller.  We did this so we don't need to deploy the build tools to the production server.
 
 
 Step 11: Prune unnamed images

@@ -1,6 +1,7 @@
 node_modules
 .suo
-bin
+backend/bin
+src/bin
 obj
 .idea
 *.user
