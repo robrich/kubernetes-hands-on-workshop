@@ -18,4 +18,4 @@ EXPOSE 5000
 WORKDIR /app
 COPY --from=build /app .
 
-ENTRYPOINT ["dotnet", "backend.dll"]
+CMD ["dotnet", "backend.dll"]

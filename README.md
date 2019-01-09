@@ -47,3 +47,4 @@ If you find the guy in the front of the room particularly boring, jump into thes
 - https://www.katacoda.com/courses/kubernetes
 - https://kubernetes.io/docs/tutorials/
 - https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+- https://www.coursera.org/learn/google-kubernetes-engine
