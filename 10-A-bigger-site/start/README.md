@@ -31,7 +31,7 @@ Frontend
 
 6. Open up `service.yaml`.
 
-7. Change the name from `name: hellonode-service` to `name: backend`
+7. Change the name from `name: hellonode-service` to `name: frontend`
 
    This will become the DNS name for this service to other pods in the cluster.
 
