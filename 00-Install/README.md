@@ -112,4 +112,4 @@ Downloading docker images takes a while, so let's kick this off so we make sure 
 Help your neighbor
 ------------------
 
-There's someone sitting next to you whose struggling with this.  Let's pair and help each other.  When that machine is running, let's all celebrate and join another team.  At the end, we'll celebrate around the last machine.
+There's someone sitting next to you who's struggling with this.  Let's pair and help each other.  When that machine is running, let's all celebrate and join another team.  At the end, we'll celebrate around the last machine.
