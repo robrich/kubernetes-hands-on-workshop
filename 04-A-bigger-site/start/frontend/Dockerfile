@@ -9,7 +9,7 @@ ENV PORT 3000
 # at build time:
 # set the current directory
 # copy the manifest file: package.json
-# `npm install`
+# from a shell, run `npm install`
 # copy the content into place
 # let traffic flow in on port 3000
 

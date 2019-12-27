@@ -1,17 +1,17 @@
-FROM microsoft/dotnet:2.1-sdk-alpine AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
 
 
 # TODO: add the Docker commands to do these build steps:
 
 # set the current directory
 # copy the manifest file: backend.csproj
-# `dotnet restore`
+# from a shell, run `dotnet restore`
 # copy the content into place
-# `dotnet build -c Release`
-# `dotnet publish -c Release -o /app`
+# from a shell, run `dotnet build -c Release`
+# from a shell, run `dotnet publish -c Release -o /app`
 
 
-FROM microsoft/dotnet:2.1-aspnetcore-runtime-alpine
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
 
 ENV ASPNETCORE_URLS http://+:5000
 EXPOSE 5000

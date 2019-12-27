@@ -28,7 +28,7 @@ Here are some tutorials on autoscaling Kubernetes
 Helm
 ----
 
-Helm (client-side) and Tiller (pod in Kubernetes) allow us to template the yaml files to avoid the redundancy.
+Helm allow us to template the yaml files to avoid the redundancy.
 
 Tutorials on Helm:
 

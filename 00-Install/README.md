@@ -1,30 +1,28 @@
 Installing Docker Community Edition
 ===================================
 
-We're going to install Docker Community Edition, **Edge** channel, and flip it into Kubernetes mode.
+We're going to install Docker Desktop, and turn on Kubernetes mode.
 
 
-Install Docker CE for your OS
------------------------------
+Install Docker Desktop for your OS
+----------------------------------
 
 ### Linux
 
 Follow the instructions on docs.docker.com for your OS:
 
-- Ubuntu: [https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
-- Debian: [https://docs.docker.com/engine/installation/linux/docker-ce/debian/](https://docs.docker.com/engine/installation/linux/docker-ce/debian/)
-- CentOS: [https://docs.docker.com/engine/installation/linux/docker-ce/centos/](https://docs.docker.com/engine/installation/linux/docker-ce/centos/)
-- Fedora: [https://docs.docker.com/engine/installation/linux/docker-ce/fedora/](https://docs.docker.com/engine/installation/linux/docker-ce/fedora/)
-- Other: [https://docs.docker.com/engine/installation/linux/docker-ce/binaries/](https://docs.docker.com/engine/installation/linux/docker-ce/binaries/)
+- Ubuntu: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+- Debian: https://docs.docker.com/install/linux/docker-ce/debian/
+- CentOS: https://docs.docker.com/install/linux/docker-ce/centos/
+- Fedora: https://docs.docker.com/install/linux/docker-ce/fedora/
+- Other: https://docs.docker.com/install/linux/docker-ce/binaries/
 
 
 ### Mac
 
 1. Visit [https://docs.docker.com/docker-for-mac/install/#what-to-know-before-you-install](https://docs.docker.com/docker-for-mac/install/#what-to-know-before-you-install) to ensure you have the requirements necessary.
 
-2. Visit the [Docker Store](https://store.docker.com/) and create an account.
-
-3. Download [Docker Community Edition](https://store.docker.com/search?offering=community&type=edition) **edge** channel and install as you would any Mac app.
+2. Download [Docker Desktop](https://hub.docker.com/editions/community/docker-ce-desktop-mac) (either Edge or Stable) and install as you would any Mac app. It'll invite you to create a free account to download.
 
    ![Mac Install](mac.png)
 
@@ -41,9 +39,9 @@ Follow the instructions on docs.docker.com for your OS:
 
 3. From the same dialog, also turn on Containers.
 
-4. Visit the [Docker Store](https://store.docker.com/) and create an account.
+4. Download [Docker Desktop for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows) (either Edge or Stable) and install as you would any Windows app.  It'll invite you to create a free account to download.
 
-5. Download [Docker Community Edition](https://store.docker.com/search?offering=community&type=edition) and install as you would any Windows app.
+5. Carefully pick "Linux Containers mode" when prompted.
 
 6. Gratuitous reboots.
 
@@ -71,18 +69,47 @@ then type
 If both of these work as expected, you've succeeded!
 
 
+Optional: Docker Desktop not working?
+---------------------------
+
+If Docker Desktop isn't working for you because of firewall issues or you don't have admin access to your machine or you have Windows 10 Home or other issues, you can try these alternate Docker runtimes:
+
+1. [Minikube](https://github.com/kubernetes/minikube/) is a single-node Kubernetes cluster in a Linux VM. You can specify the `--vm-driver` as `hyperv` or `virtualbox` or others. 
+
+   You'll likely need to specify the vm driver like this:
+
+   `minikube start --vm-driver hyperv --hyperv-virtual-switch External` where `External` is the Hyper-V virtual switch name that is listed as `External Network`.
+
+   Then you'll need to set docker environment variables like this:
+
+   `minikube docker-env`
+
+   When you use Minikube, you'll need to specify http://minikube:3000/... instead of http://localhost:3000/... in all the examples, and use `minikube mount ...` when doing `VOLUME` examples in 04 and 05.
+
+2. [MicroK8s](https://microk8s.io/) runs on most Linux distributions, and is a light-weight, single-node Kubernetes cluster with Docker installed.
+
+   When using microk8s, swap the command line `docker` with `microk8s.docker` in all examples.
+
+3. [k3s](https://k3s.io/) runs on most Linux distributions, and is a light-weight, single-node Kubernetes cluster with Docker installed.
+
+   When using k3s, you'll likely need two or more Linux VMs, and you'll need to install Docker command-line tools onto your machine, and configure your kubernetes environment.  Other options may be easier.
+
+
+
 Enable Kubernetes
 -----------------
 
 1. In the Task tray (bottom-right on Windows, top-right on Mac), click on the whale icon, and choose settings.
 
-2. Switch to the Kubernetes tab, enable Kubernetes, and click apply.
+2. Switch to the Kubernetes tab, enable Kubernetes, and click apply.  The first time you do this it'll take a good while to download all the Kubernetes control plane containers.
 
-   ![kubernetes mode](kubernetes-mode.png)
+   ![Kubernetes mode](kubernetes-mode.png)
 
 ### **Don't have the Kubernetes tab?**
 
-If you don't have the Kubernetes tab in your Docker settings, it means you're either running an older version of Docker or you're not on the Edge channel.  Try uninstalling Docker, downloading it again, and reinstalling.
+- If you don't have the Kubernetes tab in your Docker settings, upgrade your version of Docker.
+
+- If running Docker Desktop on Windows, ensure you're in Linux Containers mode. Right-click on the whale icon, "Switch to Linux Containers".  If it says "Switch to Windows Containers" you're in the right place.
 
 
 Verify kubectl works
@@ -105,8 +132,8 @@ Downloading docker images takes a while, so let's kick this off so we make sure 
 **Note**: Running on Windows?  Ensure you're in Linux mode.  Right-click on the docker system tray icon, and choose "Switch to Linux Containers".  If it says "Switch to Windows containers" you don't need to do anything, you're already there.
 
 1. `docker pull node:alpine`
-2. `docker pull microsoft/dotnet:2.1-aspnetcore-runtime-alpine`
-3. `docker pull microsoft/dotnet:2.1-sdk-alpine`
+2. `docker pull mcr.microsoft.com/dotnet/core/sdk:3.1-alpine`
+3. `docker pull mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine`
 
 
 Help your neighbor

@@ -11,7 +11,7 @@ Backend
 
 1. Open up `backend/Dockerfile`
 
-2. Modify the file to build the .net app.  I've listed the shell commands you'll need to run.  Turn these into `Dockerfile` commands.
+2. Modify the file to build the .net app.  I've listed the shell commands you'll need to run.  Turn these into Dockerfile [`RUN`](https://docs.docker.com/engine/reference/builder/#run) commands.
 
 3. `docker build ...` the back-end image, tagging the image as `backend:0.1`.  Look to exercise 3 for clues if necessary.
 
@@ -33,11 +33,11 @@ Frontend
 
 1. Open `frontend/routes/index.js`.  Note the line that says `const BACKEND = 'http://backend:5000';`  The front-end assumes it can browse to `http://backend:5000/...` to get to the backend.
 
-   Note: we can't just browse from the front-end container to `http://localhost:5000/` because nothing is running in the front-end container on port 5000.
+   Note: we can't just browse from the front-end container to the backend container inside the Docker network via `http://localhost:5000/` because that's not the address of the backend container inside the Docker network.
 
 2. Open `frontend/Dockerfile`
 
-3. Modify the file to build the node app.  I've listed the shell commands you'll need to run.  Turn these into `Dockerfile` commands.
+3. Modify the file to build the node app.  I've listed the shell commands you'll need to run.  Turn these into Dockerfile [`RUN`](https://docs.docker.com/engine/reference/builder/#run) commands.
 
 4. Build the front-end image, tagging it as `frontend:0.1`.
 
@@ -46,7 +46,7 @@ Frontend
    ```
    docker run -d -p 3000:3000 --link backend frontend:0.1
    ```
-   
+
    This starts the front-end container, NATing traffic from port 3000 to port 3000 in the container, and sets up a DNS route to the backend container.  Now `http://backend:5000/...` will resolve correctly.
 
 6. Look at the container list and ensure both containers are now running.

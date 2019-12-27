@@ -47,7 +47,15 @@ Adding to Docker Hub
 
    Substitute the details of the image you tagged above.
 
-6. Docker uses the tag `latest` when a version isn't specified, but this tag is no different than any other tag.  Let's tag the image as `latest` and push that one too.
+6. Now that your image is on Docker hub, you could delete the image, and grab it again using:
+
+   ```
+   docker pull username/backend:0.1
+   ```
+
+   Substitute the details of the image you tagged above.  Because you already have it locally, it'll successfully do nothing.
+
+7. Docker uses the tag `latest` when a version isn't specified, but this tag is no different than any other tag.  Let's tag the image as `latest` and push that one too.
 
    Substitute your docker username for `username` in both these commands:
 
@@ -56,9 +64,9 @@ Adding to Docker Hub
    docker push username/backend
    ```
 
-7. Repeat steps 4, 5, and 6 for the `frontend:0.1` container.
+8. Repeat steps 4, 5, and 6 for the `frontend:0.1` container.
 
-8. Now that your image is on Docker hub, you could delete the image, and grab it again using:
+9. Now that your image is on Docker hub, you could delete the image, and grab it again using:
 
    ```
    docker pull username/backend:0.1

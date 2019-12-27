@@ -39,13 +39,13 @@ Step 2: Craft the Dockerfile
 
    **Pro tip:** Rather than copying and pasting the text, type each step instead.  You'll become much more familiar with the new technology this way.
    
-3. Add this line:
+3. Add this line to set the current directory inside the image:
 
    ```
    WORKDIR /app
    ```
 
-   This says "I want my process to start from the `/app` directory."  It will create the directory if it doesn't exist.
+   This says "I want my process to start from the `/app` directory."  It will create the directory if it doesn't exist. This is the directory inside the image.
 
 4. Next line:
 
@@ -84,6 +84,9 @@ Step 3: Build the Dockerfile into an image
    ```
 
    This says "Build the current directory's Dockerfile into an image, and tag the image with the name `hellonode` and the version `0.1`".
+
+   NOTE: If you're building on Windows, you'll get a security warning. It's showing you that Windows Access Control Lists (ACLs) are different than Linux's Users & Groups. We're not setting file permissions here, so we're ok. It's safe to ignore this warning.
+   
 
 2. After it finishes, run this to see the image it built:
 

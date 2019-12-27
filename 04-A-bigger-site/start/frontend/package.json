@@ -6,12 +6,12 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "cookie-parser": "^1.4.3",
-    "debug": "^3.1.0",
-    "express": "^4.16.3",
-    "hbs": "^4.0.1",
-    "morgan": "^1.9.0",
-    "request": "^2.86.0"
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "hbs": "^4.0.6",
+    "morgan": "^1.9.1",
+    "request": "^2.88.0"
   }
 }

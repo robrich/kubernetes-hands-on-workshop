@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace backend.Controllers
 {
+    [ApiController]
     [Route("[controller]")]
     public class FrameworkController : Controller
     {
