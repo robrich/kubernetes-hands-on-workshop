@@ -1,5 +1,5 @@
-Installing Docker Community Edition
-===================================
+Installing Docker Desktop
+=========================
 
 We're going to install Docker Desktop, and turn on Kubernetes mode.
 
