@@ -53,7 +53,9 @@ Backend
 
    **Note:** The code has a static list of all the votes (pretending to be a database), so we only want one of them.  If we were doing this for real, we'd store this data in an external database, and ramp the replicas up to at least 3 for high availability.
 
-5. Modify other references in both files from `frontend` to `backend`.
+5. Modify other references in both backend files, renaming everything from `frontend` to `backend`.
+
+**Note**: The backend service should be `name: backend`, not ~~`backend-service`~~.  The service name is the DNS entry for other pods to consume.  In `frontend`'s source code in `routes/index.js` it specifies `http://backend:5000`.  The frontend is able to resolve this URL to the backend because the backend service is named `backend`.
 
 
 Schedule all the things
