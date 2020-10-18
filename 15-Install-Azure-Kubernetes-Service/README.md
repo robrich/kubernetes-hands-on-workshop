@@ -43,7 +43,7 @@ Create Kubernetes Cluster
 
 3. In the Networking tab, ensure "http application routing" is enabled.
 
-4. In the Monitoring tab, you can choose to enable monitoring for an additional cost, or disable it to make the cluster cheaper.
+4. In the Monitoring tab, you can choose to enable monitoring for a nominal cost, or disable it to make the cluster cheaper.
 
 5. Once you're done customizing the cluster, click the Review and Create tab, then click Create at the bottom.
 
@@ -109,7 +109,7 @@ We need the Azure CLI to wire up the connection between Azure Kubernetes Service
 
    Notice the `docker-for-desktop` configuration together with the Azure Kubernetes cluster.
 
-Now let's get the Kubernetes cluster logged into the registry.  (See also https://docs.microsoft.com/en-us/azure/container-registry/container-registry-auth-aks)
+   Now let's get the Kubernetes cluster logged into the registry.  (See also https://docs.microsoft.com/en-us/azure/container-registry/container-registry-auth-aks)
 
 6. Run this command:
 
@@ -139,7 +139,7 @@ Now let's get the Kubernetes cluster logged into the registry.  (See also https:
 Switch clusters
 ---------------
 
-1. The Azure cli switched us from `docker-for-desktop` to the Azure cluster.  In a command prompt, run:
+1. The Azure cli switched us from `docker-desktop` to the Azure cluster.  In a command prompt, run:
 
    ```
    kubectl get all
@@ -156,7 +156,7 @@ Switch clusters
 3. To switch to Docker's Kubernetes cluster, run:
 
    ```
-   kubectl config use-context docker-for-desktop
+   kubectl config use-context docker-desktop
    ```
 
    Now run `kubectl get all` and see the content we created previously.

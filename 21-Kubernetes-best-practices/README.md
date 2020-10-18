@@ -7,7 +7,7 @@ Here's things I've found that make Docker and Kubernetes most effective:
 
 - 1 process per container:  If you need more than one process, use more than one container.
 
-- 1 container per pod:  If you need more than one process, use more than one pod.  Sidecar containers are a thing, but use them exceedingly sparingly.
+- 1 container per pod:  If you need more than one process, use more than one pod.  Sidecar containers are a thing.  When you learn about sidecars you'll know when you can break the 1-container-1-pod rule.
 
 - Use a managed data store:  Using a database-as-a-service product both eliminates stateful containers and it's one less thing to manage.  For example, Azure SQL Database and Amazon RDS.
 
@@ -15,13 +15,7 @@ Here's things I've found that make Docker and Kubernetes most effective:
 
 - [Store secrets carefully](https://robrich.org/slides/docker-secrets/#/):  Where you choose to store secrets depends a lot on what you trust and how much complexity and control you want around secrets.
 
-- Kubernetes secrets are not safe.  From the [docs](https://kubernetes.io/docs/concepts/configuration/secret/#risks):
-
-   ```
-   In the API server secret data is stored as plaintext in etcd
-   ```
-
-   Is that as scary to you as it is to me?
+- Kubernetes secrets are on every node.  See the [docs](https://kubernetes.io/docs/concepts/configuration/secret/#risks).
 
 - Production config as environment vars:  In production, expose anything that changes as an environment variable so ops can quickly adjust runtime behavior.
 
@@ -39,7 +33,7 @@ Here's things I've found that make Docker and Kubernetes most effective:
 
 - Use `.dockerignore`:  Using the exact same "one line per entry" and "wildcard glob" syntax as `.gitignore` and `.npmignore`, you can use `.dockerignore` to prune content from the `ADD . /path` and `COPY . /path` commands in your Dockerfile.
 
-- Use Ingress over LoadBalancer when possible:  Ingress can route based on hostname or path, but can only route traffic from port 80 and 443 without a custom Ingress Controller.  Services of type LoadBalancer create a unique LoadBalancer on your cloud per service.  This can get expensive.
+- Use Ingress over LoadBalancer when possible:  Ingress can route based on hostname or path, but can only route traffic from port 80 and 443 without a custom Ingress Controller.  Services of type LoadBalancer may create a unique LoadBalancer on your cloud per service.  This can get expensive.
 
 - Deploy the service before the deployment:  Services create DNS entries and environment variables in the cluster.  If you schedule the deployment first, you may have a container start without the necessary environment variables or they may not be able to resolve the hostnames of dependent services.
 
@@ -54,6 +48,8 @@ Here's things I've found that make Docker and Kubernetes most effective:
 - Labels:  Gratuitously add labels to anything.  You can limit the query to `kubectl get all --selector=app=frontend`.
 
 - Namespaces:  You can scope things by namespace, though you'll now need to add the `--namespace=` to any kubectl command.
+
+- Namespaces aren't a security boundary, they're an organizational boundary.  By default, any pod can call any other pod running in the cluster.
 
 - The `kubectl` cheat sheet: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 

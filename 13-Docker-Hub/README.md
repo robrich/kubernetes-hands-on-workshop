@@ -5,7 +5,7 @@ Docker hub is to Docker as GitHub is to source control.
 
 Docker hub is the central repository or "store" for sharing images.
 
-You can also use private repositories such as [AWS Container Registry](https://aws.amazon.com/ecr/) or [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/) to store images more privately.  If you're inside the firewall, look to [Artifactory](https://www.jfrog.com/artifactory/) (paid) or [Nexus](https://www.sonatype.com/nexus-repository-oss) (free) for on-premise Docker repositories.
+You can also use private repositories such as [AWS Container Registry](https://aws.amazon.com/ecr/) or [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/) to store images more privately.  If you're inside the corporate firewall, look to [Artifactory](https://www.jfrog.com/artifactory/) (paid) or [Nexus](https://www.sonatype.com/nexus-repository-oss) (free) for on-premise Docker repositories.
 
 
 Using Docker Hub
@@ -21,7 +21,7 @@ Adding to Docker Hub
 
 (If you'd rather not expose your learning so publicly, you can skip this section.  We'll also use Azure Container Registry in the next module.)
 
-1. Create an account on [https://hub.docker.com/](https://hub.docker.com/).
+1. Create an account on [https://hub.docker.com/](https://hub.docker.com/) or login to your account if you've already created one.
 
 2. From the command-line, run
 
@@ -31,7 +31,7 @@ Adding to Docker Hub
 
 3. Note the Docker system tray menu now shows your name and `Logout`.
 
-4. Tag an image in the form `username/imagename:version`, so I would tag a node image as `robrich/backend:0.1`.  Note the registry details are in the image name.  Sadly, this makes it difficult to move images between repositories or to build automation around changing repositories.
+4. Tag an image in the form `username/imagename:version`, so I would tag a node image as `robrich/backend:0.1`.  Note the registry details are in the image name.  Sadly, this makes it difficult to move images between container registries or cache a container registry.
 
    ```
    docker tag backend:0.1 username/backend:0.1
@@ -64,7 +64,7 @@ Adding to Docker Hub
    docker push username/backend
    ```
 
-8. Repeat steps 4, 5, and 6 for the `frontend:0.1` container.
+8. Repeat steps 5, 6, and 7 for the `frontend:0.1` container.
 
 9. Now that your image is on Docker hub, you could delete the image, and grab it again using:
 

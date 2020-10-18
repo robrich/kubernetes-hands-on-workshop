@@ -11,7 +11,7 @@ Backend
 
 1. Open up `backend/Dockerfile`
 
-2. Modify the file to build the .net app.  I've listed the shell commands you'll need to run.  Turn these into Dockerfile [`RUN`](https://docs.docker.com/engine/reference/builder/#run) commands.
+2. Modify the file to build the .net app.  I've listed the shell commands you'll need to run.  Turn these into Dockerfile [`RUN`](https://docs.docker.com/engine/reference/builder/#run) and `CMD` commands.
 
 3. `docker build ...` the back-end image, tagging the image as `backend:0.1`.  Look to exercise 3 for clues if necessary.
 
@@ -31,13 +31,13 @@ Backend
 Frontend
 --------
 
-1. Open `frontend/routes/index.js`.  Note the line that says `const BACKEND = 'http://backend:5000';`  The front-end assumes it can browse to `http://backend:5000/...` to get to the backend.
+1. Open `frontend/routes/index.js`.  Note the line that says `const BACKEND = 'http://backend:5000';`  The front-end assumes it can browse to `http://backend:5000/...` to get to the backend.  GOod thing we started the backend container with `--name backen` so this works.
 
-   Note: we can't just browse from the front-end container to the backend container inside the Docker network via `http://localhost:5000/` because that's not the address of the backend container inside the Docker network.
+   Note: we can't just browse from the front-end container to the backend container inside the Docker network via `http://localhost:5000/` because that's not the address of the backend container inside the Docker network.  From outside the Docker network, Docker is NATing the traffic from localhost.  But inside the network, we don't have this luxury.
 
 2. Open `frontend/Dockerfile`
 
-3. Modify the file to build the node app.  I've listed the shell commands you'll need to run.  Turn these into Dockerfile [`RUN`](https://docs.docker.com/engine/reference/builder/#run) commands.
+3. Modify the file to build the node app.  I've listed the shell commands you'll need to run.  Turn these into Dockerfile [`RUN`](https://docs.docker.com/engine/reference/builder/#run) and `CMD` commands.
 
 4. Build the front-end image, tagging it as `frontend:0.1`.
 

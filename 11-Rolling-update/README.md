@@ -41,7 +41,7 @@ Step 3: Update the deployment
 Step 4: DevOps Pipeline
 -----------------------
 
-Here's where you'd commit these changes to source control, push them to the server, let the build server create the new images, and push them to your repo of choice.  Let's assume that worked, and continue on.
+Here's where you'd commit these changes to source control, push them to the server, let the build server create the new images, and push them to your container registry of choice.  Let's assume that worked, and continue on.
 
 
 Step 5: Schedule the new content

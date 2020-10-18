@@ -4,6 +4,12 @@ My First Container
 We're going to build our first container as a Linux workload.
 
 
+Step 0: Clone this repository
+-----------------------------
+
+Head to https://github.com/robrich/kubernetes-hands-on-workshop, click on the green "Code" button, and choose to clone or download this repository content.  Save the files in any convenient folder on your machine.  Consider putting them in a path without spaces because using paths with spaces requires putting quotes around some commands.
+
+
 Step 0: Switch to Linux containers
 ----------------------------------
 
@@ -21,7 +27,7 @@ Step 1: Create the app
 
 4. Save the file in this `start` folder, and name the file `server.js`.
 
-5. Modify this line: `server.listen(port, hostname, () => {` to this: `server.listen(port, () => {` (e.g. remove `hostname` and the comma.)
+5. Modify this line: `server.listen(port, hostname, () => {` to this: `server.listen(port, () => {` (e.g. remove `hostname,`.)
 
 
 Step 2: Craft the Dockerfile
@@ -38,14 +44,16 @@ Step 2: Craft the Dockerfile
    This says "start with the [node](https://hub.docker.com/_/node/) base-image, and use the alpine flavor of it."  The alpine Linux distribution is known for being tiny.
 
    **Pro tip:** Rather than copying and pasting the text, type each step instead.  You'll become much more familiar with the new technology this way.
-   
+
 3. Add this line to set the current directory inside the image:
 
    ```
    WORKDIR /app
    ```
 
-   This says "I want my process to start from the `/app` directory."  It will create the directory if it doesn't exist. This is the directory inside the image.
+   This says "I want my image content to be in the `/app` directory."  It will create the directory if it doesn't exist.
+
+   There's nothing magical about the `/app` directory.  You could call it `/foo/bar/baz` and this example would work just fine.
 
 4. Next line:
 
@@ -63,7 +71,7 @@ Step 2: Craft the Dockerfile
 
    This says "I want the container's port 3000 to be accessible for inbound traffic from outside the container."
 
-5. Write
+5. Write this:
 
    ```
    CMD ["node", "server"]
@@ -71,13 +79,15 @@ Step 2: Craft the Dockerfile
 
    This says "The command line to run when starting the container is `node server`. In other words, Start Node with the `server.js` file."
 
+   Note that all the other lines get run as we build the image.  Only this line gets run as the container starts.
+
 6. Save the Dockerfile.  Make sure it's `Dockerfile` without an extension, not ~~Dockerfile.txt~~.
 
 
 Step 3: Build the Dockerfile into an image
 ------------------------------------------
 
-1. From within the folder with the `Dockerfile` and `server.js` file, run this command from a command prompt:
+1. From a terminal in the folder with the `Dockerfile` and `server.js` file, run this command from a command prompt:
 
    ```
    docker build --tag hellonode:0.1 .
@@ -85,8 +95,8 @@ Step 3: Build the Dockerfile into an image
 
    This says "Build the current directory's Dockerfile into an image, and tag the image with the name `hellonode` and the version `0.1`".
 
-   NOTE: If you're building on Windows, you'll get a security warning. It's showing you that Windows Access Control Lists (ACLs) are different than Linux's Users & Groups. We're not setting file permissions here, so we're ok. It's safe to ignore this warning.
-   
+   NOTE: If you're building on Windows, you'll get a security warning. It's showing you that Windows Access Control Lists (ACLs) are different than Linux's Users & Groups. We're not setting file permissions here, so we're ok. It's safe to ignore this warning in this case.
+
 
 2. After it finishes, run this to see the image it built:
 

@@ -4,26 +4,28 @@ Kubernetes Deployment
 Let's scale up from one pod to many pods.
 
 
+Step 0: Ensure Kubernetes is running
+------------------------------------
+
+1. Run `kubectl cluster-info` and `kubectl version`.  If it errored, return to exercise 0 to ensure you're running a Kubernetes runtime.  If you're using Docker Desktop, ensure you're in Linux mode, and you've enabled Kubernetes.
+
+
 Step 0: Build the Image
 -----------------------
 
 For this exercise, we're going to be using the `hellonode:0.1` image built in exercise 2.
 
-1. Run `docker image list` and ensure `hellonode:0.1` is present in the list.  If not, return to exercise 2 to build these images.
-
-
-Step 0: Ensure Kubernetes is running
-------------------------------------
-
-1. Run `kubectl cluster-info` and `kubectl version`.  If it errored, return to exercise 0 to ensure you're running Docker Edge, you're in Linux mode, and you've enabled Kubernetes.
+1. Run `docker image list` and ensure `hellonode:0.1` is present in the list.  If not, return to exercise 2 to build this image.
 
 
 Step 1: Craft a deployment.yaml file
------------------------------
+------------------------------------
+
+Usually we don't deal with pods directly, but rather build them as part of deployments.  We'll transform the pod file built in the last exercise into a deployment in this excercise.
 
 **Note:** Yaml files are white-space significant.  Indenting is done with **2 spaces**, not 4 spaces, not tabs.
 
-1. Copy the `pod.yaml` file, and rename it `deployment.yaml`.
+1. Copy the `pod.yaml` file build in the previous example, and rename it `deployment.yaml`.
 
    **Pro tip:** Don't copy and paste the files, rather re-type them to get more experience with this content.
 
@@ -44,7 +46,7 @@ Step 1: Craft a deployment.yaml file
 
    This object will be a Deployment, found in the `apps/v1` namespace.  We're naming this deployment `hellonode-deployment`.
 
-   (If you're using an older version of Kubernetes, it may be in [`apps/v1beta2`](https://v1-8.docs.kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment) or [`apps/v1beta1`](https://v1-7.docs.kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment) namespace.)
+   (In deprecated versions of Kubernetes, it used to be in [`apps/v1beta2`](https://v1-8.docs.kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment) or [`apps/v1beta1`](https://v1-7.docs.kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment) namespace.)
 
 5. In the `spec` section of the Deployment, let's add content:
 
@@ -97,7 +99,7 @@ Step 1: Craft a deployment.yaml file
        kind: Pod
    ```
 
-   Deployments can only create pods, so we remove this redundancy.
+   Deployments can only create pods, so no need to specify that the template's content is a pod.
 
 10. **Remove** this line from the template:
 
@@ -119,7 +121,7 @@ Step 2: Schedule the deployment
    kubectl apply -f deployment.yaml
    ```
 
-   This says "please schedule the thing I've got in the yaml file `deployment.yaml`.
+   This says "please make it so the things I've defined in the yaml file `deployment.yaml` are running.
 
 2. Run this command:
 

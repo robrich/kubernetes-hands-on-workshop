@@ -4,22 +4,24 @@ My First Container
 We're going to run our first container on Kubernetes.
 
 
+Step 0: Ensure Kubernetes is running
+------------------------------------
+
+1. Run `kubectl cluster-info` and `kubectl version`.  If it errored, return to exercise 0 to ensure you're running a Kubernetes runtime.  If you're using Docker Desktop, ensure you're in Linux mode, and you've enabled Kubernetes.
+
+
 Step 0: Build the Image
 -----------------------
 
 For this exercise, we're going to be using the `hellonode:0.1` image built in exercise 2.
 
-1. Run `docker image list` and ensure `hellonode:0.1` is present in the list.  If not, return to exercise 2 to build these images.
-
-
-Step 0: Ensure Kubernetes is running
-------------------------------------
-
-1. Run `kubectl cluster-info` and `kubectl version`.  If it errored, return to exercise 0 to ensure you're running Docker Edge, you're in Linux mode, and you've enabled Kubernetes.
+1. Run `docker image list` and ensure `hellonode:0.1` is present in the list.  If not, return to exercise 2 to build this image.
 
 
 Step 1: Craft a pod.yaml file
 -----------------------------
+
+In general we won't craft pods directly.  Rather we'll build pods as part of a deployment.  Let's get familiar with what is a pod so when we build a deployment these concepts make sense.
 
 **Note:** Yaml files are white-space significant.  Indenting is done with **2 spaces**, not 4 spaces, not tabs.
 
@@ -54,10 +56,10 @@ Each Kubernetes object has an `apiVersion`, a `kind`, a `metadata` section, and 
    ```
 
    We're giving Kubernetes a bit of metadata about the pod -- a list of arbitrary name-value pairs.  We could put anything we wanted here -- service tags, environment name, your favorite color.
-   
+
    We'll use these when we discuss service's selectors.
 
-   **Note:** both the name and the value must be strings, so ~~`version: 0.1`~~ is invalid, but `version: '0.1'` is ok.
+   **Note:** both the name and the value must be strings, so ~~`version: 0.1`~~ is invalid, but `version: '0.1'` is ok.  In this case we use `version: v0.1` to ensure it's a string without needing quotes.
 
 5. The next section is the details about the pod -- the container(s) in it:
 
@@ -72,13 +74,15 @@ Each Kubernetes object has an `apiVersion`, a `kind`, a `metadata` section, and 
      - name: hellonode
    ```
 
-   The first `-` creates a new entry in the containers array.  We then name the container `hellonode`.
+   The first `-` creates a new entry in the containers array and begins the object that describes this container.  We then name the container `hellonode`.
 
 7. Let's add the image Kubernetes should pull from docker hub:
 
    ```
        image: hellonode:0.1
    ```
+
+   We don't start this line with a dash because it's part of the object definition that defines this pod.  (Yeah, yaml is weird.)
 
    Good thing we built this image previously.  Kubernetes won't need to pull it because it already exists.
 
@@ -133,7 +137,7 @@ Step 2: Schedule the pod
 4. Run this command:
 
    ```
-   kubectl port-forward hellonode 3000:3000
+   kubectl port-forward pods/hellonode 3000:3000
    ```
 
    This command won't end.  It sets up a proxy so you can browse to the pod.  This is generally not a good idea, but we're experimenting.

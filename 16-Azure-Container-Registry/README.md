@@ -7,8 +7,6 @@ Like Docker Hub, Azure Container Registry lets us publish docker images.  Unlike
 Pushing images to Azure Container Registry
 ------------------------------------------
 
-(If you'd rather not expose your learning so publicly, you can skip this section.  We'll also use Azure Container Registry in the next module.)
-
 1. Grab the Admin username and password from the Azure Container Registry you created in the previous exercise.
 
 2. From the command-line, run

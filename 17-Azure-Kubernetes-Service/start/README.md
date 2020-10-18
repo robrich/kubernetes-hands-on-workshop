@@ -37,7 +37,7 @@ Schedule all the things
    kubectl apply -f service.yaml
    ```
 
-   Note: we'll be using Kubernetes's DNS service to discover the backend service, so the backend service must exist before we schedule the frontend deployment.
+   Note: we'll be using Kubernetes's DNS service to discover the backend service, so the backend service must be created before we schedule the frontend deployment for the DNS entries to exist.
 
 2. Schedule the backend deployment:
 

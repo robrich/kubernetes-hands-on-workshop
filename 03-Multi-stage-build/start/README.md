@@ -31,7 +31,7 @@ Step 1: Build the Dockerfile
    COPY MultiStage.csproj .
    ```
 
-   This says "copy the csproj file from my machine to the current directory in the image."
+   This says "copy the dependencies manifest file from my machine to the current directory in the image."  In Node, this is the project.json file.  In Python this is the requirements.txt file.
 
 5. Add this line:
 
@@ -49,7 +49,7 @@ Step 1: Build the Dockerfile
    COPY . .
    ```
 
-   This copies all the rest of the content from the current directory on our machine into the current directory in the image.
+   This copies all the rest of the content from the directory where we'll run the build command on our machine into the current directory in the image.
 
 7. Open the `.dockerignore` text file inside the `src` directory.  The syntax is identical to a `.gitignore` file.  This file tells the `COPY` command which things it should not copy.
 
@@ -129,13 +129,13 @@ As you work through this section, if you find it doesn't work, look for debuggin
 
 2. Open a browser to [http://localhost:5000](http://localhost:5000).  Success!
 
+   Is it not running?  See step 4.
+
 3. To see running containers, run:
 
    ```
    docker container list
    ```
-
-   Is it not running?  See step 4.
 
 **Note: you didn't install .NET Core either!**
 
@@ -175,9 +175,9 @@ Step 5: Stop and Remove the container
 Step 6: Modify the Dockerfile to be multi-stage
 -----------------------------------------------
 
-What is a multi-stage build?  We're going to build two images: one is like the build server, one is like the production server. The first stage will take in our source code and output the built dlls, the second will host the built dlls as a web server.
+What is a multi-stage build?  We're going to build two images: one is like the build server, the other is like the production server. The first stage will take in our source code and output the built dlls, the second will host the built dlls as a web server.
 
-1. Open the `Dockerfile` you created in step 1.
+1. Open the `Dockerfile` you created above.
 
 2. Add this line after the `RUN dotnet publish ...` line and before the `WORKDIR /app` line:
 
@@ -267,7 +267,7 @@ Our goal with this multi-stage build is to get a smaller image.  Let's see if we
 
 3. Note that version `0.2` is significantly smaller than `0.1`.
 
-Docker built two images.  One named `<none>` has the build tools and is larger, one is named `hellodotnet:0.2` and is smaller.  We did this so we don't need to deploy the build tools to the production server, and so we built the .net app in a very consistent environment.
+Docker built two images in this multi-stage build example.  One named `<none>` has the build tools and is larger, one is named `hellodotnet:0.2` and is smaller.  We did this so we don't need to deploy the build tools to the production server, and so we built the .net app in a very consistent environment.
 
 
 Step 11: Prune unnamed images
@@ -275,7 +275,7 @@ Step 11: Prune unnamed images
 
 1. From the command prompt, get the list of docker images.
 
-2. See the image that shows `<none>` and `<none>`?  This is the `build` stage from our dockerfile.  Docker cached it so the next build will be faster.
+2. See the image that shows `<none>` and `<none>`?  This is the `build` stage from our Dockerfile.  Docker cached it so the next build will be faster.
 
 3. Run from a command prompt:
 

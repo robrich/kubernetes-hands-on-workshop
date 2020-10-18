@@ -4,18 +4,18 @@ Kubernetes Service
 Now that we've got a deployment running, let's route traffic into it.
 
 
+Step 0: Ensure Kubernetes is running
+------------------------------------
+
+1. Run `kubectl cluster-info` and `kubectl version`.  If it errored, return to exercise 0 to ensure you're running a Kubernetes runtime.  If you're using Docker Desktop, ensure you're in Linux mode, and you've enabled Kubernetes.
+
+
 Step 0: Build the Image
 -----------------------
 
 For this exercise, we're going to be using the `hellonode:0.1` image built in exercise 2.
 
-1. Run `docker image list` and ensure `hellonode:0.1` is present in the list.  If not, return to exercise 2 to build these images.
-
-
-Step 0: Ensure Kubernetes is running
-------------------------------------
-
-1. Run `kubectl cluster-info` and `kubectl version`.  If it errored, return to exercise 0 to ensure you're running Docker Edge, you're in Linux mode, and you've enabled Kubernetes.
+1. Run `docker image list` and ensure `hellonode:0.1` is present in the list.  If not, return to exercise 2 to build this image.
 
 
 Step 1: Craft a service.yaml file
@@ -55,7 +55,7 @@ Step 1: Craft a service.yaml file
      type: NodePort
    ```
 
-   A `NodePort` service creates an inbound port on each node in the cluster.  Kubernetes randomly picks a port in the 30,000 range.  Because Docker-desktop automatically proxies traffic from the host machine into the cluster, we'll be able to hit this `NodePort` from our browser.  In production, these ports would be exposed to the internet if the firewall allowed it.
+   A `NodePort` service creates an inbound port on each node in the cluster.  Kubernetes randomly picks a port in the 30,000 range.  Because Docker-desktop automatically proxies traffic from the host machine into the cluster, we'll be able to hit this `NodePort` from our browser.  In production, these ports would be exposed to the internet if the firewall around our Kubernetes cluster allowed it.
 
 6. Add these lines:
 
@@ -90,7 +90,7 @@ Step 2: Schedule the service
    kubectl apply -f service.yaml
    ```
 
-   This says "please schedule the thing I've got in the yaml file `service.yaml`.
+   This says "please run the thing I've got in the yaml file `service.yaml`.
 
 2. Run this command:
 
