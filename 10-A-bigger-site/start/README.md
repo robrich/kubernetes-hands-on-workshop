@@ -3,7 +3,25 @@ A bigger site
 
 Welcome to the deep end of the pool.  :D  We're going to take the site from exercise 4, and get it running on Kubernetes.
 
-Here's your challenge: build the deployment.yaml and service.yaml for each container.
+Here's your challenge: build the deployment.yaml and service.yaml for both frontend and backend so they can communicate.
+
+Here's a network diagram of the application we'll build:
+
+![A Bigger Site Architecture](architecture.png)
+
+1. We connect to http://localhost:32xxx, the nodePort of frontend service.
+2. Kubernetes automatically proxies this across the Kubernetes "router" to the LAN side.
+3. frontend service load balances across all instances of frontend pod created by frontend deployment.
+4. frontend service connects to a chosen frontend pod on port 3000.
+5. frontend pod connects to http://backend:5000/
+6. Because backend service is named `backend`, the backend service receives this request.
+7. backend service load balances across the 1 instance of backend pod created by backend deployment.
+8. backend service connects to backend pod on port 5000.
+9. backend pod processes the request, and replies.
+10. Traffic flows back through all the steps.
+11. The browser renders the page.
+
+When working locally, we'll skip the Ingress step because Ingress doesn't work well with Docker Desktop and Minikube.  We'll use Ingress when we get to cloud-hosted Kubernetes.
 
 
 Step 0: Build the Images

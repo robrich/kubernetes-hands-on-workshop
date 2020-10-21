@@ -1,7 +1,7 @@
 Azure Kubernetes Service
 ========================
 
-Let's schedule the `frontend` and `backend` Kubernetes content in Azure.
+Let's schedule the `frontend` and `backend` Kubernetes content in Azure.  We'll mirror the deployment we did in Step 10 into a remote Kubernetes cluster, adding Ingress.
 
 
 Modify the yaml files

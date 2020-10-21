@@ -3,6 +3,17 @@ Kubernetes Service
 
 Now that we've got a deployment running, let's route traffic into it.
 
+Here's a network diagram of how we typically build out the components in Kubernetes:
+
+![Kubernetes Elements](kubernetes-elements.png)
+
+1. Users connect through DNS to an Ingress.
+2. Ingress maps a host name to a service.
+3. A service is a load-balancer in front of all the matching pods.
+4. Traffic flows to the container in the pod.
+
+When working locally, we'll skip the Ingress step because Ingress doesn't work well with Docker Desktop and Minikube.  We'll use Ingress when we get to cloud-hosted Kubernetes.
+
 
 Step 0: Ensure Kubernetes is running
 ------------------------------------

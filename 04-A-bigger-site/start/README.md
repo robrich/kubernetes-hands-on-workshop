@@ -5,6 +5,14 @@ Build a more real-world microservices app.  I've provided a backend .net core si
 
 Here's your challenge: build both `Dockerfile`s necessary to run these two sites.
 
+Here's a network diagram of the application we'll build:
+
+![A Bigger Site Architecture](architecture.png)
+
+From our browser, we can connect to both http://localhost:3000/ and http://localhost:5000/ to get to the frontend and backend respectively.  The Docker "router" proxies the requests from the WAN (localhost) side to the LAN (172.17.0.x) side.
+
+When communicating between containers, we can't use this proxy though.  To communicate from the frontend container to the backend container, we'll need to use LAN names or IPs to communicate between the containers.
+
 
 Backend
 -------
