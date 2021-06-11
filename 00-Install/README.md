@@ -52,7 +52,7 @@ Follow the instructions on https://kubernetes.io/docs/tasks/tools/install-kubect
    wsl --set-default-version 2
    ```
 
-   Optional: download a Linux distribution of choice from the Microsoft store.  See https://docs.microsoft.com/en-us/windows/wsl/install-win10#step-6---install-your-linux-distribution-of-choice  Most tutorials assume you've chosen Ubuntu.  The "Ubuntu" package will always include the latest Ubuntu version, currently 20.04.
+   Optional: download a Linux distribution of choice from the Microsoft store.  See https://docs.microsoft.com/en-us/windows/wsl/install-win10#step-6---install-your-linux-distribution-of-choice  Most tutorials assume you've chosen Ubuntu.  The "Ubuntu" package will always include the latest Ubuntu version, currently 20.04.  Once you install your distro of choice, you must run it from the start menu, and choose your admin password before it will show in `wsl --list`.
 
 3. Is your WSL distribution version 2?
 
