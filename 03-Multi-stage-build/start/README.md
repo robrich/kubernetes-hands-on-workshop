@@ -7,7 +7,7 @@ In Node, we deploy our source.  In .NET Core, we build first, and deploy built a
 Step 1: Build the Dockerfile
 ----------------------------
 
-1. Create a new file named `Dockerfile` inside the `src` directory. If you haven't yet cloned this repository, you'll need the content from https://github.com/robrich/docker-hands-on-workshop/tree/master/03-Multi-stage-build/start/src folder (the `src` directory next to this README.md file).
+1. Create a new file named `Dockerfile` inside the `src` directory. If you haven't yet cloned this repository, you'll need the content from https://github.com/robrich/kubernetes-hands-on-workshop/tree/master/03-Multi-stage-build/start/src folder (the `src` directory next to this README.md file).
 
 2. Add the line
 
