@@ -161,10 +161,20 @@ Downloading docker images takes a while, so let's kick this off so we make sure 
 2. `docker pull mcr.microsoft.com/dotnet/core/sdk:3.1-alpine`
 3. `docker pull mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine`
 
+If you get an error about throttled docker pull requests, change the commands to this:
 
-
-
-
+1. ```
+   docker pull robrich.azurecr.io/node:alpine
+   docker tag robrich.azurecr.io/node:alpine node:alpine
+   ```
+2. ```
+   docker pull robrich.azurecr.io/dotnet-core-sdk:3.1-alpine
+   docker tag robrich.azurecr.io/dotnet-core-sdk:3.1-alpine mcr.microsoft.com/dotnet/core/sdk:3.1-alpine
+   ```
+3. ```
+   docker pull robrich.azurecr.io/dotnet-core-aspnet:3.1-alpine
+   docker tag robrich.azurecr.io/dotnet-core-aspnet:3.1-alpine mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
+   ```
 
 Alternate Docker Runtimes
 -------------------------
