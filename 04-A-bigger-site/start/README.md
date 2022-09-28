@@ -39,7 +39,7 @@ Backend
 Frontend
 --------
 
-1. Open `frontend/routes/index.js`.  Note the line that says `const BACKEND = 'http://backend:5000';`  The front-end assumes it can browse to `http://backend:5000/...` to get to the backend.  GOod thing we started the backend container with `--name backen` so this works.
+1. Open `frontend/routes/index.js`.  Note the line that says `const BACKEND = 'http://backend:5000';`  The front-end assumes it can browse to `http://backend:5000/...` to get to the backend.  Good thing we started the backend container with `--name backend` so this works.
 
    Note: we can't just browse from the front-end container to the backend container inside the Docker network via `http://localhost:5000/` because that's not the address of the backend container inside the Docker network.  From outside the Docker network, Docker is NATing the traffic from localhost.  But inside the network, we don't have this luxury.
 

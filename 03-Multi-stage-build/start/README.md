@@ -126,6 +126,8 @@ As you work through this section, if you find it doesn't work, look for debuggin
    ```
 
    This says "Run the image named `hellodotnet`, version `0.1` as a container, and NAT the host's port 5000 to port 5000 in the container.  `-d` says "run in daemon mode" or "run in the background".
+   
+   Is port 5000 in use on your machine?  You can switch the outside port to 4000 or similar like this: `docker run -p 4000:5000 -d hellodotnet:0.1` or choose any free port on your machine.
 
 2. Open a browser to [http://localhost:5000](http://localhost:5000).  Success!
 

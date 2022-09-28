@@ -7,7 +7,7 @@ ENV PORT 3000
 # TODO: add the Docker commands to do these steps:
 
 # at build time:
-# set the current directory
+# set the current directory to `/src`
 # copy the manifest file: package.json
 # from a shell, run `npm install`
 # copy the content into place

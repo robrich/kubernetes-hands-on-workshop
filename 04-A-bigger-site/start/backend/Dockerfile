@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
 
 # TODO: add the Docker commands to do these build steps:
 
-# set the current directory
+# set the current directory to `/src`
 # copy the manifest file: backend.csproj
 # from a shell, run `dotnet restore`
 # copy the content into place
@@ -19,7 +19,7 @@ EXPOSE 5000
 
 # TODO: add the Docker commands to do these image build and container run steps:
 
-# set the current directory
+# set the current directory to `/app`
 # copy the content from the app folder on the build stage above
 
 # as the container starts:
