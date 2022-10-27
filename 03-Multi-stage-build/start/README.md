@@ -320,3 +320,13 @@ I've provided a sample `docker-compose.yml` file for us to play with.
    ```
 
    If you instead choose to stop the container with `docker stop ...`, Docker-compose will notice the stack is incomplete and start a new container.
+
+**Note: If you receive the following error when starting docker-compose:**
+   ```
+   failed to solve: rpc error: code = Unknown desc = failed to solve with frontend dockerfile.v0: failed to create LLB definition: unexpected status code [manifests 3.1-alpine]: 503 Service Unavailable
+   ```
+   Run this:
+   ```
+   export DOCKER_BUILDKIT=0
+   export COMPOSE_DOCKER_CLI_BUILD=0
+   ```
