@@ -1,18 +1,18 @@
 Multi-stage Build
 =================
 
-In Node, we deploy our source.  In .NET Core, we build first, and deploy built artifacts.  A multi-stage build allows us to deploy smaller images because we're not deploying build tools or source code.
+In Node, we deploy our source.  In .NET, we build first, and deploy built artifacts.  A multi-stage build allows us to build in one stage and deploy in a different stage, therefore deploying smaller images because we're not deploying build tools or source code.
 
 
 Step 1: Build the Dockerfile
 ----------------------------
 
-1. Create a new file named `Dockerfile` inside the `src` directory. If you haven't yet cloned this repository, you'll need the content from https://github.com/robrich/kubernetes-hands-on-workshop/tree/master/03-Multi-stage-build/start/src folder (the `src` directory next to this README.md file).
+1. Create a new file named `Dockerfile` inside the `src` directory. If you haven't yet cloned this repository, you'll need the content from https://github.com/robrich/kubernetes-hands-on-workshop/tree/main/03-Multi-stage-build/start/src folder (the `src` directory next to this README.md file).
 
 2. Add the line
 
    ```
-   FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine
+   FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine
    ```
 
    This says "start with the [.net build tools](https://hub.docker.com/_/microsoft-dotnet-core-sdk/) base image, and use the alpine flavor of it."  The alpine linux distribution is known for being really tiny.
@@ -64,7 +64,7 @@ Step 1: Build the Dockerfile
    RUN dotnet publish MultiStage.csproj -c Release -o /app
    ```
 
-   These commands tell .NET Core to build the application, and to publish the application to the `/app` directory, creating it if it doesn't exist.
+   These commands tell .NET to build the application, and to publish the application to the `/app` directory, creating it if it doesn't exist.
 
 9. Add this line:
 
@@ -126,7 +126,7 @@ As you work through this section, if you find it doesn't work, look for debuggin
    ```
 
    This says "Run the image named `hellodotnet`, version `0.1` as a container, and NAT the host's port 5000 to port 5000 in the container.  `-d` says "run in daemon mode" or "run in the background".
-   
+
    Is port 5000 in use on your machine?  You can switch the outside port to 4000 or similar like this: `docker run -p 4000:5000 -d hellodotnet:0.1` or choose any free port on your machine.
 
 2. Open a browser to [http://localhost:5000](http://localhost:5000).  Success!
@@ -139,7 +139,7 @@ As you work through this section, if you find it doesn't work, look for debuggin
    docker container list
    ```
 
-**Note: you didn't install .NET Core either!**
+**Note: you didn't install .NET either!**
 
 
 Step 4: Debugging a failed container
@@ -184,10 +184,10 @@ What is a multi-stage build?  We're going to build two images: one is like the b
 2. Add this line after the `RUN dotnet publish ...` line and before the `WORKDIR /app` line:
 
    ```
-   FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
+   FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine
    ```
 
-   We've started a new section -- a second build stage.  We'll build a second image.  This base image is the .NET Core runtime -- it doesn't include the build tools, so it's much smaller.
+   We've started a new section -- a second build stage.  We'll build a second image.  This base image is the .NET runtime -- it doesn't include the build tools, so it's much smaller.
 
 3. Add this line after the `WORKDIR /app` and before the `ENV ASPNETCORE_...` line:
 
@@ -197,10 +197,10 @@ What is a multi-stage build?  We're going to build two images: one is like the b
 
    This line is different from the other copy lines we've written.  This doesn't copy from our computer, it copies from the image stage named `build`.  But `build` doesn't exist yet.
 
-4. At the top of the file, change the `FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine` to this:
+4. At the top of the file, change the `FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine` to this:
 
    ```
-   FROM mcr.microsoft.com/dotnet/core/sdk:3.1-alpine AS build
+   FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS build
    ```
 
    We've now named the top section, so the `COPY --from=build ...` knows where to get the content.

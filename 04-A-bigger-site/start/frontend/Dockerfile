@@ -12,6 +12,7 @@ ENV PORT 3000
 # from a shell, run `npm install`
 # copy the content into place
 # let traffic flow in on port 3000
+# set the environment variable `BACKEND` to `http://backend:5000`
 
 # as the container starts:
 # `npm start`

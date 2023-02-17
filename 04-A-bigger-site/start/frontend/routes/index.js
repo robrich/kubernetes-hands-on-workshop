@@ -1,38 +1,31 @@
-const express = require('express');
-const request = require('request');
+import Router from 'express-promise-router';
+import axios from 'axios';
 
 // Assume backend ip:
-const BACKEND = 'http://backend:5000';
+const BACKEND = process.env.BACKEND || 'http://localhost:5000';
+console.log(`using backend url: ${BACKEND}`);
 
-let router = express.Router();
+const router = Router();
+export default router;
 
 // home page
-router.get('/', function(req, res, next) {
-  request.get({url:BACKEND+'/framework', json:true}, function(err, _, body) {
-    if (err) {
-      return next(err);
-    }
-    res.render('index', {frameworks:body || []});
-  });
+router.get('/', async (req, res) => {
+  const resp = await axios.get(BACKEND+'/framework');
+  res.render('index', {frameworks:resp?.data || []});
 });
 
 // edit page
-router.get('/edit/:id?', function (req, res, next) {
-  let id = req.params.id;
+router.get('/edit/:id?', async (req, res, next) => {
+  const id = req.params.id;
   if (id) {
     // edit
-    request.get({url:BACKEND+'/framework/'+encodeURIComponent(id), json:true}, function(err, _, body) {
-      if (err) {
-        return next(err);
-      }
-      if (!body) {
-        let err = new Error('Not Found');
-        err.status = 404;
-        return next(err);
-      }
-      res.render('edit', body);
-    });
-
+    const resp = await axios.get(BACKEND+'/framework/'+encodeURIComponent(id));
+    if (!resp?.data) {
+      const err = new Error('Not Found');
+      err.status = 404;
+      return next(err);
+    }
+    res.render('edit', resp.data);
   } else {
     // new
     res.render('edit', {});
@@ -40,64 +33,31 @@ router.get('/edit/:id?', function (req, res, next) {
 });
 
 // save edit
-router.post('/edit/:id?', function (req, res, next) {
-  let id = req.params.id;
-  let name = req.body.name;
+router.post('/edit/:id?', async (req, res) => {
+  const id = req.params.id;
+  const name = req.body.name;
   if (id) {
     // edit
-    request.put({
-      url:BACKEND+'/framework/'+encodeURIComponent(id),
-      json:true,
-      body: {id:id, name:name}
-    }, function(err/*, req, body*/) {
-      if (err) {
-        return next(err);
-      }
-      // TODO show validation failures
-      res.redirect('/');
-    });
-
+    await axios.put(BACKEND+'/framework/'+encodeURIComponent(id), {id, name});
+    // TODO show validation failures
+    res.redirect('/');
   } else {
     // new
-    request.post({
-      url:BACKEND+'/framework',
-      json:true,
-      body: {name:name}
-    }, function(err/*, req, body*/) {
-      if (err) {
-        return next(err);
-      }
-      // TODO show validation failures
-      res.redirect('/');
-    });
+    await axios.post(BACKEND+'/framework', {name:name});
+    // TODO show validation failures
+    res.redirect('/');
   }
 });
 
-router.post('/vote/up/:id', function (req, res, next) {
-  let id = req.params.id;
-  request.post({
-    url:BACKEND+'/vote/'+encodeURIComponent(id),
-    json:true
-  }, function(err/*, req, body*/) {
-    if (err) {
-      return next(err);
-    }
-    // TODO show validation failures
-    res.redirect('/');
-  });
+router.post('/vote/up/:id', async (req, res,) => {
+  const id = req.params.id;
+  await axios.post(BACKEND+'/vote/'+encodeURIComponent(id));
+  // TODO show validation failures
+  res.redirect('/');
 });
-router.post('/vote/down/:id', function (req, res, next) {
-  let id = req.params.id;
-  request.delete({
-    url:BACKEND+'/vote/'+encodeURIComponent(id),
-    json:true
-  }, function(err/*, req, body*/) {
-    if (err) {
-      return next(err);
-    }
-    // TODO show validation failures
-    res.redirect('/');
-  });
+router.post('/vote/down/:id', async (req, res) => {
+  const id = req.params.id;
+  await axios.delete(BACKEND+'/vote/'+encodeURIComponent(id));
+  // TODO show validation failures
+  res.redirect('/');
 });
-
-module.exports = router;

@@ -19,7 +19,7 @@ Here's things I've found that make Docker and Kubernetes most effective:
 
 - Production config as environment vars:  In production, expose anything that changes as an environment variable so ops can quickly adjust runtime behavior.
 
-- Avoid the Kubernetes Dashboard:  The master copy of the configuration should be in yaml files stored in source control.  Though you can modify in the dashboard, and export configuration, it's easy to get these out of sync, and accidentally remove changes on next rolling update.  If we assume source control is the source of truth, we don't have this issue.
+- Avoid the Kubernetes Dashboard:  The primary copy of the configuration should be in yaml files stored in source control.  Though you can modify in the dashboard, and export configuration, it's easy to get these out of sync, and accidentally remove changes on next rolling update.  If we assume source control is the source of truth, we don't have this issue.
 
   The Kubernetes Dashboard is the thing people usually hack.  Someone changed the K8s dashboard to be public, didn't turn on authentication, and suddenly their cluster is crypto-mining.
 

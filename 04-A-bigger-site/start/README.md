@@ -1,7 +1,7 @@
 A bigger site
 =============
 
-Build a more real-world microservices app.  I've provided a backend .net core site, and a frontend node site.
+Build a more real-world microservices app.  I've provided a backend .net site, and a frontend node site.
 
 Here's your challenge: build both `Dockerfile`s necessary to run these two sites.
 

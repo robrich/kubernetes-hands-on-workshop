@@ -1,26 +1,92 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Backend.Models;
+using Microsoft.AspNetCore.Mvc;
 
-namespace backend
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+// get all frameworks
+app.MapGet("/framework", () => FrameworkDataStore.Database);
+// get framework by id
+app.MapGet("/framework/{id}", (int id) =>
+{
+    Framework? framework = FrameworkDataStore.Database.FirstOrDefault(f => f.Id == id);
+    return framework switch
+    {
+        null => Results.NotFound(),
+        _ => Results.Ok(framework)
+    };
+});
+// new
+app.MapPost("/framework", ([FromBody] Framework model) => {
+    model.Votes = 0;
+
+    int id = (int?)(
+        from d in FrameworkDataStore.Database
+        orderby d.Id descending
+        select d.Id
+    ).FirstOrDefault() ?? 0;
+
+    model.Id = id + 1;
+    FrameworkDataStore.Database.Add(model);
+
+    return model;
+});
+// update
+app.MapPut("/framework/{id}", (int id, [FromBody] Framework model) =>
+{
+    Framework? framework = FrameworkDataStore.Database.FirstOrDefault(f => f.Id == id);
+    if (framework != null)
+    {
+        framework.Name = model.Name;
+    }
+    return framework;
+});
+app.MapDelete("/framework/{id}", (int id) =>
+{
+    Framework? framework = FrameworkDataStore.Database.FirstOrDefault(f => f.Id == id);
+    if (framework != null)
+    {
+        FrameworkDataStore.Database.Remove(framework);
+    }
+});
+
+// get all votes
+app.MapGet("/vote", () => FrameworkDataStore.Database);
+// add 1 vote
+app.MapPost("/vote/{id}", (int id) =>
+{
+    Framework? framework = FrameworkDataStore.Database.FirstOrDefault(f => f.Id == id);
+    if (framework != null)
+    {
+        framework.Votes++;
+    }
+    return framework;
+});
+// remove 1 vote
+app.MapDelete("/vote/{id}", (int id) =>
+{
+    Framework? framework = FrameworkDataStore.Database.FirstOrDefault(f => f.Id == id);
+    if (framework != null)
+    {
+        framework.Votes--;
+    }
+    return framework;
+});
+
+
+app.Run();

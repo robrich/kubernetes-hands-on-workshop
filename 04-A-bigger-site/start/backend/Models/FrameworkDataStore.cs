@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
+﻿namespace Backend.Models;
 
-namespace backend.Models
+public static class FrameworkDataStore
 {
-    public static class FrameworkDataStore
+    static FrameworkDataStore()
     {
-        static FrameworkDataStore()
-        {
-            Database = new List<Framework>();
-        }
-
-        public static List<Framework> Database { get; }
-
+        Database = new List<Framework>();
     }
+
+    public static List<Framework> Database { get; }
+
 }
