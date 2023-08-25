@@ -89,6 +89,15 @@ Step 1: Craft a service.yaml file
 
    This tells us that the port Kubernetes assigns to this `NodePort` will get routed to the service's port (`3000`, though we'll not use it this way), which will in turn get routed to the matching pods' port `3000`.
 
+   If using Podman, we need to specifically set the node port.  Add to the ports section this line:
+
+   ```
+     ports:
+     - port: 3000
+       targetPort: 3000
+       nodePort: 32000 # <-- this line
+   ```
+
 8. With that, we're done with the service.  Save the service.yaml file.
 
 
@@ -119,7 +128,7 @@ Step 2: Schedule the service
 
    This command tells us a lot about the service including the `NodePort` that Kubernetes randomly picked.
 
-4. Open a browser to `http://localhost:NODE_PORT/`, replacing `NODE_PORT` with the `NodePort` you found in step 3.  When I ran step 3, I got port `30012` so I'll browse to `http://localhost:30012`.
+4. Open a browser to `http://localhost:NODE_PORT/`, replacing `NODE_PORT` with the `NodePort` you found in step 3.  When I ran step 3, I got port `32012` so I'll browse to `http://localhost:32012`.
 
 
 What happened
@@ -127,11 +136,11 @@ What happened
 
 This is how our browser got the results:
 
-1. Browser looks to localhost:30012.
+1. Browser looks to localhost:32012.
 
-2. Docker-desktop forwards 30012 to the MobyLinuxVM.
+2. Docker-desktop forwards 32012 to the Kubernetes cluster.
 
-3. Kubernetes forwards 30012 to `hellonode-service`'s port 3000.
+3. Kubernetes forwards 32012 to `hellonode-service`'s port 3000.
 
 4. The service looks for pods matching `app: hellonode`, and randomly picks a pod.
 

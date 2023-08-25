@@ -60,6 +60,32 @@ Frontend
 6. Look at the container list and ensure both containers are now running.
 
 
+Podman
+------
+
+If you're using Podman instead of Docker Desktop, the above `docker run ... --link ...` command won't work.  Instead:
+
+1. Stop the backend container with `docker container rm ...`
+
+2. Modify the frontend's Dockerfile to set BACKEND to localhost:
+
+   ```
+   ENV BACKEND http://localhost:5000
+   ```
+
+3. Rebuild the frontend container.
+
+4. Run these commands to start both sites in the same network:
+
+   ```
+   podman pod create -n bigger-site -p 5000:5000 -p 3000:3000
+   podman run -d --pod bigger-site backend:0.1
+   podman run -d --pod bigger-site frontend:0.1
+   ```
+
+When you're done, removing the containers uses the same docker command you're used to.
+
+
 Test it out
 -----------
 

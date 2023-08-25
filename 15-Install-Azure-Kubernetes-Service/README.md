@@ -85,7 +85,7 @@ Azure CLI
 
 We need the Azure CLI to wire up the connection between Azure Kubernetes Service and the `kubectl` Kubernetes command line, and to authorize communication between Azure Kubernetes Service and Azure Container Registry.
 
-1. See https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest for the steps to download and install the Azure CLI on your computer.
+1. See https://learn.microsoft.com/en-us/cli/azure/install-azure-cli#install for the steps to download and install the Azure CLI on your computer.
 
 2. With the Azure CLI installed, run:
 

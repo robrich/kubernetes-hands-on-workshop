@@ -1,12 +1,18 @@
-.dockerignore
-.env
-.git
-.gitignore
-.vs
-.vscode
-docker-compose.yml
-docker-compose.*.yml
+# downloaded files
+# built files
 */bin
 */obj
+# user-specific files
+.vs
+.vscode
 *.user
+# temp files
+# secrets
+.env
+# non-prod files
 Properties/launchSettings.json
+.git
+.gitignore
+.dockerignore
+docker-compose.yml
+docker-compose.*.yml

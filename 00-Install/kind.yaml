@@ -1,0 +1,51 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  # port forward host 32000-32010 to same ports on the kind cluster
+  # this isn't the whole 32000-33999 range for NodePorts, but gets us started
+  extraPortMappings:
+  - containerPort: 32000
+    hostPort: 32000
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 32001
+    hostPort: 32001
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 32002
+    hostPort: 32002
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 32003
+    hostPort: 32003
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 32004
+    hostPort: 32004
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 32005
+    hostPort: 32005
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 32006
+    hostPort: 32006
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 32007
+    hostPort: 32007
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 32008
+    hostPort: 32008
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 32009
+    hostPort: 32009
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+  - containerPort: 32010
+    hostPort: 32010
+    listenAddress: "127.0.0.1"
+    protocol: TCP

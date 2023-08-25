@@ -51,9 +51,9 @@ Step 1: Build the Dockerfile
 
    This copies all the rest of the content from the directory where we'll run the build command on our machine into the current directory in the image.
 
-7. Open the `.dockerignore` text file inside the `src` directory.  The syntax is identical to a `.gitignore` file.  This file tells the `COPY` command which things it should not copy.
+7. Open the `.dockerignore` text file inside the `src` directory.  The syntax is nearly identical to a `.gitignore` file.  This file tells the `COPY` command which things it should not copy.
 
-   If you don't have a `.dockerignore` file, it'll use the `.gitignore` file instead.  If it doesn't find either, it'll copy everything.
+   If you don't have a `.dockerignore` file, it'll copy everything.
 
    In this case, we've chosen to not copy in all the user-specific files, configuration files for various editors, and other files we don't need.
 
@@ -200,7 +200,7 @@ What is a multi-stage build?  We're going to build two images: one is like the b
 4. At the top of the file, change the `FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine` to this:
 
    ```
-   FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS build
+   FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine as build
    ```
 
    We've now named the top section, so the `COPY --from=build ...` knows where to get the content.

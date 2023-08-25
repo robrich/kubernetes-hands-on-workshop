@@ -30,6 +30,12 @@ Step 2: Build the new image
    This makes the new image version 0.2
 
 
+Step 2 1/2: Podman only
+-----------------------
+
+If running Podman, push the newly built version from Podman to the Kind Kubernetes cluster
+
+
 Step 3: Update the deployment
 -----------------------------
 

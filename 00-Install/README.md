@@ -1,7 +1,7 @@
 Installing Docker Desktop
 =========================
 
-We're going to install Docker Desktop, and turn on Kubernetes mode.  If you can't get Docker Desktop running, see steps below to use Minikube or MicroK8s instead.
+We're going to install Docker Desktop, and turn on Kubernetes mode.  If you can't get Docker Desktop running or are burdened by licensing issues, with slight variations, you can use [Podman](Podman.md), [Minikube](Minikube.md), or [other runtimes](Other-runtimes.md) instead.  Note that Docker Desktop is far-and-away the easiest.
 
 
 Install Docker Desktop for your OS
@@ -9,22 +9,18 @@ Install Docker Desktop for your OS
 
 ### Linux
 
-Follow the instructions on https://docs.docker.com/ for your OS:
+1. Visit https://docs.docker.com/desktop/install/linux-install/ to ensure you have the requirements necessary.
 
-- Ubuntu: https://docs.docker.com/install/linux/docker-ce/ubuntu/
-- Debian: https://docs.docker.com/install/linux/docker-ce/debian/
-- CentOS: https://docs.docker.com/install/linux/docker-ce/centos/
-- Fedora: https://docs.docker.com/install/linux/docker-ce/fedora/
-- Other: https://docs.docker.com/install/linux/docker-ce/binaries/
+2. Download [Docker Desktop](https://www.docker.com/products/docker-desktop/) and install as you would any Linux app.
 
-Follow the instructions on https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-linux to install `kubectl`.
+Follow the instructions on https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/ to install `kubectl`.
 
 
 ### Mac
 
-1. Visit [https://docs.docker.com/docker-for-mac/install/#what-to-know-before-you-install](https://docs.docker.com/docker-for-mac/install/#what-to-know-before-you-install) to ensure you have the requirements necessary.
+1. Visit https://docs.docker.com/docker-for-mac/install/#what-to-know-before-you-install to ensure you have the requirements necessary.
 
-2. Download [Docker Desktop](https://hub.docker.com/editions/community/docker-ce-desktop-mac) (either Edge or Stable) and install as you would any Mac app. It'll invite you to create a free account to download.
+2. Download [Docker Desktop](https://www.docker.com/products/docker-desktop/) and install as you would any Mac app.
 
    ![Mac Install](mac.png)
 
@@ -33,7 +29,7 @@ Follow the instructions on https://kubernetes.io/docs/tasks/tools/install-kubect
 
 1. Turn on virtualization in the bios.  Every bios is different, so you'll need to search for the specifics.
 
-![Windows Install](windows.gif)
+   ![Windows Install](windows.gif)
 
 2. Install Windows Subsystem for Linux version 2.  See also https://docs.microsoft.com/en-us/windows/wsl/install-win10
 
@@ -50,9 +46,8 @@ Follow the instructions on https://kubernetes.io/docs/tasks/tools/install-kubect
 
    ```
    wsl --set-default-version 2
+   wsl install Ubuntu
    ```
-
-   Optional: download a Linux distribution of choice from the Microsoft store.  See https://docs.microsoft.com/en-us/windows/wsl/install-win10#step-6---install-your-linux-distribution-of-choice  Most tutorials assume you've chosen Ubuntu.  The "Ubuntu" package will always include the latest Ubuntu version, currently 20.04.  Once you install your distro of choice, you must run it from the start menu, and choose your admin password before it will show in `wsl --list`.
 
 3. Is your WSL distribution version 2?
 
@@ -70,7 +65,7 @@ Follow the instructions on https://kubernetes.io/docs/tasks/tools/install-kubect
 
    Replace Ubuntu with your Linux package name.
 
-4. Download [Docker Desktop for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows) (either Edge or Stable) and install as you would any Windows app.  It'll invite you to create a free account to download.
+4. Download [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/) and install as you would any Windows app.
 
 5. Carefully pick "Linux Containers mode" when prompted.
 
@@ -107,7 +102,7 @@ Verify it Works
    docker run hello-world
    ```
 
-   If both of these work as expected, you've succeeded!
+   If you don't see an error message, it worked.
 
 
 Enable Kubernetes Mode
@@ -176,105 +171,8 @@ If you get an error about throttled docker pull requests, change the commands to
    docker tag robrich.azurecr.io/dotnet-aspnet:7.0-alpine mcr.microsoft.com/dotnet/aspnet:7.0-alpine
    ```
 
-Alternate Docker Runtimes
--------------------------
+You're ready
+------------
 
-If Docker Desktop isn't working for you because of firewall issues or you don't have admin access to your machine or you have Windows 7 or 8, or other issues, you can try these alternate Docker runtimes:
+Now that everything is running smoothly, you're ready to begin learning.  Head to chapter 1, and the geek in front of the room will start teaching.
 
-A. [Minikube](https://github.com/kubernetes/minikube/) is a single-node Kubernetes cluster in a Linux VM.  This package works on Mac, Windows, and Linux.
-
-   1. Choose one virtualization platform:
-
-      a. Install VirtualBox from https://www.virtualbox.org/wiki/Downloads
-
-      OR
-
-      b. Install `Hyper-V` from Start -> Control Panel -> Programs and Features -> Turn Windows Features on or off.
-
-         ![Hyper-V](hyperv.png)
-
-   2. Download latest version of Minikube for your OS from https://github.com/kubernetes/minikube/releases and rename it to `minikube` or `minikube.exe` (Windows).
-
-   3. Optional: you may choose to create a new folder like `C:\Program Files\Minikube` and move the minikube executable into it, then add Minikube to your path.  See also https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/
-
-   4. Optional: You may wish to give Minikube more RAM and CPUs:
-
-      ```
-      minikube config set memory 4096
-      minikube config set cpus 4
-      ```
-
-      These numbers are good defaults, but you may need to adjust these numbers to be less than the CPUs and RAM you have available on your machine.
-
-   5. Start Minikube:
-
-      a. If using VirtualBox:
-
-         ```
-         minikube start
-         ```
-
-      OR
-
-      b. If using Hyper-V:
-
-         ```
-         minikube start --vm-driver="hyperv" --hyperv-virtual-switch="YOUR_EXTERNAL_SWITCH_HERE" --kubernetes-version=stable
-         ```
-
-         Change the namve of the switch to match your switch.  Start -> Hyper-V -> Virtual Switch Manager -> find the switch marked as "External"
-
-   6. Set docker environment variables:
-
-      ```
-      minikube docker-env
-      ```
-
-      Copy and paste these environment variables into your terminal.
-
-   7. Download `kubectl` for your OS from https://kubernetes.io/docs/tasks/tools/install-kubectl/
-
-   8. Optional: you may choose to move kubectl to the same folder as minikube and put it in your path.
-
-   9. Change URLs in examples.
-
-      Unlike Docker Desktop, Minikube does not automatically proxy localhost into the Docker VM.  Instead, you'll need to specify the name or IP of the Minikube VM.
-
-      In all the examples that say `http://localhost:...` you'll need to swap them to say `http://minikube:...`
-
-   10. Windows only: Minikube on Hyper-V doesn't automatically mount volumes.  Note that Hyper-V isn't listed in https://minikube.sigs.k8s.io/docs/handbook/mount/#driver-mounts
-
-       When we get to the Volumes section in examples 04 and 05, you'll first need to mount the folder into the Minikube VM:
-
-       ```
-       minikube mount "C:\Users\YourName\path\to\folder:/mnt/folder --ip ...
-       ```
-
-       Get your current IP using `ipconfig`. Choose the IP that matches the switch you used to start Minikube above.
-
-       Then use this Linux path when creating the mount:
-
-       ```
-       docker run -v /mnt/folder:/path/inside/container image-name
-       ```
-
-B. [MicroK8s](https://microk8s.io/) runs on most Linux distributions, and is a light-weight, single-node Kubernetes cluster with Docker installed.
-
-   When using microk8s, swap the command line `docker` with `microk8s.docker` in all examples.
-
-   You'll also need to download `kubectl` for your OS from https://kubernetes.io/docs/tasks/tools/install-kubectl/
-
-C. [k3s](https://k3s.io/) runs on most Linux distributions but doesn't run on Windows or Mac. It's a light-weight, single-node Kubernetes cluster but it doesn't include Docker build.  For this reason you'll not find much success with k3s in this course.
-
-
-### Verify
-
-After you have a Docker and Kubernetes runtime installed, verify they both work as expected:
-
-```
-docker --version
-docker run hello-world
-kubectl version
-```
-
-If you get no errors from any of these commands, you're good to start pulling images.  Return to the section marked "Start downloading images" and run the `docker pull ...` commands.

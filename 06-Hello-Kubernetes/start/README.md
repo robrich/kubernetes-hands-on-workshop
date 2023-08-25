@@ -107,6 +107,24 @@ Each Kubernetes object has an `apiVersion`, a `kind`, a `metadata` section, and 
 9. Save the pod.yaml file.
 
 
+Podman
+------
+
+If using Podman, we need to push images from the Podman instance into the Kind cluster.
+
+1. Open Podman Desktop.
+
+2. Choose Images on the left.
+
+3. Locate the `localhost/hellonode 0.1` image.
+
+4. On the far-right, click the 3-dots menu, and choose `push image to kind cluster`.
+
+5. Repeat this process for the `localhost/frontend 0.1` and `localhost/backend 0.1` images.
+
+6. Note that the name isn't "frontend" but rather "localhost/frontend". Open pod.yaml and change `image: hellonode:0.1` to `image: localhost/hellonode:0.1`.
+
+
 Step 2: Schedule the pod
 ------------------------
 
