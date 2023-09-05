@@ -39,7 +39,7 @@ Backend
 Frontend
 --------
 
-1. Open `frontend/routes/index.js`.  Note the line that says `const BACKEND = 'http://backend:5000';`  The front-end assumes it can browse to `http://backend:5000/...` to get to the backend.  Good thing we started the backend container with `--name backend` so this works.
+1. Open `frontend/routes/index.js`.  Note the line that says `const BACKEND = process.env.BACKEND || 'http://localhost:5000';`  If the environment variable isn't set, the front-end assumes it can browse to `http://localhost:5000/...` to get to the backend.  Since we started the backend container with `--name backend` the URL to get to it is `http://backend:5000/`.
 
    Note: we can't just browse from the front-end container to the backend container inside the Docker network via `http://localhost:5000/` because that's not the address of the backend container inside the Docker network.  From outside the Docker network, Docker is NATing the traffic from localhost.  But inside the network, we don't have this luxury.
 
@@ -113,6 +113,8 @@ Shut down the containers
 
 3. Run `docker container list --all` again to see what's left.
 
-4. For each remaining container: `docker container rm -f ...` substituting the container name or id for `...`.  This both stops and removes the container in one command.
+4. If running Podman or Minikube or you've enabled system containers in Docker Desktop, some containers will support running Kubernetes or Docker build.  These containers you'll want to leave.
 
-5. `docker container list --all` to ensure it's empty.
+5. For each remaining container that we created today: `docker container rm -f ...` substituting the container name or id for `...`.  This both stops and removes the container in one command.
+
+6. `docker container list --all` to ensure it's empty.

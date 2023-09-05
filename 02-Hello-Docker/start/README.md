@@ -83,6 +83,18 @@ Step 2: Craft the Dockerfile
 
 6. Save the Dockerfile.  Make sure it's `Dockerfile` without an extension, not ~~Dockerfile.txt~~.
 
+Optional: Build a `package.json` file
+-------------------------------------
+
+If you referenced `npm` commands in your Dockerfile such as `npm install` or `npm start`, the process will fail later noting there is no package.json file. Let's create one.
+
+1. From a terminal in the folder with the `Dockerfile` and `server.js` file, run this command from a command prompt:
+
+   ```
+   npm init -y
+   ```
+
+This command builds a `package.json` file with good defaults. If you were building a larger Node.js project, you'd use `npm install ...` or `yarn add ...` to add project dependencies. You may also tune this file to adjust the version, add build and start scripts, or specify your project's license.
 
 Step 3: Build the Dockerfile into an image
 ------------------------------------------

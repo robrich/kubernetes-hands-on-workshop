@@ -18,7 +18,11 @@ Podman setup is very simple.  Skip the Windows section and continue the setup be
 Podman integrates into WSL 2.  Before we install Podman, we need to first setup WSL, enable v. 2, and install Ubuntu.
 
 
-1. Turn on virtualization in the bios.  Every bios is different, so you'll need to search for the specifics.
+1. Turn on virtualization in the bios.
+
+   Open the Task Manager, switch to detail view, and switch to the Performance tab. Does it say `Virtualization: Enabled`? If so, this step is already done. If it says `Virtualization: Disabled` you first need to enable virtualization in the BIOS.
+
+   Every bios is different, so you'll need to search for the specifics.
 
    ![Windows Install](windows.gif)
 

@@ -12,44 +12,6 @@ Azure Portal
 2. Login to the [Azure Portal](https://portal.azure.com).
 
 
-Create Kubernetes Cluster
--------------------------
-
-1. Click `Create a resource`, type `Kubernetes` in the search box at the top, and choose `Kubernetes Service`.
-
-   ![Azure Kubernetes Service](aks-1.png)
-
-2. In the Basics tab, fill in these options:
-
-   - Create a new Resource Group (easy to delete the whole group at the end)
-
-   - Name the resource group `kubernetes`
-
-   - Enter a cluster name
-
-   - Choose the region closest to you
-
-   - Enter a DNS name prefix
-
-   - Scroll down to see more content:
-
-   - Change the Node Size to a cheaper VM -- I chose Standard B2s
-
-   - Change the Node count to 1
-
-   This will be a very under-powered Kubernetes cluster, but it'll also fit nicely in the Azure trial constraints.
-
-   ![AKS Basics](aks-2.png)
-
-3. In the Networking tab, ensure "http application routing" is enabled.
-
-4. In the Monitoring tab, you can choose to enable monitoring for a nominal cost, or disable it to make the cluster cheaper.
-
-5. Once you're done customizing the cluster, click the Review and Create tab, then click Create at the bottom.
-
-6. This will take a bit to spin up.  You can watch the progress by clicking "All services" on the top-left.
-
-
 Create Azure Container Registry
 -------------------------------
 
@@ -57,17 +19,17 @@ Azure Container Registry is like Docker Hub, but the images aren't public to the
 
 (See also https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal.)
 
-You need not wait until the Kubernetes cluster is ready to begin creating this resource.
-
 1. Click `Create a resource`, type `Container Registry` in the search box at the top, and choose `Container Registry`.
 
 2. Setup the Azure Container Registry with these settings:
 
-   - Choose a descriptive name
+   - Create a new Resource Group (easy to delete the whole group at the end)
 
-   - Use the existing resource group you created above
+   - Name the resource group `kubernetes` and
 
-   - Choose the same location as the Kubernetes service
+   - Pick an Azure region close to you
+
+   - Choose a descriptive name for the Azure Container Registry
 
    - Enable the Admin user
 
@@ -80,10 +42,48 @@ You need not wait until the Kubernetes cluster is ready to begin creating this r
 4. Once the registry is created, switch to the Access Keys tab, and note the Admin login and passwords.  From here, you can also randomly change the passwords.  We'll need these to login to the docker command-line.
 
 
+Create Kubernetes Cluster
+-------------------------
+
+1. Click `Create a resource`, type `Kubernetes` in the search box at the top, and choose `Kubernetes Service`.
+
+   ![Azure Kubernetes Service](aks-1.png)
+
+2. In the Basics tab, fill in these options:
+
+   - Use the existing resource group you created above
+
+   - Choose the same location as the container registry
+
+   - Enter a cluster name
+
+   - Choose the region closest to you
+
+   - Optional: Edit the DNS name prefix
+
+   - Scroll down to see more content:
+
+   - Change the Node Size to a cheaper VM -- I chose Standard B2s
+
+   - Change the Node count to 1
+
+   This will be a very under-powered Kubernetes cluster, but it'll also fit nicely in the Azure trial constraints.
+
+   ![AKS Basics](aks-2.png)
+
+3. In the Integrations tab, select the container registry created above.  This automatically creates the service principal and access permissions to pull containers from the registry into the cluster.
+
+4. In the Monitoring tab, you can choose to enable monitoring for a nominal cost, or disable it to make the cluster cheaper.
+
+5. Once you're done customizing the cluster, click the Review and Create tab, then click Create at the bottom.
+
+6. This will take a bit to spin up.  You can watch the progress by clicking "All services" on the top-left.
+
+
 Azure CLI
 ---------
 
-We need the Azure CLI to wire up the connection between Azure Kubernetes Service and the `kubectl` Kubernetes command line, and to authorize communication between Azure Kubernetes Service and Azure Container Registry.
+We need the Azure CLI to wire up the connection between Azure Kubernetes Service and the `kubectl` Kubernetes command line.
 
 1. See https://learn.microsoft.com/en-us/cli/azure/install-azure-cli#install for the steps to download and install the Azure CLI on your computer.
 
@@ -110,30 +110,6 @@ We need the Azure CLI to wire up the connection between Azure Kubernetes Service
    Notice the `docker-for-desktop` configuration together with the Azure Kubernetes cluster.
 
    Now let's get the Kubernetes cluster logged into the registry.  (See also https://docs.microsoft.com/en-us/azure/container-registry/container-registry-auth-aks)
-
-6. Run this command:
-
-   ```
-   az aks show --resource-group kubernetes --name YOUR_CLUSTER_NAME --query "servicePrincipalProfile.clientId" --output tsv
-   ```
-
-   This shows the service principal Azure created for the Kubernetes cluster.
-
-7. Run this command to get the ACR id:
-
-   ```
-   az acr show --resource-group kubernetes --name YOUR_REGISTRY_NAME --query "id" --output tsv
-   ```
-
-   This shows the resource id for the Azure Container Registry.  It's very long.
-
-8. Now let's use the two ids we harvested in the previous commands to assign permissions from Kubernetes to reach into the container registry.
-
-   ```
-   az role assignment create --assignee AKS_PRINCIPAL --role Reader --scope ACR_ID
-   ```
-
-   The `AKS_PRINCIPAL` is the result from step 6, and the `ACR_ID` is the result from step 7.
 
 
 Switch clusters

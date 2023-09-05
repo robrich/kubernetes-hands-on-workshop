@@ -19,6 +19,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// return content so we know the server is running
+app.MapGet("/", () => "Backend is running!");
+
 // get all frameworks
 app.MapGet("/framework", () => FrameworkDataStore.Database);
 // get framework by id

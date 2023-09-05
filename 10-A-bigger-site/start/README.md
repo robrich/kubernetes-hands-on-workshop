@@ -47,13 +47,26 @@ Frontend
 
 5. Change other references from `hellonode` to `frontend`.
 
-6. Open up `service.yaml`.
+6. Add a section at the bottom of the container definition setting the environment variable to the backend:
 
-7. Change the name from `name: hellonode-service` to `name: frontend`
+   ```
+        - containerPort: 3000
+        env: # <-- add lines starting here
+        - name: BACKEND
+          value: http://backend:5000
+   ```
+
+   This setting exactly matches the value in the frontend Dockerfile, so technically it's not necessary. But it's nice to document the environment variables this container expects. If we want to change this to `http://dev-backend:5000` or similar, we can easily configure that here.
+
+7. Open up `service.yaml`.
+
+8. Change the service's name from `name: hellonode-service` to `name: frontend`.
 
    This will become the DNS name for this service to other pods in the cluster.
 
-8. Change references from `hellonode` to `frontend`.
+9. Change references from `hellonode` to `frontend`.
+
+10. Optional: If you specified the service's `nodePort`, change this port to be unique in the range 32000-33999.  If using a Kind cluster, ensure it's one of the ports forwarded in `00-Install/kind.yaml`.
 
 
 Backend
@@ -73,9 +86,11 @@ Backend
 
 5. Modify other references in both backend files, renaming everything from `frontend` to `backend`.
 
-6. In `service.yaml`, rename `backend-service` to `backend`.
+6. In `service.yaml`, change the service name from `name: backend-service` to `name: backend`.
 
    The service name is the DNS entry for other pods to consume.  In `frontend`'s source code in `routes/index.js` it specifies `http://backend:5000`.  The frontend is able to resolve this URL to the backend because the backend service is named `backend`.
+
+7. Optional: If you specified the service's `nodePort`, change this port to be unique in the range 32000-33999.  If using a Kind cluster, ensure it's one of the ports forwarded in `00-Install/kind.yaml`.
 
 
 Schedule all the things
@@ -125,3 +140,38 @@ Visit the site
 2. Browse to `http://localhost:NODE_PORT/` substituting the `NodePort` you found above.  My service was on port `30123` so I'll browse to `http://localhost:30123/`.
 
 Success!  We're using microservices in Kubernetes!
+
+
+Debugging the site
+------------------
+
+### No answer
+
+Did you visit localhost:32001 and get no answer? Maybe the containers aren't running.
+
+```
+kubectl get all
+kubectl describe pod/YOUR_POD_NAME_HERE
+```
+
+Change the pod name to match one of the pods.
+
+Scroll down to the bottom and look at the events. Did we get an image pull failure? Did the container crash?
+
+### ECONNREFUSED
+
+Did you get `ECONNREFUSED`? It sounds like the frontend isn't able to reach the backend. Let's split the problem in half:
+
+```
+kubectl exec --stdin --tty pod/frontend-YOUR_POD_NAME_HERE -- sh
+```
+
+Change the pod name to match a pod you retrieved from `kubectl get all`.
+
+Much like `docker exec ...` this creates a shell inside the container.
+
+```
+ping backend
+```
+
+Did it ping successfully? If so, the problem may be the ports or the environment variable. If not, the problem may be a misnamed service or the frontend pod was started before the backend service existed.

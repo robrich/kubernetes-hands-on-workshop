@@ -27,6 +27,8 @@ Follow the instructions on https://kubernetes.io/docs/tasks/tools/install-kubect
 
 ### Windows
 
+Open the Task Manager, switch to detail view, and switch to the Performance tab. Does it say `Virtualization: Enabled`? If so, this step is already done. If it says `Virtualization: Disabled` you first need to enable virtualization in the BIOS.
+
 1. Turn on virtualization in the bios.  Every bios is different, so you'll need to search for the specifics.
 
    ![Windows Install](windows.gif)
