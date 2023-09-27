@@ -219,7 +219,7 @@ Step 7: Build the new multi-stage image
    docker build --tag hellodotnet:0.2 .
    ```
 
-   This builds the Dockerfile into an image, and tags the image with a descriptive name and version.
+   This builds the Dockerfile into an image, and tags the last stage's image with a descriptive name and version.
 
 2. After it finishes, inspect the list of images you've built:
 
@@ -269,7 +269,7 @@ Our goal with this multi-stage build is to get a smaller image.  Let's see if we
 
 3. Note that version `0.2` is significantly smaller than `0.1`.
 
-Docker built two images in this multi-stage build example.  One named `<none>` has the build tools and is larger, one is named `hellodotnet:0.2` and is smaller.  We did this so we don't need to deploy the build tools to the production server, and so we built the .net app in a very consistent environment.
+Docker built two images in this multi-stage build example.  If using the more modern BuildKit Docker builder, the intermediate image is stored in buildx cache, but hidden from us in the images list.  If using the original Docker builder, you'll see an image named `<none>`.  This intermediate image has the build tools and is larger.  In either case, the target image is named `hellodotnet:0.2` and is smaller.  We did this so we don't need to deploy the build tools to the production server, and so we built the .net app in a very consistent environment.
 
 
 Step 11: Prune unnamed images
@@ -321,13 +321,7 @@ I've provided a sample `docker-compose.yml` file for us to play with.
 
    If you instead choose to stop the container with `docker stop ...`, Docker-compose will notice the stack is incomplete and start a new container.
 
-   **Note: If you receive the following error when starting docker-compose:**
-
-   ```
-   failed to solve: rpc error: code = Unknown desc = failed to solve with frontend dockerfile.v0: failed to create LLB definition: unexpected status code [manifests 3.1-alpine]: 503 Service Unavailable
-   ```
-
-   Run this:
+   **Note:** If you'd rather use the old builder instead of BuildKit run this:
 
    ```
    export DOCKER_BUILDKIT=0

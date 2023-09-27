@@ -66,7 +66,7 @@ Frontend
 
 9. Change references from `hellonode` to `frontend`.
 
-10. Optional: If you specified the service's `nodePort`, change this port to be unique in the range 32000-33999.  If using a Kind cluster, ensure it's one of the ports forwarded in `00-Install/kind.yaml`.
+10. Optional: If you want to specify the service's `nodePort` in the yaml file, change this port to be unique in the range 32000-33999.  If using a Kind cluster, ensure it's one of the ports forwarded in `00-Install/kind.yaml`.
 
 
 Backend
@@ -90,7 +90,7 @@ Backend
 
    The service name is the DNS entry for other pods to consume.  In `frontend`'s source code in `routes/index.js` it specifies `http://backend:5000`.  The frontend is able to resolve this URL to the backend because the backend service is named `backend`.
 
-7. Optional: If you specified the service's `nodePort`, change this port to be unique in the range 32000-33999.  If using a Kind cluster, ensure it's one of the ports forwarded in `00-Install/kind.yaml`.
+7. Optional: If you want to specify the service's `nodePort` in the yaml file, change this port to be unique in the range 32000-33999.  If using a Kind cluster, ensure it's one of the ports forwarded in `00-Install/kind.yaml`.
 
 
 Schedule all the things
