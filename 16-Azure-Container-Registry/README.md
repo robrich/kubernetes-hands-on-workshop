@@ -20,20 +20,22 @@ Pushing images to Azure Container Registry
 3. Tag an image in the form `registryname.azurecr.io/imagename:version`, so I would tag a node image as `robrich.azurecr.io/backend:0.1`.
 
    ```
-   docker tag backend:0.1 REGISTRY_NAME.azurecr.io/backend:0.1
+   docker tag backend:0.1 your_registry_name.azurecr.io/backend:0.1
    ```
 
    Substitute your registry name.
 
    Note the registry details are in the image name.  Sadly, this makes it difficult to move images between repositories or to locally cache external repositories.
 
-4. `docker push registry.url/imagename:version` will push new images to Docker hub.
+4. Push the image to Azure Container Registry:
 
    ```
-   docker push REGISTRY_NAME.azurecr.io/backend:0.1
+   docker push your_registry_name.azurecr.io/backend:0.1
    ```
 
    Substitute the details of the image you tagged above.
+
+   Note how similar this is to Docker Hub.  The only difference is the registry url.
 
 5. Docker uses the tag `latest` when a version isn't specified, but this tag is no different than any other tag.  Let's tag the image as `latest` and push that one too.
 

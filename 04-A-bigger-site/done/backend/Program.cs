@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the IoC container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -34,7 +34,7 @@ app.MapGet("/framework/{id}", (int id) =>
         _ => Results.Ok(framework)
     };
 });
-// new
+// new framework
 app.MapPost("/framework", ([FromBody] Framework model) => {
     model.Votes = 0;
 
@@ -49,7 +49,7 @@ app.MapPost("/framework", ([FromBody] Framework model) => {
 
     return model;
 });
-// update
+// update framework
 app.MapPut("/framework/{id}", (int id, [FromBody] Framework model) =>
 {
     Framework? framework = FrameworkDataStore.Database.FirstOrDefault(f => f.Id == id);
@@ -59,6 +59,7 @@ app.MapPut("/framework/{id}", (int id, [FromBody] Framework model) =>
     }
     return framework;
 });
+// delete framework
 app.MapDelete("/framework/{id}", (int id) =>
 {
     Framework? framework = FrameworkDataStore.Database.FirstOrDefault(f => f.Id == id);

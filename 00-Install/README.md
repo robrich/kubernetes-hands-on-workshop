@@ -155,8 +155,8 @@ Downloading docker images takes a while, so let's kick this off so we make sure 
 **Note**: Running on Windows?  Ensure you're in Linux mode.  Right-click on the docker system tray icon, and choose "Switch to Linux Containers".  If it says "Switch to Windows containers" you don't need to do anything, you're already there.
 
 1. `docker pull node:alpine`
-2. `docker pull mcr.microsoft.com/dotnet/sdk:7.0-alpine`
-3. `docker pull mcr.microsoft.com/dotnet/aspnet:7.0-alpine`
+2. `docker pull mcr.microsoft.com/dotnet/sdk:8.0-alpine`
+3. `docker pull mcr.microsoft.com/dotnet/aspnet:8.0-alpine`
 
 If you get an error about throttled docker pull requests, change the commands to this:
 
@@ -165,12 +165,12 @@ If you get an error about throttled docker pull requests, change the commands to
    docker tag robrich.azurecr.io/node:alpine node:alpine
    ```
 2. ```
-   docker pull robrich.azurecr.io/dotnet-sdk:7.0-alpine
-   docker tag robrich.azurecr.io/dotnet-sdk:7.0-alpine mcr.microsoft.com/dotnet/sdk:7.0-alpine
+   docker pull robrich.azurecr.io/dotnet-sdk:8.0-alpine
+   docker tag robrich.azurecr.io/dotnet-sdk:8.0-alpine mcr.microsoft.com/dotnet/sdk:8.0-alpine
    ```
 3. ```
-   docker pull robrich.azurecr.io/dotnet-aspnet:7.0-alpine
-   docker tag robrich.azurecr.io/dotnet-aspnet:7.0-alpine mcr.microsoft.com/dotnet/aspnet:7.0-alpine
+   docker pull robrich.azurecr.io/dotnet-aspnet:8.0-alpine
+   docker tag robrich.azurecr.io/dotnet-aspnet:8.0-alpine mcr.microsoft.com/dotnet/aspnet:8.0-alpine
    ```
 
 You're ready

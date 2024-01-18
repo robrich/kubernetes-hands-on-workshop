@@ -1,7 +1,7 @@
 A bigger site
 =============
 
-Build a more real-world microservices app.  I've provided a backend .net site, and a frontend node site.
+Build a more real-world microservices app.  I've provided a backend .NET site, and a frontend Node.js site purely as an implimentation detail.
 
 Here's your challenge: build both `Dockerfile`s necessary to run these two sites.
 

@@ -1,10 +1,18 @@
+# downloaded files
 node_modules
-.suo
+# built files
 obj
-.idea
-*.user
-*.orig
-.DS_Store
-package-lock.json
 **/bin/Debug
 **/bin/Release
+# user files
+.vs
+.idea
+.suo
+*.user
+package-lock.json
+# temp files
+*.orig
+.DS_Store
+# secrets
+.env
+

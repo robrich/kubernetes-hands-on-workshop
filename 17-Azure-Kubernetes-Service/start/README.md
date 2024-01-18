@@ -98,37 +98,45 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
 
 1. Let's locate the domain Azure assigned to the cluster.
 
-   In the Azure portal, choose the Azure Kubernetes Service.
+   From the terminal, run this command, substituting your cluster name:
 
-   From the Overview tab, find the `HTTP application routing domain` in the top header section.
+   ```
+   az aks show --resource-group kubernetes --name YOUR_CLUSTER_NAME --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName -o table
+   ```
+
+   Note the URL for the cluster.
 
 2. Create a new file in the frontend folder named `ingress.yaml`.
 
 3. Add this content:
 
    ```
-   apiVersion: extensions/v1beta1
+   apiVersion: networking.k8s.io/v1
    kind: Ingress
    metadata:
      name: frontend
-     annotations:
-       kubernetes.io/ingress.class: addon-http-application-routing
+     labels:
+       name: frontend
    spec:
+     ingressClassName: webapprouting.kubernetes.azure.com
      rules:
-     - host: frontend.YOUR_HTTP_ROUTING_DOMAIN_HERE
+     - host: frontend.YOUR_HTTP_ROUTING_DOMAIN
        http:
          paths:
-         - backend:
-             serviceName: frontend
-             servicePort: 3000
-           path: /
+         - pathType: Prefix
+           path: "/"
+           backend:
+             service:
+               name: fontend
+               port:
+                 number: 3000
    ```
 
    This sets up DNS rules to get traffic from the internet on port 80 into the service named `frontend` on port `3000`.  One could also route https traffic, specifying a certificate stored as a Kubernetes secret, though this is beyond the scope of this course.
 
-   The annotation `kubernetes.io/ingress.class: addon-http-application-routing` is required by Azure.  You may need different attributes for different cloud providers.  See https://docs.microsoft.com/en-us/azure/aks/http-application-routing and https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md
+   The line `ingressClassName: webapprouting.kubernetes.azure.com` tells Kubernetes to use Azure's Http Application Routing ingress controller.  If using different ingress technologies you may need different configuration.  See https://learn.microsoft.com/en-us/azure/aks/app-routing and https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md
 
-4. Schedule this ingress service:
+4. Schedule this ingress:
 
    ```
    kubectl apply -f ingress.yaml
@@ -151,7 +159,8 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
    Check the logs to see how Kubernetes updated DNS by running this command:
 
    ```
-   kubectl logs deploy/addon-http-application-routing-external-dns -n kube-system
+   kubectl get pods --namespace kube-system
+   kubectl logs --namespace kube-system pod/addon-http-application-routing-external-dns-YOUR_IDS_HERE
    ```
 
    Note that unlike the things we've built in the `default` namespace, the dns pod is in the `kube-system` namespace.
@@ -162,7 +171,27 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
    kubectl get all --all-namespaces
    ```
 
-7. Now let's try it out.  Browse to the URL you formed above: `http://frontend.YOUR_HTTP_ROUTING_DOMAIN_HERE`, adding in your domain from the Azure portal.
+7. If you're tired of waiting for DNS, you can hot-wire your local DNS.
+
+   - Get the public IP:
+
+     ```
+     kubectl get svc --namespace kube-system
+     ```
+
+     Note the public IP in the LoadBalancer service
+
+   - Open up `/etc/hosts` on Mac or Linux or `C:\Windows\System32\drivers\etc\hosts` on Windows
+
+     add a line to route the public IP directly to the hostname:
+
+     ```
+     123.45.67.8  frontend.YOUR_HTTP_ROUTING_DOMAIN
+     ```
+
+     swap in the correct public IP and domain
+
+8. Now let's try it out.  Browse to the URL you formed above: `http://frontend.YOUR_HTTP_ROUTING_DOMAIN_HERE`, adding in your domain from the Azure portal.
 
    If you get an error like `ERR_NAME_NOT_RESOLVED`, wait a few minutes and try again.  DNS changes can take a while to propagate to all the DNS servers involved.
 

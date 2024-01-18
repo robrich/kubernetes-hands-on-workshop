@@ -1,12 +1,18 @@
-.dockerignore
-.env
-.git
-.gitignore
+# downloaded files
+
+# built files
+bin
+obj
+# user-specific files
 .vs
 .vscode
-docker-compose.yml
-docker-compose.*.yml
-*/bin
-*/obj
+*.suo
 *.user
-Properties/launchSettings.json
+.DS_Store
+# temp files
+*.orig
+# secrets
+.env
+# non-prod files
+**/launchSettings.json
+appsettings.Development.json

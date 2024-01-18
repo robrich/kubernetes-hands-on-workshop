@@ -1,15 +1,20 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: frontend
-  annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+  labels:
+    name: frontend
 spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
   rules:
   - host: frontend.HTTP_ROUTING_DOMAIN
     http:
       paths:
-      - backend:
-          serviceName: frontend
-          servicePort: 3000
-        path: /
+      - pathType: Prefix
+        path: "/"
+        # note this `backend` isn't our image name but rather the k8s service behind the ingress
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 3000
