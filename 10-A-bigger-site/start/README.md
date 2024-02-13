@@ -175,3 +175,33 @@ ping backend
 ```
 
 Did it ping successfully? If so, the problem may be the ports or the environment variable. If not, the problem may be a misnamed service or the frontend pod was started before the backend service existed.
+
+### kubectl port-forward
+
+For some reason, it doesn't work.  Is the issue with the frontend service?  With the backend deployment?  What happened?  Let's skip over earlier components and make sure later components are working.
+
+#### Connect to the pod
+
+1. `kubectl get all,ing`, locate the name of the pod you'd like to connect to.  In this example I'll choose a frontend pod.
+
+2. `kubectl port-forward pod/frontend-YOUR_POD_NAME 3000:3000`
+
+    This tells Kubernetes to setup a tunnel from `localhost` to the pod directly, skipping the service and ingress.
+
+3. Browse to http://localhost:3000/
+
+4. Hit cntrl-c to stop the port-forward
+
+Did the pod come up?  If so, the problem is with the service or the ingress.  If not, the problem is with the pod or the deployment.
+
+#### Connect to the service
+
+1. `kubectl port-forward service/frontend 3000:3000`
+
+   This tells Kubernetes to setup the tunnel from `localhost` to the service, and the service will round-robin across the pods.
+
+2. Browse to http://localhost:3000/
+
+3. Hit cntrl-c to stop the port forward
+
+Did the service come up?  If so, the problem is with the service.  Is it of type ClusterIP?  If not, the problem is with the link between the service and the deployment.  Did we typo a name?

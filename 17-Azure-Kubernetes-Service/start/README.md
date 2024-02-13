@@ -86,9 +86,9 @@ Access the Services
    kubectl cluster-info
    ```
 
-   Browse to `https://CLUSTER_URL.azmk8s.io:31891` and to https://CLUSTER_URL.azmk8s.io/api/v1/namespaces/kube-system/services/frontend-service/proxy`
+   Browse to `https://CLUSTER_URL.azmk8s.io:31891` and to `https://CLUSTER_URL.azmk8s.io/api/v1/namespaces/kube-system/services/frontend-service/proxy`
 
-   Still didn't work.
+   **Still didn't work.**
 
 
 Ingress
@@ -196,3 +196,34 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
    If you get an error like `ERR_NAME_NOT_RESOLVED`, wait a few minutes and try again.  DNS changes can take a while to propagate to all the DNS servers involved.
 
    If you get a different error like a `404`, check if all the pods, services, and ingress are running.
+
+Troubleshooting Services
+------------------------
+
+For some reason, it doesn't work.  Is the issue with the Ingress?  With the frontend service?  With the backend deployment?  What happened?  Let's skip over earlier components and make sure later components are working.
+
+### Connect to the pod
+
+1. `kubectl get all,ing`, locate the name of the pod you'd like to connect to.  In this example I'll choose a frontend pod.
+
+2. `kubectl port-forward pod/frontend-YOUR_POD_NAME 3000:3000`
+
+    This tells Kubernetes to setup a tunnel from `localhost` to the pod directly, skipping the service and ingress.
+
+3. Browse to http://localhost:3000/
+
+4. Hit cntrl-c to stop the port-forward
+
+Did the pod come up?  If so, the problem is with the service or the ingress.  If not, the problem is with the pod or the deployment.
+
+### Connect to the service
+
+1. `kubectl port-forward service/frontend 3000:3000`
+
+   This tells Kubernetes to setup the tunnel from `localhost` to the service, and the service will round-robin across the pods.
+
+2. Browse to http://localhost:3000/
+
+3. Hit cntrl-c to stop the port forward
+
+Did the service come up?  If so, the problem is with the ingress or DNS.  If not, the problem is with the link between the service and the deployment.
