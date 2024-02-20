@@ -292,12 +292,12 @@ Step 11: Prune unnamed images
    Is it still there?  Run `docker container list --all` and see if there's a running container.
 
 
-Bonus Step: Docker-compose
+Bonus Step: Docker Compose
 --------------------------
 
-`docker-compose` is the precursor to Docker Swarm, the production orchestrator by Docker.  We're not going to use Docker Swarm.  We're going to use Kubernetes instead.  So we won't spend a lot of time on `docker-compose` in this course.
+`docker compose` is the precursor to Docker Swarm, the production orchestrator by Docker.  We're not going to use Docker Swarm.  We're going to use Kubernetes instead.  So we won't spend a lot of time on `docker compose` in this course.
 
-`docker-compose` is really handy as it contains a simple structure for both the `docker build ...` command arguments and the `docker run ...` arguments.
+`docker compose` is really handy as it contains a simple structure for both the `docker build ...` command arguments and the `docker run ...` arguments.
 
 I've provided a sample `docker-compose.yml` file for us to play with.
 
@@ -306,20 +306,20 @@ I've provided a sample `docker-compose.yml` file for us to play with.
 2. Run this:
 
    ```
-   docker-compose up -d
+   docker compose up -d
    ```
 
    This will both build the image and run the container.  Like the `docker run` command, leave off the `-d` to show console output from the container.
 
 3. Open a browser to [http://localhost:5000/](http://localhost:5000/) to see the running site.
 
-4. To stop docker-compose run this:
+4. To stop docker compose run this:
 
    ```
-   docker-compose down
+   docker compose down
    ```
 
-   If you instead choose to stop the container with `docker stop ...`, Docker-compose will notice the stack is incomplete and start a new container.
+   If you instead choose to stop the container with `docker stop ...`, Docker Compose will notice the stack is incomplete and start a new container.
 
    **Note:** If you'd rather use the old builder instead of BuildKit run this:
 

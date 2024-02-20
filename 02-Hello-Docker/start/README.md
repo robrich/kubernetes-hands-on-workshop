@@ -88,6 +88,8 @@ Optional: Build a `package.json` file
 
 If you referenced `npm` commands in your Dockerfile such as `npm install` or `npm start`, the process will fail later noting there is no package.json file. Let's create one.
 
+You'll need [Node.js](https://nodejs.org/en/download) installed to do this step. If you don't have Node.js installed, you can skip this part.
+
 1. From a terminal in the folder with the `Dockerfile` and `server.js` file, run this command from a command prompt:
 
    ```

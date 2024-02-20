@@ -128,7 +128,7 @@ Step 2: Schedule the service
 
    This command tells us a lot about the service including the `NodePort` that Kubernetes randomly picked.
 
-4. Open a browser to `http://localhost:NODE_PORT/`, replacing `NODE_PORT` with the `NodePort` you found in step 3.  When I ran step 3, I got port `32012` so I'll browse to `http://localhost:32012`.
+4. Open a browser to `http://localhost:NODE_PORT/`, replacing `NODE_PORT` with the `NodePort` you found in step 3.  When I ran step 3, I got `NodePort:   <unset>  32012/TCP` so I'll browse to `http://localhost:32012`.  (Why does it say "unset" first?  Because we didn't give [the service's port a name](https://stackoverflow.com/questions/42528409/kubernetes-what-does-unset-mean-in-port-in-a-service).)
 
 
 What happened
