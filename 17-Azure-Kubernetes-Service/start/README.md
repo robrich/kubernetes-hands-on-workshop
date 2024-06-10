@@ -98,13 +98,16 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
 
 1. Let's locate the domain Azure assigned to the cluster.
 
-   From the terminal, run this command, substituting your cluster name:
+   ~~From the terminal, run this command, substituting your cluster name:~~
 
    ```
-   az aks show --resource-group kubernetes --name YOUR_CLUSTER_NAME --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName -o table
+   # This command no longer works:
+   az aks show --resource-group kubernetes --name YOUR_CLUSTER_NAME -o table
    ```
 
-   Note the URL for the cluster.
+   ~~Note the FQDN for the cluster.~~
+
+   This command no longer yields an effective result. Instead, make up a cool domain name.
 
 2. Create a new file in the frontend folder named `ingress.yaml`.
 
@@ -120,14 +123,14 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
    spec:
      ingressClassName: webapprouting.kubernetes.azure.com
      rules:
-     - host: frontend.YOUR_HTTP_ROUTING_DOMAIN
+     - host: frontend.YOUR_CHOSEN_DOMAIN
        http:
          paths:
          - pathType: Prefix
            path: "/"
            backend:
              service:
-               name: fontend
+               name: frontend
                port:
                  number: 3000
    ```

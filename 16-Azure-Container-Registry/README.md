@@ -4,6 +4,34 @@ Azure Container Registry
 Like Docker Hub, Azure Container Registry lets us publish docker images.  Unlike Docker Hub, the images are private.
 
 
+Optional: Build Docker images for the Target Platform
+-----------------------------------------------------
+
+If you're running on an ARM64 machine (e.g. M1 Mac) and you provisioned an AMD64 cluster or vice versa, you'll need to rebuild the images specific for the target architecture.
+
+1. From the command line, run commands similar to
+
+   ```
+   cd /folder/with/Dockerfile/in/it
+   docker build -t REGISTRY_NAME.azurecr.io/backend:v0.1 --platform=linux/amd64 .
+   ```
+
+   See https://docs.docker.com/build/building/multi-platform/#building-multi-platform-images
+
+If this is particularly slow on your machine, you can build your content in the cloud instead:
+
+1. From the command line, run commands similar to
+
+   ```
+   cd /folder/with/Dockerfile/in/it
+   az acr build --registry REGISTRY_NAME --image backend:v0.1 .
+   ```
+
+   See https://learn.microsoft.com/en-us/azure/container-registry/container-registry-tutorial-quick-task
+
+   If you build in the container registry, you don't need to push the images to the registry -- they're already there.  Skip the next section.
+
+
 Pushing images to Azure Container Registry
 ------------------------------------------
 

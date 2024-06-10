@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: webapprouting.kubernetes.azure.com
   rules:
-  - host: frontend.HTTP_ROUTING_DOMAIN
+  - host: frontend.YOUR_CHOSEN_DOMAIN
     http:
       paths:
       - pathType: Prefix

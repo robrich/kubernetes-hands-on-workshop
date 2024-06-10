@@ -70,7 +70,9 @@ Create Kubernetes Cluster
 
 3. In the Node Pools tab:
 
-   - Change the Node Size to a cheaper VM -- I chose Standard B2s
+   - Change the Node Size to a cheaper VM -- I chose ~~Standard B2s~~
+
+     Update: Azure now [requires](https://learn.microsoft.com/en-us/azure/aks/quotas-skus-regions#restricted-vm-sizes) more than 2 CPUs per VM in AKS. You can no longer create B2s VMs for your node pool. Choosing `A2_v2` does appear to work.
 
    - Change the Node count minimum to 1 and maximum to 3
 
@@ -80,9 +82,9 @@ Create Kubernetes Cluster
 
    This will be a very under-powered Kubernetes cluster, but it'll also fit nicely in the Azure trial constraints.
 
-4. Optional: In the networking tab:
+4. In the Networking tab
 
-   - Optional: Edit the DNS name prefix
+   - Change the Network Policy to `Azure`.
 
 5. In the Integrations tab, select the container registry created above.  This automatically creates the service principal and access permissions to pull containers from the registry into the cluster.
 
@@ -93,26 +95,10 @@ Create Kubernetes Cluster
 8. This will take a bit to spin up.  You can watch the progress by clicking "All services" on the top-left.
 
 
-Configure Cluster
------------------
-
-When the cluster is fully created, we need to turn on Application Routing
-
-1. In the Azure portal, open the completed Kubernetes cluster.
-
-2. Choose the Networking tab
-
-3. Turn on `Enable Application Routing`
-
-4. Push apply
-
-This will take a while to reconfigure your cluster.
-
-
 Azure CLI
 ---------
 
-We need the Azure CLI to wire up the connection between Azure Kubernetes Service and the `kubectl` Kubernetes command line.
+We need the Azure CLI to wire up the connection between Azure Kubernetes Service and the `kubectl` Kubernetes command line and to configure the Kubernetes cluster.
 
 1. See https://learn.microsoft.com/en-us/cli/azure/install-azure-cli#install for the steps to download and install the Azure CLI on your computer.
 
@@ -126,7 +112,35 @@ We need the Azure CLI to wire up the connection between Azure Kubernetes Service
 
 3. If necessary, switch subscriptions with `az account list --output table` and [`az account set --subscription {guid}`](https://docs.microsoft.com/en-us/cli/azure/account?view=azure-cli-latest#az-account-set)
 
-4. Run this command to login to kubectl:
+
+Configure Cluster
+-----------------
+
+When the cluster is fully created, we need to turn on Application Routing.
+
+1. Login to Azure CLI (above)
+
+2. From a terminal, run this command:
+
+   ```
+   az aks approuting enable --resource-group kubernetes --name YOUR_CLUSTER_NAME
+   ```
+
+   Substitute your cluster name for `YOUR_CLUSTER_NAME`.
+
+   See also https://learn.microsoft.com/en-us/azure/aks/app-routing#enable-on-an-existing-cluster
+
+This will take a while to reconfigure your cluster.
+
+
+Create Kubectl Context
+----------------------
+
+We'll use the Azure CLI to authenticate to the `kubectl` Kubernetes command line.
+
+1. Login to Azure CLI (above)
+
+2. Run this command to login to kubectl:
 
    ```
    az aks get-credentials --resource-group kubernetes --name YOUR_CLUSTER_NAME
@@ -134,7 +148,7 @@ We need the Azure CLI to wire up the connection between Azure Kubernetes Service
 
    Because I named my cluster `robrich` at the top of this exercise, I'll run `az aks get-credentials --resource-group kubernetes --name robrich`
 
-5. The certificate details end up in `~/.kube/config`.  Open this file in a text editor and look around.
+3. The certificate details end up in `~/.kube/config`.  Open this file in a text editor and look around.
 
    Notice the `docker-for-desktop` configuration together with the Azure Kubernetes cluster.
 
