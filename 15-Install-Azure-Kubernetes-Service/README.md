@@ -70,9 +70,9 @@ Create Kubernetes Cluster
 
 3. In the Node Pools tab:
 
-   - Change the Node Size to a cheaper VM -- I chose ~~Standard B2s~~
+   - Click on Agent Pool's Node Size, and change the Node Size to a cheaper VM
 
-     Update: Azure now [requires](https://learn.microsoft.com/en-us/azure/aks/quotas-skus-regions#restricted-vm-sizes) more than 2 CPUs per VM in AKS. You can no longer create B2s VMs for your node pool. Choosing `A2_v2` does appear to work.
+     Azure [requires](https://learn.microsoft.com/en-us/azure/aks/quotas-skus-regions#restricted-vm-sizes) more than 2 CPUs per VM in AKS. Choosing `A2_v2` may work.
 
    - Change the Node count minimum to 1 and maximum to 3
 
@@ -111,26 +111,6 @@ We need the Azure CLI to wire up the connection between Azure Kubernetes Service
    It'll direct you to open a URL, paste in a code, and login to your Microsoft account.
 
 3. If necessary, switch subscriptions with `az account list --output table` and [`az account set --subscription {guid}`](https://docs.microsoft.com/en-us/cli/azure/account?view=azure-cli-latest#az-account-set)
-
-
-Configure Cluster
------------------
-
-When the cluster is fully created, we need to turn on Application Routing.
-
-1. Login to Azure CLI (above)
-
-2. From a terminal, run this command:
-
-   ```
-   az aks approuting enable --resource-group kubernetes --name YOUR_CLUSTER_NAME
-   ```
-
-   Substitute your cluster name for `YOUR_CLUSTER_NAME`.
-
-   See also https://learn.microsoft.com/en-us/azure/aks/app-routing#enable-on-an-existing-cluster
-
-This will take a while to reconfigure your cluster.
 
 
 Create Kubectl Context
@@ -187,3 +167,25 @@ Switch clusters
    ```
 
    I typed `kubectl config use-context robrich`.
+
+
+Enable Nginx Ingress Controller
+-------------------------------
+
+We'll use Nginx to controll Ingress. See also [Nginx's install instructions](https://kubernetes.github.io/ingress-nginx/deploy/#azure)
+
+1. From this terminal with your cluster as the active kubectl context run this:
+
+   ```
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml
+    ```
+
+2. Get the public IP address of the Nginx Ingress controller:
+
+   ```
+   kubectl get all --namespace ingress-nginx
+   ```
+
+   Verify that `pod/ingress-nginx-controller-...` is running
+
+   Note `service/ingress-nginx-controller`'s External IP

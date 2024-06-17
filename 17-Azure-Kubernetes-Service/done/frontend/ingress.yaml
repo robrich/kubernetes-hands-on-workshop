@@ -5,14 +5,16 @@ metadata:
   labels:
     name: frontend
 spec:
-  ingressClassName: webapprouting.kubernetes.azure.com
+  ingressClassName: nginx
   rules:
+  # TODO: add your domain name here:
   - host: frontend.YOUR_CHOSEN_DOMAIN
     http:
       paths:
       - pathType: Prefix
         path: "/"
-        # note this `backend` isn't our image name but rather the k8s service behind the ingress
+        # note this `backend` isn't our image name
+	# but rather a keyword noting the k8s service behind the ingress
         backend:
           service:
             name: frontend

@@ -76,19 +76,25 @@ Access the Services
 
    Browse to `http://localhost:THE_PORT` substituting the `NodePort` above.
 
-   It didn't work.  Our cluster isn't running on `localhost`, it's running in the cloud.
+   **It didn't work.**  Our cluster isn't running on `localhost`, it's running in the cloud.
 
-2. Let's access the service using Azure's url.
 
-   Run this command to get the Azure Kubernetes url:
+Proxy to the Service
+--------------------
+
+1. Let's proxy into the service and verify it's running
 
    ```
-   kubectl cluster-info
+   kubectl port-forward service/frontend 3000:3000
    ```
 
-   Browse to `https://CLUSTER_URL.azmk8s.io:31891` and to `https://CLUSTER_URL.azmk8s.io/api/v1/namespaces/kube-system/services/frontend-service/proxy`
+2. Open a browser to localhost:3000
 
-   **Still didn't work.**
+This verifies the service in the cloud is working and forwarding traffic to the pods.
+
+If it didn't work, return to chapter 10 and debug the failures.
+
+3. Hit Cntrl-C to break out of the port-forward.
 
 
 Ingress
@@ -96,18 +102,9 @@ Ingress
 
 Ingress routes traffic through the Azure load balancer associated with the Azure Kubernetes Cluster into our services.  Unlike services of type `LoadBalancer`, an `Ingress` can route traffic to many services based on a unique subdomain or url path.
 
-1. Let's locate the domain Azure assigned to the cluster.
+1. Make up a fun subdomain for your website that doesn't exist.
 
-   ~~From the terminal, run this command, substituting your cluster name:~~
-
-   ```
-   # This command no longer works:
-   az aks show --resource-group kubernetes --name YOUR_CLUSTER_NAME -o table
-   ```
-
-   ~~Note the FQDN for the cluster.~~
-
-   This command no longer yields an effective result. Instead, make up a cool domain name.
+   I'll makeup `frontend.robrich.org`
 
 2. Create a new file in the frontend folder named `ingress.yaml`.
 
@@ -121,13 +118,15 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
      labels:
        name: frontend
    spec:
-     ingressClassName: webapprouting.kubernetes.azure.com
+     ingressClassName: nginx
      rules:
-     - host: frontend.YOUR_CHOSEN_DOMAIN
+     - host: frontend.YOUR_DOMAIN_HERE # <-- set your domain here
        http:
          paths:
          - pathType: Prefix
            path: "/"
+           # note this `backend` isn't our image name
+           # but rather a keyword noting the k8s service behind the ingress
            backend:
              service:
                name: frontend
@@ -137,7 +136,7 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
 
    This sets up DNS rules to get traffic from the internet on port 80 into the service named `frontend` on port `3000`.  One could also route https traffic, specifying a certificate stored as a Kubernetes secret, though this is beyond the scope of this course.
 
-   The line `ingressClassName: webapprouting.kubernetes.azure.com` tells Kubernetes to use Azure's Http Application Routing ingress controller.  If using different ingress technologies you may need different configuration.  See https://learn.microsoft.com/en-us/azure/aks/app-routing and https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/nginx-configuration/annotations.md
+   The line `ingressClassName: nginx` tells Kubernetes to use the Nginx ingress controller.  If using different ingress technologies you may need different configuration.
 
 4. Schedule this ingress:
 
@@ -157,48 +156,39 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
    kubectl get all,ing
    ```
 
-6. It may take a bit for the DNS to propagate so the `frontend` subdomain exists.
-
-   Check the logs to see how Kubernetes updated DNS by running this command:
-
-   ```
-   kubectl get pods --namespace kube-system
-   kubectl logs --namespace kube-system pod/addon-http-application-routing-external-dns-YOUR_IDS_HERE
-   ```
-
-   Note that unlike the things we've built in the `default` namespace, the dns pod is in the `kube-system` namespace.
-
-   We can look at all namespaces with this command:
-
-   ```
-   kubectl get all --all-namespaces
-   ```
-
-7. If you're tired of waiting for DNS, you can hot-wire your local DNS.
+6. At this point we'd head to CloudFlare, DNSimple, or your DNS provider and add a DNS entry for the new domain name to point to the Cluster's External IP we got at the end of Chapter 15.  We're going to skip that step and do it locally instead.
 
    - Get the public IP:
 
      ```
-     kubectl get svc --namespace kube-system
+     kubectl get svc --namespace ingress-nginx
      ```
 
-     Note the public IP in the LoadBalancer service
+     Note the `EXTERNAL-IP` in the `ingress-nginx-controller` service
 
-   - Open up `/etc/hosts` on Mac or Linux or `C:\Windows\System32\drivers\etc\hosts` on Windows
+   - Open the hosts file:
 
-     add a line to route the public IP directly to the hostname:
+     - Mac or Linux: sudo open `/etc/hosts`
+     - Windows (including WSL2): Open Notepad as administrator then open `C:\Windows\System32\drivers\etc\hosts`
+
+   - Modify the hosts file:
+
+     add a line to route the External IP directly to your new hostname:
 
      ```
-     123.45.67.8  frontend.YOUR_HTTP_ROUTING_DOMAIN
+     123.45.67.8  frontend.YOUR_DOMAIN_HERE
      ```
 
      swap in the correct public IP and domain
 
-8. Now let's try it out.  Browse to the URL you formed above: `http://frontend.YOUR_HTTP_ROUTING_DOMAIN_HERE`, adding in your domain from the Azure portal.
+8. Now let's try it out.  Browse to the URL you formed above: `http://frontend.YOUR_DOMAIN_HERE`, adding in your domain from the Azure portal.
 
-   If you get an error like `ERR_NAME_NOT_RESOLVED`, wait a few minutes and try again.  DNS changes can take a while to propagate to all the DNS servers involved.
+   **Note**: It's important we browse to `http` and not ~~https~~.  We haven't rigged up SSL support here.
 
    If you get a different error like a `404`, check if all the pods, services, and ingress are running.
+
+9. Remove the line added to `/etc/hosts` and save the file.
+
 
 Troubleshooting Services
 ------------------------
@@ -223,10 +213,12 @@ Did the pod come up?  If so, the problem is with the service or the ingress.  If
 
 1. `kubectl port-forward service/frontend 3000:3000`
 
-   This tells Kubernetes to setup the tunnel from `localhost` to the service, and the service will round-robin across the pods.
+   This tells Kubernetes to setup the tunnel from `localhost` to the service, and the service will round-robin across the pods.  This skips ingress.
 
 2. Browse to http://localhost:3000/
 
 3. Hit cntrl-c to stop the port forward
 
-Did the service come up?  If so, the problem is with the ingress or DNS.  If not, the problem is with the link between the service and the deployment.
+Did the service come up?  If so, the problem is with the cluster forwarding to ingress, ingress forwarding to the service, or DNS.  If not, the problem is with the link between the service and the deployment.
+
+See https://kubernetes.github.io/ingress-nginx/deploy/#local-testing for tips on using curl to inject a hostname header to a specific IP and port-forwarding into the Nginx Ingress controller.
