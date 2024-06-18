@@ -39,14 +39,13 @@ Azure Container Registry is like Docker Hub, but the images aren't public to the
 
 4. Once the registry is created, click `Go to Resource` then
 
-   - Switch to the Access Keys tab
+   - In the Settings section, open the Access Keys tab
 
    - Enable the Admin user
 
    - Copy the Admin login and passwords.  We'll need these to login to the docker command-line.
 
    From this screen, you can also change or disable the passwords.
-
 
 
 Create Kubernetes Cluster
@@ -72,7 +71,7 @@ Create Kubernetes Cluster
 
    - Click on Agent Pool's Node Size, and change the Node Size to a cheaper VM
 
-     Azure [requires](https://learn.microsoft.com/en-us/azure/aks/quotas-skus-regions#restricted-vm-sizes) more than 2 CPUs per VM in AKS. Choosing `A2_v2` may work.
+     Azure [requires](https://learn.microsoft.com/en-us/azure/aks/quotas-skus-regions#restricted-vm-sizes) more than 2 CPUs per VM in AKS, so you can't choose any of the really cheap 2 vCPU VMs
 
    - Change the Node count minimum to 1 and maximum to 3
 
@@ -105,7 +104,7 @@ We need the Azure CLI to wire up the connection between Azure Kubernetes Service
 2. With the Azure CLI installed, run:
 
    ```
-   az login
+   az login --use-device-code
    ```
 
    It'll direct you to open a URL, paste in a code, and login to your Microsoft account.

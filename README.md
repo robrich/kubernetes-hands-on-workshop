@@ -7,33 +7,51 @@ Welcome to the Kubernetes Hands-on workshop.
 Our Goals
 ---------
 
-1. Get [Docker Desktop](https://hub.docker.com/search?q=community&type=edition&offering=community) running on your machine in Kubernetes mode.
+1. Get [Docker Desktop](https://www.docker.com/products/docker-desktop/) running on your machine with Kubernetes mode enabled.
 
 2. Teach you the skills to leverage Docker and Kubernetes in your environment today.
 
 Why are we learning Docker too?  The Kubernetes story begins with "so you've got a Docker container ...".  Docker is how we build the images; Kubernetes is how we run these containers at scale.
 
 
+Curriculum
+----------
+
+The workshop is broken into 3 main sections:
+
+1. Welcome to Docker: We assume no prior container knowledge.
+
+2. Welcome to Kubernetes: We take the Docker images built above and run them in Kubernetes locally.
+
+3. Kubernetes in the Cloud: We take our knowledge in the two previous sections and run in Azure or another cloud.
+
+In each section we will:
+
+1. Instructor-led discussion: We'll learn about the technology through slides and live demos.
+
+2. Self-directed hello-world excercise: You'll get fingers on keyboard to try out this technology.
+
+3. Real-world excercise: Given the knowledge you've gained, you'll take on a harder problem, a more real-world scenario.
+
+At the end of this workshop, you'll be able to take source code in various languages, use configuration as code to build a Dockerfile that packages the software, and host the software in Kubernetes in the cloud.
+
+
 Prerequisites
 -------------
 
-Because Docker leverages the OS's virtualization technologies, the install requirements for Docker are **very** specific.  Ensure you exactly meet these specs to get the most from our time today:
+This course assumes no prior knowledge of containers, Docker, Kubernetes, or infrastructure-as-code.
 
-### Mac requirements:
+The only prerequisites are software installed on the machine you bring:
 
-- 2010 or newer model with Intel's MMU virtualization
-- OS X 10.15 or newer
+1. Install and update [Docker Desktop](https://www.docker.com/products/docker-desktop/).  There's a free version for Mac, Linux, and Windows for personal use.
 
-### Windows requirements:
+   If Docker Desktop licensing is bothersome, look at Podman Desktop, Rancher Desktop, or Minikube.  You'll also need to adapt the courseware to compensate for differences in these tools.
 
-- 64-bit Windows
-- Windows 10 version 2004 or better
-- Access to your machine's BIOS to turn on virtualization
-- Administrator access to run Docker Desktop and a console as Admin
+2. Enable Kubernetes Mode in Docker Desktop's settings.  It will take a while to pull all the Kubernetes pieces to your machine.
 
-### Linux requirements:
+3. Pull a few images we'll use in this course.
 
-- 64-bit Linux these versions or better: Ubuntu 14.04, Debian 7.7, CentOS 7, or Fedora 24 or better
+See the full install instructions in Chapter 0.
 
 
 Other Resources

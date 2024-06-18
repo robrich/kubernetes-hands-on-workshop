@@ -13,6 +13,8 @@ package-lock.json
 # temp files
 *.orig
 .DS_Store
+/demo*
+title.txt
+kubernetes-hands-on-workshop.sln
 # secrets
 .env
-
