@@ -7,6 +7,7 @@ RUN dotnet restore backend.csproj
 
 COPY . .
 RUN dotnet build backend.csproj -c Release
+RUN dotnet test backend.csproj -c Release
 RUN dotnet publish backend.csproj -c Release -o /app
 
 

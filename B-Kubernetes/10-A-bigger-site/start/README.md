@@ -50,6 +50,7 @@ Frontend
 6. Add a section at the bottom of the container definition setting the environment variable to the backend:
 
    ```
+        ports:
         - containerPort: 3000
         env: # <-- add lines starting here
         - name: BACKEND

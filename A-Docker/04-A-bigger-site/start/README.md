@@ -33,7 +33,7 @@ Backend
 
 5. Look at the container list and ensure it's running.
 
-6. The backend doesn't have any web pages, so if we browse to it, we'll get an HTTP 404.
+6. Browse to http://localhost:5000/ and ensure the backend is running.
 
 
 Frontend
