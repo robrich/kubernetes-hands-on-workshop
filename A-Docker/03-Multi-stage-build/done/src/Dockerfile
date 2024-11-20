@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 
 WORKDIR /src
 
@@ -10,7 +10,7 @@ RUN dotnet build MultiStage.csproj -c Release
 RUN dotnet publish MultiStage.csproj -c Release -o /app
 
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine
 
 ENV ASPNETCORE_URLS http://+:5000
 EXPOSE 5000
