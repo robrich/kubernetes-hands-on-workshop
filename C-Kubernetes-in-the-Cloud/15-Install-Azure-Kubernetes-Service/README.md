@@ -55,6 +55,8 @@ Create Kubernetes Cluster
 
    ![Azure Kubernetes Service](aks-1.png)
 
+   Be sure to choose `Azure Kubernetes Service` and not  ~~Kubernetes Service Automatic~~ or any of the vendor choices like ~~OpenShift~~ or others.  These vendor resources are definitely valuable for other needs, but we won't use them in this workshop.
+
 2. In the Basics tab, fill in these options:
 
    - Use the existing resource group you created above

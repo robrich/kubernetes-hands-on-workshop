@@ -77,7 +77,7 @@ Step 1: Build the Dockerfile
 10. Add these lines:
 
    ```
-   ENV ASPNETCORE_URLS http://+:5000
+   ENV ASPNETCORE_URLS=http://+:5000
    EXPOSE 5000
    ```
 
@@ -129,7 +129,9 @@ As you work through this section, if you find it doesn't work, look for debuggin
 
    Is port 5000 in use on your machine?  You can switch the outside port to 4000 or similar like this: `docker run -p 4000:5000 -d hellodotnet:0.1` or choose any free port on your machine.
 
-2. Open a browser to [http://localhost:5000](http://localhost:5000).  Success!
+   **NOTE**: Apple AirPlay runs on port 5000, and Docker isn't very good at highlighting this conflict.  If you're running on a Mac, you'll definitely want to map to a different port as you start this container.
+
+2. Open a browser to [http://localhost:5000](http://localhost:5000) or the port you specified above.  Success!
 
    Is it not running?  See step 4.
 
@@ -200,7 +202,7 @@ What is a multi-stage build?  We're going to build two images: one is like the b
 4. At the top of the file, change the `FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine` to this:
 
    ```
-   FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine as build
+   FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
    ```
 
    We've now named the top section, so the `COPY --from=build ...` knows where to get the content.

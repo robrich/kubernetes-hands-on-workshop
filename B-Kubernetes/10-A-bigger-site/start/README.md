@@ -91,6 +91,8 @@ Backend
 
    The service name is the DNS entry for other pods to consume.  In `frontend`'s source code in `routes/index.js` it specifies `http://backend:5000`.  The frontend is able to resolve this URL to the backend because the backend service is named `backend`.
 
+   If you'd prefer a different naming convention, change both the service name here and the `frontend`'s `routes/index.js` file with your new convention.
+
 7. Optional: If you want to specify the service's `nodePort` in the yaml file, change this port to be unique in the range 32000-33999.  If using a Kind cluster, ensure it's one of the ports forwarded in `00-Install/kind.yaml`.
 
 

@@ -3,7 +3,7 @@ Installing Podman Desktop and Kind Kubernetes Cluster
 
 [Docker Desktop](README.md) is definitely the easiest tool to learn. But if you have concerns with licensing Docker Desktop, you can use alternate systems.  With minor adjustments, this course will work with **Podman**.
 
-[Podman](https://podman.io/) is /almost/ a drop-in replacement for Docker.  Let's get Podman setup.
+[Podman](https://podman.io/) is *almost* a drop-in replacement for Docker.  Let's get Podman setup.
 
 
 Podman Prerequisites
@@ -11,24 +11,24 @@ Podman Prerequisites
 
 ### Linux and Mac
 
-Podman setup is very simple.  Skip the Windows section and continue the setup below.
+Podman setup is very simple.  Skip the Windows-only section and start installing Podman and Podman Desktop.
 
 ### Windows-only
 
 Podman integrates into WSL 2.  Before we install Podman, we need to first setup WSL, enable v. 2, and install Ubuntu.
 
 
-1. Turn on virtualization in the bios.
+1. Turn on virtualization in the BIOS.
 
-   Open the Task Manager, switch to detail view, and switch to the Performance tab. Does it say `Virtualization: Enabled`? If so, this step is already done. If it says `Virtualization: Disabled` you first need to enable virtualization in the BIOS.
+   Inside your booted Windows machine, open the Task Manager, switch to the Details tab, and switch to the Performance tab. Does it say `Virtualization: Enabled`? If so, this step is already done. If it says `Virtualization: Disabled` you first need to enable virtualization in the BIOS.
 
-   Every bios is different, so you'll need to search for the specifics.
+   Every BIOS is different, so you'll need to search for the specifics as you boot up your machine.
 
    ![Windows Install](windows.gif)
 
 2. Install Windows Subsystem for Linux version 2.  See also https://docs.microsoft.com/en-us/windows/wsl/install-win10
 
-   Run these commands in an admin terminal:
+   Run these commands in an elevated, administrator terminal:
 
    ```
    dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
@@ -37,7 +37,7 @@ Podman integrates into WSL 2.  Before we install Podman, we need to first setup 
 
    Install https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
 
-   Run these commands in an admin terminal:
+   Run these commands in an elevated, administrator terminal:
 
    ```
    wsl --set-default-version 2
@@ -68,7 +68,7 @@ Installing Podman and Podman Desktop
 
 2. Download Podman Desktop from https://podman-desktop.io/downloads and install it.
 
-3. Download kubectl from https://kubernetes.io/docs/tasks/tools/#kubectl and put it in your `PATH`.  On Windows, the easiest way may be to move kubectl.exe to the `C:\Program Files\RedHat\Podman` directory.
+3. Download kubectl from https://kubernetes.io/docs/tasks/tools/#kubectl and put it in your `PATH`.  In Windows, the easiest way may be to move kubectl.exe to the `C:\Program Files\RedHat\Podman` directory.
 
 4. Reboot your machine to update your PATH with the new Podman directory.
 
@@ -78,13 +78,13 @@ Installing Podman Extensions
 
 1. Open Podman Desktop
 
-2. On the very the bottom-left, click "Compose" and follow the prompts to install this plugin.
+2. In the very bottom-left corner, click "Compose" and follow the prompts to install this plugin.
 
 3. On the the bottom-left, click "Kind" and follow the prompts to install this plugin, but don't start a kind cluster.
 
-4. Click the Dashboard icon on the very top-left to switch to the dashboard.
+4. Click the Dashboard icon in the very top-left corner to switch to the dashboard.
 
-5. On the main screen, change the drop-down from "Initialize" to "Initialize and Start" then click it to build and start the Podman container runtime environment.
+5. In the main screen, change the drop-down from "Initialize" to "Initialize and Start"  Then click it to build and start the Podman container runtime environment.
 
 6. Open a terminal in any directory and run this:
 
@@ -120,7 +120,7 @@ This course (and most tutorials) use `docker` instead of `podman` as the command
    which podman
    ```
 
-   This will return the path to the podman app
+   This returns the path to the podman app
 
 3. `cd` to that directory
 
@@ -130,7 +130,7 @@ This course (and most tutorials) use `docker` instead of `podman` as the command
    sudo su
    ```
 
-   and login
+   and log in
 
 5. Create a symlink:
 
@@ -138,7 +138,7 @@ This course (and most tutorials) use `docker` instead of `podman` as the command
    ln -s podman docker
    ```
 
-   This means that when you type `docker` it'll just forward to `podman`
+   This means that when you type `docker` it will forward to `podman`.
 
 ### Windows
 
@@ -148,7 +148,7 @@ This course (and most tutorials) use `docker` instead of `podman` as the command
 
 3. Copy `podman.exe` and paste into the same directory
 
-3. Rename the new ~~`podman Copy.exe`~~ to `docker.exe`
+4. Rename the new ~~`podman Copy.exe`~~ to `docker.exe`
 
 
 Creating Kind Kubernetes Cluster
@@ -156,9 +156,9 @@ Creating Kind Kubernetes Cluster
 
 We're specifically not using the button inside Podman Desktop because we want more ports forwarded from the host machine into the Kubernetes cluster.
 
-1. If you haven't already, clone this repository to your local machine.
+1. If you haven't already done so, clone this repository to your local machine.
 
-2. Open a terminal in this `00-Install` directory and run this:
+2. Open a terminal in this `00-Install` directory and run the following:
 
    ```
    kind create cluster --name=kind-cluster-control-plane --config=kind.yaml
@@ -166,7 +166,7 @@ We're specifically not using the button inside Podman Desktop because we want mo
 
    If you get an error creating the cluster, double-check that `kind.yaml` exists in the current folder, that you've installed the Kind plugin to Podman, and that no Kind cluster currently exists in Podman's Settings -> Resources window.
 
-3. Open Podman Desktop, and from the bottom-left, choose `kind-cluster-control-plane` as your current context.
+3. Open Podman Desktop, and in the bottom-left corner, choose `kind-cluster-control-plane` as your current context.
 
 
 Verify it Works
@@ -216,10 +216,10 @@ Adjusting the Courseware
 
 When you tag an image, Docker uses the exact name you specify.  By comparison, Podman changes the tag to prefix `localhost/`.  See https://github.com/containers/podman/issues/16428 and https://github.com/containers/buildah/issues/1034  Throughout this course, you'll need to change every image name reference to add the `localhost/` prefix.  This includes docker-compose.yaml files and Kubernetes pod and deployment yaml files.
 
-Podman doesn't include a built-in Kubernetes runtime.  Rather it uses Kind, a cluster inside a contianer.  Therefore to run an image in Kubernetes, you first need to copy it from the Podman cluster to the Kind Kubernetes cluster.  If you don't do this each time you'll get an `ImagePullBackOff` error.
+Podman doesn't include a built-in Kubernetes runtime.  Rather it uses Kind, a cluster inside a container.  Therefore, to run an image in Kubernetes, you first need to copy it from the Podman cluster to the Kind Kubernetes cluster.  If you don't do this each time you'll get an `ImagePullBackOff` error.
 
 
 Start downloading docker images
 -------------------------------
 
-Once all the tools are installed, you're good to start pulling images.  In the main README, Go to the section marked ["Start downloading images"](README.md#start-downloading-docker-images) and run the `docker pull ...` commands.
+Once all the tools are installed, you're good to start pulling images.  In the main README, go to the section marked ["Start downloading images"](README.md#start-downloading-docker-images) and run the `docker pull ...` commands.

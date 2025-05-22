@@ -152,6 +152,8 @@ Step 2: Schedule the pod
 
    This command tells us a lot about the pod.
 
+   If using Podman, you may find a second (sidecar) container in your pod: `podman-pause`.  This is Podman "helping" with infrastructure.  It maintains namespaces and cgroups in the pod, and helps route from the Kind cluster to the outside world.  You can usually safely ignore this extra container.
+
 4. Run this command:
 
    ```
