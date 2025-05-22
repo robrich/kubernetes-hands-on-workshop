@@ -2,6 +2,7 @@
 
 public static class FrameworkDataStore
 {
+
     static FrameworkDataStore()
     {
         Database = new List<Framework>();

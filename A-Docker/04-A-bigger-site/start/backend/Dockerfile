@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 # TODO: add the Docker commands to do these build steps:
 
 # set the current directory to `/src`
-# copy the manifest file: backend.csproj
+# copy the manifest file: backend.csproj into this directory
 # from a shell, run `dotnet restore`
 # copy the source files into place
 # from a shell, run `dotnet build -c Release`
@@ -13,7 +13,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine
 
-ENV ASPNETCORE_URLS http://+:5000
+ENV ASPNETCORE_URLS=http://+:5000
 EXPOSE 5000
 
 

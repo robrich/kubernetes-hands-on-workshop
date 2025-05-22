@@ -29,7 +29,7 @@ If this is particularly slow on your machine, you can build your content in the 
 
    See https://learn.microsoft.com/en-us/azure/container-registry/container-registry-tutorial-quick-task
 
-   If you build in the container registry, you don't need to push the images to the registry -- they're already there.  Skip the next section.
+   If you build in the container registry, you don't need to push the images to the registry — they're already there.  Skip the next section.
 
 
 Pushing images to Azure Container Registry

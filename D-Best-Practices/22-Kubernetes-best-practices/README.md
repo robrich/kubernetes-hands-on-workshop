@@ -13,7 +13,7 @@ Security
 
 - Use **RBAC** (role based access control):  All 3 cloud providers support this "service account" or "app authentication" mechanism, and it's much more durable than usernames and passwords which need to be themselves secured carefully.  By contrast, service accounts have no password; they're managed solely by the cloud provider.
 
-- **Rebuild and deploy production images frequently**:  A docker image is ephemeral and deterministic -- it doesn't change.  Your dependencies evolve over time.  Rebuild production images frequently to get OS patches and dependency updates.
+- **Rebuild and deploy production images frequently**:  A docker image is ephemeral and deterministic — it doesn't change.  Your dependencies evolve over time.  Rebuild production images frequently to get OS patches and dependency updates.
 
 - **Don't build corporate base images**:  Don't create a corporate base image with all the agents installed, either forked or built from standard images.  It'll be difficult to keep this corporate image up-to-date as the upstream image changes.  You've not increased your security posture, you've exposed yourself.  Instead use the standard images directly from Docker Hub.
 
