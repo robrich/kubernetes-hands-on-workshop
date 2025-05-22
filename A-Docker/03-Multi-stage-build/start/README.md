@@ -31,7 +31,7 @@ Step 1: Build the Dockerfile
    COPY MultiStage.csproj .
    ```
 
-   This says "copy the dependencies manifest file from my machine to the current directory in the image."  In Node, this is the project.json file.  In Python this is the requirements.txt file.
+   This says "copy the dependencies manifest file from my machine to the current directory in the image."  In .NET, this is the `*.csproj` file and the `*.sln` file if it exists.  In Node.js, this is the `project.json` file.  In Python, this is the `requirements.txt` file.  In Java, this is the pom file.
 
 5. Add this line:
 
@@ -51,7 +51,7 @@ Step 1: Build the Dockerfile
 
    This copies all the rest of the content from the directory where we'll run the build command on our machine into the current directory in the image.
 
-7. Open the `.dockerignore` text file inside the `src` directory.  The syntax is nearly identical to a `.gitignore` file.  This file tells the `COPY` command which things it should not copy.
+7. Open the `.dockerignore` text file inside the `src` directory.  The syntax of a `.dockerignore` file is nearly identical to a `.gitignore` file.  This file tells the `COPY` command which things it should not copy.
 
    If you don't have a `.dockerignore` file, it'll copy everything.
 
@@ -72,12 +72,12 @@ Step 1: Build the Dockerfile
    WORKDIR /app
    ```
 
-   We've seen this line a few times before.  Roughly it says "mkdir -p /app && cd /app"
+   We've seen this line a few times before.  Roughly, it says "mkdir -p /app && cd /app".
 
 10. Add these lines:
 
    ```
-   ENV ASPNETCORE_URLS http://+:5000
+   ENV ASPNETCORE_URLS=http://+:5000
    EXPOSE 5000
    ```
 
@@ -97,7 +97,7 @@ Step 1: Build the Dockerfile
 Step 2: Build the Dockerfile into an image
 ------------------------------------------
 
-1. Start a command prompt in the `src` folder, (the folder with the `Dockerfile` in it) and then run this:
+1. Start a command prompt in the `src` folder (the folder with the `Dockerfile` in it), and then run this:
 
    ```
    docker build --tag hellodotnet:0.1 .
@@ -111,13 +111,13 @@ Step 2: Build the Dockerfile into an image
    docker image list
    ```
 
-   Your image is at the very top because this list is sorted by create date descending.
+   Your image is at the very top because this list is sorted by create date with the newest on top.
 
 
 Step 3: Run the image as a container
 ------------------------------------
 
-As you work through this section, if you find it doesn't work, look for debugging tips in section 4 below.
+As you work through this section, if you find it doesn't work, look for debugging tips in Section 4 below.
 
 1. From a command prompt, run
 
@@ -125,13 +125,17 @@ As you work through this section, if you find it doesn't work, look for debuggin
    docker run -p 5000:5000 -d hellodotnet:0.1
    ```
 
-   This says "Run the image named `hellodotnet`, version `0.1` as a container, and NAT the host's port 5000 to port 5000 in the container.  `-d` says "run in daemon mode" or "run in the background".
+   This says "Run the image named `hellodotnet`, version `0.1` as a container, and NAT the host's port 5000 to port 5000 in the container.
+
+   `-d` says "run in daemon mode" or "run in the background".
 
    Is port 5000 in use on your machine?  You can switch the outside port to 4000 or similar like this: `docker run -p 4000:5000 -d hellodotnet:0.1` or choose any free port on your machine.
 
-2. Open a browser to [http://localhost:5000](http://localhost:5000).  Success!
+   **NOTE**: Apple AirPlay runs on port 5000, and Docker isn't very good at highlighting this conflict.  If you're running on a Mac, you definitely want to map to a different port as you start this container.  You don't need to change the Dockerfile, but you do need to change the docker run command.
 
-   Is it not running?  See step 4.
+2. Open a browser to [http://localhost:5000](http://localhost:5000) or the port you specified above.  Success!
+
+   Is it not running?  See Step 4.
 
 3. To see running containers, run:
 
@@ -139,7 +143,7 @@ As you work through this section, if you find it doesn't work, look for debuggin
    docker container list
    ```
 
-**Note: you didn't install .NET either!**
+**Note that you didn't install .NET either!**
 
 
 Step 4: Debugging a failed container
@@ -147,7 +151,7 @@ Step 4: Debugging a failed container
 
 Did your container not start up correctly in Step 4?  Let's look for clues to what happened.
 
-1. Run `docker container list --all`.  This will show both running and stopped containers.
+1. Run `docker container list --all`.  This shows both running and stopped containers.
 
 2. Note the `CONTAINER ID` and/or the `NAMES` of the failed container.  We'll need it next.
 
@@ -157,7 +161,7 @@ Did your container not start up correctly in Step 4?  Let's look for clues to wh
 
 5. Start the container using `docker run -p 5000:5000 hellodotnet:0.1` without the `-d` so the console output comes straight to your screen.
 
-6. When you're ready, use CNTRL-C to break out of the console, and get back to the host's terminal.
+6. When you're ready, use Cntrl-C to break out of the console, and get back to the host's terminal.
 
 Is port 5000 already in use on your machine?  Change the host port to another port like 5001 with this command `docker run -p 5001:5000 hellodotnet:0.1`, then browse to `localhost:5001`.  Notice that inside the container, the server is still listening on port 5000.
 
@@ -167,17 +171,17 @@ Step 5: Stop and Remove the container
 
 1. Run `docker container list --all` to see both running and stopped containers.  Note the `CONTAINER ID` and/or the `NAMES` of the container.
 
-2. Run `docker container rm -f ...` replacing `...` with the first few characters of the `CONTAINER ID` or the `NAMES` you found above.  This both stops and removes the container in one shot.
+2. Run `docker container rm -f ...`, replacing `...` with the first few characters of the `CONTAINER ID` or the `NAMES` you found above.  This both stops and removes the container in one shot.
 
    The read-write layer for this container is now gone.  Good thing we didn't save anything there.
 
-3. Run `docker image list`.  The image is still there, only the container we created by running the image is gone.
+3. Run `docker image list`.  The image is still there; only the container we created by running the image is gone.
 
 
 Step 6: Modify the Dockerfile to be multi-stage
 -----------------------------------------------
 
-What is a multi-stage build?  We're going to build two images: one is like the build server, the other is like the production server. The first stage will take in our source code and output the built dlls, the second will host the built dlls as a web server.
+What is a multi-stage build?  We're going to build two images: one is like the build server, the other is like the production server. The first stage takes in our source code and outputs the built dlls, the second hosts the built dlls as a web server.
 
 1. Open the `Dockerfile` you created above.
 
@@ -187,7 +191,7 @@ What is a multi-stage build?  We're going to build two images: one is like the b
    FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine
    ```
 
-   We've started a new section -- a second build stage.  We'll build a second image.  This base image is the .NET runtime -- it doesn't include the build tools, so it's much smaller.
+   We've started a new section — a second build stage.  We'll build a second image.  This base image is the .NET runtime — it doesn't include the build tools, so it's much smaller.
 
 3. Add this line after the `WORKDIR /app` and before the `ENV ASPNETCORE_...` line:
 
@@ -195,17 +199,17 @@ What is a multi-stage build?  We're going to build two images: one is like the b
    COPY --from=build /app .
    ```
 
-   This line is different from the other copy lines we've written.  This doesn't copy from our computer, it copies from the image stage named `build`.  But `build` doesn't exist yet.
+   This line is different from the other copy lines we've written.  This doesn't copy from our computer; it copies from the image stage named `build`.  But `build` doesn't exist yet.
 
 4. At the top of the file, change the `FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine` to this:
 
    ```
-   FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine as build
+   FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine AS build
    ```
 
    We've now named the top section, so the `COPY --from=build ...` knows where to get the content.
 
-6. If you're feeling adventurous you could name the other section too, but it isn't necessary.
+6. If you're feeling adventurous, you could name the other section too — but it isn't necessary.
 
 7. Save the Dockerfile.
 
@@ -245,13 +249,13 @@ Step 8: Run the new image as a container
    docker container list
    ```
 
-   Is it not running?  See step 4 above.
+   Is it not running?  See Step 4 above.
 
 
 Step 9: Stop and Remove the container
 -------------------------------------
 
-1. Like you did in step 5, get docker's container list, find your container, and both stop and remove it.
+1. Like you did in Step 5, get docker's container list, find your container, and both stop and remove it.
 
 
 Step 10: Examine the images
@@ -265,11 +269,11 @@ Our goal with this multi-stage build is to get a smaller image.  Let's see if we
    docker image list
    ```
 
-2. On the far right (it may have wrapped to the next line) look at the image size for `hellodotnet:0.1` and `hellodotnet:0.2`.
+2. On the far right (it may have wrapped to the next line), look at the image size for `hellodotnet:0.1` and `hellodotnet:0.2`.
 
 3. Note that version `0.2` is significantly smaller than `0.1`.
 
-Docker built two images in this multi-stage build example.  If using the more modern BuildKit Docker builder, the intermediate image is stored in buildx cache, but hidden from us in the images list.  If using the original Docker builder, you'll see an image named `<none>`.  This intermediate image has the build tools and is larger.  In either case, the target image is named `hellodotnet:0.2` and is smaller.  We did this so we don't need to deploy the build tools to the production server, and so we built the .net app in a very consistent environment.
+Docker built two images in this multi-stage build example.  If you're using the more modern BuildKit Docker builder, the intermediate image is stored in buildx cache, but hidden from us in the images list.  If you're using the original Docker builder, you'll see an image named `<none>`.  This intermediate image has the build tools and is larger.  In either case, the target image is named `hellodotnet:0.2` and is smaller.  We did this so we don't need to deploy the build tools to the production server, and so we built the .NET app in a very consistent environment.
 
 
 Step 11: Prune unnamed images
@@ -295,7 +299,7 @@ Step 11: Prune unnamed images
 Bonus Step: Docker Compose
 --------------------------
 
-`docker compose` is the precursor to Docker Swarm, the production orchestrator by Docker.  We're not going to use Docker Swarm.  We're going to use Kubernetes instead.  So we won't spend a lot of time on `docker compose` in this course.
+`docker compose` is the precursor to Docker Swarm, the production orchestrator by Docker.  We're not going to use Docker Swarm; we're going to use Kubernetes instead.  Therefore, we won't spend a lot of time on `docker compose` in this course.
 
 `docker compose` is really handy as it contains a simple structure for both the `docker build ...` command arguments and the `docker run ...` arguments.
 
@@ -313,7 +317,7 @@ I've provided a sample `docker-compose.yml` file for us to play with.
 
 3. Open a browser to [http://localhost:5000/](http://localhost:5000/) to see the running site.
 
-4. To stop docker compose run this:
+4. To stop docker compose, run this:
 
    ```
    docker compose down
@@ -321,7 +325,7 @@ I've provided a sample `docker-compose.yml` file for us to play with.
 
    If you instead choose to stop the container with `docker stop ...`, Docker Compose will notice the stack is incomplete and start a new container.
 
-   **Note:** If you'd rather use the old builder instead of BuildKit run this:
+   **Note:** If you'd rather use the old builder instead of BuildKit, run this:
 
    ```
    export DOCKER_BUILDKIT=0

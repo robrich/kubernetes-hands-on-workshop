@@ -13,7 +13,7 @@ Head to https://github.com/robrich/kubernetes-hands-on-workshop, click on the gr
 Step 0: Switch to Linux containers
 ----------------------------------
 
-1. Running on Windows?  Right-click on the docker system tray icon, and choose "Switch to Linux Containers".  If it says "Switch to Windows containers" you don't need to do anything, you're already there.
+1. Running on Windows?  Right-click on the docker system tray icon, and choose "Switch to Linux Containers".  If it says "Switch to Windows containers", you don't need to do anything; you're already there.  If you unchecked "Windows containers" as you installed Docker Desktop, you don't have this option, and you're already on Linux containers.
 
 
 Step 1: Create the app
@@ -27,13 +27,13 @@ Step 1: Create the app
 
 4. Save the file in this `start` folder, and name the file `server.js`.
 
-5. Modify this line: `server.listen(port, hostname, () => {` to this: `server.listen(port, () => {` (e.g. remove `hostname,`.)
+5. Modify this line: `server.listen(port, hostname, () => {` to this: `server.listen(port, () => {` (e.g., remove `hostname,`.)
 
 
 Step 2: Craft the Dockerfile
 ----------------------------
 
-1. Create a new file in this `start` folder named `Dockerfile` -- note it has no file extension.
+1. Create a new file in this `start` folder named `Dockerfile` — note it has no file extension.
 
 2. Write this line:
 
@@ -109,7 +109,7 @@ Step 3: Build the Dockerfile into an image
 
    This says "Build the current directory's Dockerfile into an image, and tag the image with the name `hellonode` and the version `0.1`".
 
-   NOTE: If you're building on Windows, you'll get a security warning. It's showing you that Windows Access Control Lists (ACLs) are different than Linux's Users & Groups. We're not setting file permissions here, so we're ok. It's safe to ignore this warning in this case.
+   NOTE: If you're building on Windows, you'll get a security warning. It shows you that Windows Access Control Lists (ACLs) are different than Linux's Users & Groups. We're not setting file permissions here, so we're OK. It's safe to ignore this warning in this case.
 
 
 2. After it finishes, run this to see the image it built:
@@ -118,13 +118,13 @@ Step 3: Build the Dockerfile into an image
    docker image list
    ```
 
-   Your image is at the very top because this list is sorted by create date descending.
+   Your image is at the very top because this list is sorted by create date with the most recent on top.
 
 
 Step 4: Run the image as a container
 ------------------------------------
 
-As you work through this section, if you find it doesn't work, look for debugging tips in section 5 below.
+As you work through this section, if you find it doesn't work, look for debugging tips in Section 5 below.
 
 1. From a command prompt, run:
 
@@ -152,7 +152,7 @@ Step 5: Debugging a failed container
 
 Did your container not start up correctly in Step 4?  Let's look for clues to what happened.
 
-1. Run `docker container list --all`.  This will show both running and stopped containers.
+1. Run `docker container list --all`.  This shows both running and stopped containers.
 
 2. Note the `CONTAINER ID` and/or the `NAMES` of the failed container.  We'll need it next.
 
@@ -160,29 +160,29 @@ Did your container not start up correctly in Step 4?  Let's look for clues to wh
 
 4. Remove the stopped container using Step 6 below, then return to Step 3 to rebuild the image and rerun the container.
 
-5. Start the container using `docker run -p 3000:3000 hellonode:0.1` without the `-d` so the console output comes straight to your screen.
+5. Start the container using `docker run -p 3000:3000 hellonode:0.1` without the `-d` so the console output goes straight to your screen.
 
-6. When you're ready, use CNTRL-C to break out of the console, and get back to the host's terminal.
+6. When you're ready, use Cntrl-C to break out of the console, and get back to the host's terminal.
 
-Is port 3000 already in use on your machine?  Change the host port to another port like 3001 with this command `docker run -p 3001:3000 hellonode:0.1`, then browse to `localhost:3001`.  Notice that inside the container, the server is still listening on port 3000.
+Is port 3000 already in use on your machine?  Change the host port to another port like 3001 with this command `docker run -p 3001:3000 hellonode:0.1`, then browse to `localhost:3001`.  Notice that - inside the container - the server is still listening on port 3000.
 
 
 Step 6: Stop and Remove the container
 -------------------------------------
 
-1. Run `docker container list` to see running containers.  Note the `CONTAINER ID` and/or the `NAMES` of the running container.
+1. Run `docker container list` to see running containers.  Note that the `CONTAINER ID` and/or the `NAMES` of the running container.
 
 2. Run `docker container stop ...` replacing `...` with the first few characters of the `CONTAINER ID` or the `NAMES` you found above.  This stops the container.
 
-3. Run `docker container list` and note the container is now stopped.
+3. Run `docker container list` and note that the container is now stopped.
 
-4. Run `docker container list --all` to see all containers -- both stopped and started.
+4. Run `docker container list --all` to see all containers — both stopped and started.
 
 5. Run `docker container rm ...` replacing `...` with the first few characters of the `CONTAINER ID` or the `NAMES` you found above.  This removes the container.
 
    The read-write layer for this container is now gone.  Good thing we didn't save anything there.
 
-6. Run `docker image list`.  The image is still there, only the container we created by running the image is gone.
+6. Run `docker image list`.  The image is still there; only the container we created by running the image is gone.
 
 
 Step 7: Change the code, rebuild, rerun
