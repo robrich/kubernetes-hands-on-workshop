@@ -44,13 +44,13 @@ Install Kubernetes CLI
 
 1. Download `kubectl` for your OS from https://kubernetes.io/docs/tasks/tools/install-kubectl/
 
-2. Put kubectl in your PATH.  You may choose to move kubectl to the same folder as minikube.
+2. Put `kubectl` in your `PATH`.  You may choose to move kubectl to the same folder as minikube.
 
 
 Install Container CLI
 ---------------------
 
-You need a CLI to build and run containers.  Pick one of the free & open-source tools:
+You need a CLI to build and run containers.  Pick one of the free and open-source tools:
 
 ### Podman CLI
 
@@ -62,7 +62,7 @@ OR
 
 ### Docker Engine
 
-"Docker Engine" is the free & open-source pieces of Docker.  "Docker Desktop" is a paid product that sits on top and offers many conviniences.  There are no purchase requirements to using Docker Engine.
+"Docker Engine" is the free and open-source pieces of Docker.  "Docker Desktop" is a paid product that sits on top and offers many conveniences.  There are no purchase requirements to using Docker Engine.
 
 The most up-to-date install instructions are on https://docs.docker.com/engine/install/
 
@@ -100,7 +100,7 @@ The most up-to-date install instructions are on https://docs.docker.com/engine/i
 Start Minikube
 --------------
 
-1. If using VirtualBox:
+1. If you're using VirtualBox:
 
    ```
    minikube start
@@ -108,7 +108,7 @@ Start Minikube
 
    OR
 
-   If using Hyper-V:
+   If you're using Hyper-V:
 
    ```
    minikube start --vm-driver="hyperv" --hyperv-virtual-switch="YOUR_EXTERNAL_SWITCH_HERE"
@@ -124,7 +124,7 @@ Start Minikube
 
    Copy and paste these environment variables into every terminal you'll use through this course.
 
-   Start a new terminal?  You'll need to re-run this step.
+   For every new terminal you start today, you'll need to re-run this step.
 
    You'll need to set similar variables in any IDEs with Docker plugins.  See the setup for [VS Code](https://code.visualstudio.com/remote/advancedcontainers/develop-remote-host#_a-basic-remote-example) for example.
 
@@ -134,9 +134,9 @@ Adjusting the Courseware
 
 Unlike Docker Desktop, Minikube does not automatically proxy localhost into the Docker VM.  Instead, you'll need to specify the name or IP of the Minikube VM.
 
-In all the examples that say `http://localhost:...` you'll need to swap them to say `http://minikube:...`
+In all the examples that say `http://localhost:...`, you'll need to swap them to say `http://minikube:...`
 
-Windows only: Minikube on Hyper-V doesn't automatically mount volumes.  Note that Hyper-V isn't listed in https://minikube.sigs.k8s.io/docs/handbook/mount/#driver-mounts
+**Windows only**: Minikube on Hyper-V doesn't automatically mount volumes.  Note that Hyper-V isn't listed in https://minikube.sigs.k8s.io/docs/handbook/mount/#driver-mounts
 
 When you use volumes, you'll first need to mount the folder into the Minikube VM:
 
@@ -169,4 +169,4 @@ If you don't see an error message, it worked.
 Start downloading docker images
 -------------------------------
 
-Once all the tools are installed, you're good to start pulling images.  In the main README, Go to the section marked ["Start downloading images"](README.md#start-downloading-docker-images) and run the `docker pull ...` commands.
+Once all the tools are installed, you're good to start pulling images.  In the main README, go to the section marked ["Start downloading images"](README.md#start-downloading-docker-images) and run the `docker pull ...` commands.

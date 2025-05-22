@@ -13,7 +13,7 @@ RUN dotnet publish backend.csproj -c Release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine
 
-ENV ASPNETCORE_URLS http://+:5000
+ENV ASPNETCORE_URLS=http://+:5000
 EXPOSE 5000
 
 WORKDIR /app

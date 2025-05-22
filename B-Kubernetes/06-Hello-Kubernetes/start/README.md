@@ -55,13 +55,13 @@ Each Kubernetes object has an `apiVersion`, a `kind`, a `metadata` section, and 
        version: v0.1
    ```
 
-   We're giving Kubernetes a bit of metadata about the pod -- a list of arbitrary name-value pairs.  We could put anything we wanted here -- service tags, environment name, your favorite color.
+   We're giving Kubernetes a bit of metadata about the pod — a list of arbitrary name-value pairs.  We could put anything we wanted here — service tags, environment name, your favorite color.
 
    We'll use these when we discuss service's selectors.
 
    **Note:** both the name and the value must be strings, so ~~`version: 0.1`~~ is invalid, but `version: '0.1'` is ok.  In this case we use `version: v0.1` to ensure it's a string without needing quotes.
 
-5. The next section is the details about the pod -- the container(s) in it:
+5. The next section is the details about the pod — the container(s) in it:
 
    ```
    spec:
@@ -151,6 +151,8 @@ Step 2: Schedule the pod
    ```
 
    This command tells us a lot about the pod.
+
+   If using Podman, you may find a second (sidecar) container in your pod: `podman-pause`.  This is Podman "helping" with infrastructure.  It maintains namespaces and cgroups in the pod, and helps route from the Kind cluster to the outside world.  You can usually safely ignore this extra container.
 
 4. Run this command:
 

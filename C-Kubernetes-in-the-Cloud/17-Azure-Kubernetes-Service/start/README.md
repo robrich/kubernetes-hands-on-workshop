@@ -25,7 +25,7 @@ We've tagged the image with the registry name and pushed it to Azure Container R
 
 5. Change the image name in the `frontend/deployment.yaml` file too.
 
-6. Change the version in `frontend/deployment.yaml` to `0.1` in both places.
+6. If you changed it to ~~0.2~~ during the rolling update excercise, change the version back to in `frontend/deployment.yaml` to `0.1` in all places.
 
 
 Schedule all the things
@@ -108,7 +108,13 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
 
 2. Create a new file in the frontend folder named `ingress.yaml`.
 
-3. Add this content:
+3. Make up a ficticious domain name or use a personal or corporate domain name.  For today's example, we can use the `/etc/hosts` file to make any domain route the way we expect.
+
+   I'll use `robrich.org` for my domain name.  You may choose `example.com` or `my-company.com` or any domain.
+
+   In a production scenario, we'd need to update DNS to point an A record to the ingress's IP address.  Today, we'll avoid the DNS update by making a local-computer override instead.
+
+4. Add this content:
 
    ```
    apiVersion: networking.k8s.io/v1
@@ -120,7 +126,7 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
    spec:
      ingressClassName: nginx
      rules:
-     - host: frontend.YOUR_DOMAIN_HERE # <-- set your domain here
+     - host: frontend.YOUR_DOMAIN_HERE # <-- set your domain here or remove this line
        http:
          paths:
          - pathType: Prefix
@@ -134,17 +140,19 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
                  number: 3000
    ```
 
+   Ensure you replace ~~`YOUR_DOMAIN_HERE`~~ with the domain you chose above.  It doesn't need to be a real domain.  We'll use `/etc/hosts` to make it work locally.
+
    This sets up DNS rules to get traffic from the internet on port 80 into the service named `frontend` on port `3000`.  One could also route https traffic, specifying a certificate stored as a Kubernetes secret, though this is beyond the scope of this course.
 
    The line `ingressClassName: nginx` tells Kubernetes to use the Nginx ingress controller.  If using different ingress technologies you may need different configuration.
 
-4. Schedule this ingress:
+5. Schedule this ingress:
 
    ```
    kubectl apply -f ingress.yaml
    ```
 
-5. Get all:
+6. Get all:
 
    ```
    kubectl get all
@@ -156,7 +164,7 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
    kubectl get all,ing
    ```
 
-6. At this point we'd head to CloudFlare, DNSimple, or your DNS provider and add a DNS entry for the new domain name to point to the Cluster's External IP we got at the end of Chapter 15.  We're going to skip that step and do it locally instead.
+7. At this point, we'd head to CloudFlare, DNSimple, or your DNS provider and add a DNS entry for the new domain name to point to the Cluster's External IP we got at the end of Chapter 15.  We're going to skip that step and do it locally instead.
 
    - Get the public IP:
 
@@ -181,7 +189,7 @@ Ingress routes traffic through the Azure load balancer associated with the Azure
 
      swap in the correct public IP and domain
 
-8. Now let's try it out.  Browse to the URL you formed above: `http://frontend.YOUR_DOMAIN_HERE`, adding in your domain from the Azure portal.
+8. Now let's try it out.  Browse to the URL you formed above: `http://frontend.YOUR_DOMAIN_HERE`, adding in your domain chosen above.
 
    **Note**: It's important we browse to `http` and not ~~https~~.  We haven't rigged up SSL support here.
 

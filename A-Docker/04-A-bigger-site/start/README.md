@@ -70,7 +70,7 @@ If you're using Podman instead of Docker Desktop, the above `docker run ... --li
 2. Modify the frontend's Dockerfile to set BACKEND to localhost:
 
    ```
-   ENV BACKEND http://localhost:5000
+   ENV BACKEND=http://localhost:5000
    ```
 
 3. Rebuild the frontend container.

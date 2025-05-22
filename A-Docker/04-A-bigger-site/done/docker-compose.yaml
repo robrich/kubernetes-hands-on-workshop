@@ -1,0 +1,20 @@
+#version: '3'
+
+services:
+  frontend:
+    build: frontend
+    image: frontend:v0.1
+    ports:
+    - "3000:3000"
+    environment:
+    - PORT=3000
+    - NODE_ENV=production
+
+  backend:
+    build: backend
+    image: backend:v0.1
+    ports:
+    - "4000:5000"
+    environment:
+    - ASPNET_URLS=http://+:5000
+    - ASPNET_ENVIRONMENT=Production

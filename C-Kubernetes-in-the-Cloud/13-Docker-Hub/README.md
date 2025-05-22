@@ -64,7 +64,7 @@ Adding to Docker Hub
    docker push username/backend
    ```
 
-8. Repeat steps 5, 6, and 7 for the `frontend:0.1` container.
+8. Repeat steps 4 to 7 for the `frontend:0.1` container.
 
 9. Now that your image is on Docker hub, you could delete the image, and grab it again using:
 

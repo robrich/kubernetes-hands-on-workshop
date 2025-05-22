@@ -33,7 +33,7 @@ So why would you choose one cloud provider over another?
 - Specialty features like AI, video encoding, or mobile device integration
 - Familiarity or recommendations
 
-So which cloud should you choose?  I recommend you walk into the IT department, say "Azure" and "AWS", and some eager soul will explain to you the benefits of their favorite cloud for about an hour.  I completely agree -- that's the correct cloud for you.
+So which cloud should you choose?  I recommend you walk into the IT department, say "Azure" and "AWS", and some eager soul will explain to you the benefits of their favorite cloud for about an hour.  I completely agree; that's the correct cloud for you.
 
 ... but since we need an opinion in this course, I choose Azure.  As of this writing, Azure has the ["Industry's best Kubernetes experience"](https://azure.microsoft.com/en-us/blog/kubernetes-on-azure/).  Spinning up a cluster is drop-dead easy.  Publishing containers is easy.  Building a DevOps pipeline for containers is easy.
 
