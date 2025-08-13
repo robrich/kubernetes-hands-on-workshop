@@ -43,6 +43,8 @@ Frontend
 
    Note: we can't just browse from the front-end container to the backend container inside the Docker network via `http://localhost:5000/` because that's not the address of the backend container inside the Docker network.  From outside the Docker network, Docker is NATing the traffic from localhost.  But inside the network, we don't have this luxury.
 
+   Note: similarly we can't just browse from our machine to `http://backend:5000/` because we can't get to machines inside the Docker network from outside it.  The Docker switch is NATing all the traffic.  localhost:3000 goes from our machine through the Docker switch to the frontend container, and port 5000 goes to the backend container.  If we wanted the names to resolve, we could set `/etc/hosts` to point the names backend and frontend to Docker, but that's likely overkil for this excercise.
+
 2. Open `frontend/Dockerfile`
 
 3. Modify the file to build the node app.  I've listed the shell commands you'll need to run.  Turn these into Dockerfile [`RUN`](https://docs.docker.com/engine/reference/builder/#run) and `CMD` commands.
