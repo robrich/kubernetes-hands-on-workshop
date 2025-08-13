@@ -15,7 +15,7 @@ Step 1: Build the Dockerfile
    FROM mcr.microsoft.com/dotnet/sdk:9.0-alpine
    ```
 
-   This says "start with the [.net build tools](https://hub.docker.com/_/microsoft-dotnet-core-sdk/) base image, and use the alpine flavor of it."  The alpine linux distribution is known for being really tiny.
+   This says "start with the [.NET build tools](https://hub.docker.com/r/microsoft/dotnet) base image, and use the alpine flavor of it."  The alpine linux distribution is known for being really tiny.
 
 3. Add the line:
 
