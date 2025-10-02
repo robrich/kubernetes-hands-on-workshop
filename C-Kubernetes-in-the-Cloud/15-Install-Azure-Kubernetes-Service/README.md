@@ -35,6 +35,8 @@ Azure Container Registry is like Docker Hub, but the images aren't public to the
 
    ![Azure Container Registry](acr-1.png)
 
+   **Note**: If you choose a `Domain name label scope` other than `Unsecure`, Azure will add additional characters after your chosen registry name.  For all the instructions in this and subsequent chapters - `docker login`, `docker tag ...`, `docker push ...` and updating the deployment YAML - you'll use this full registry name: both your chosen name and the extra characters.
+
 3. Push create at the bottom.
 
 4. Once the registry is created, click `Go to Resource` then
@@ -71,11 +73,15 @@ Create Kubernetes Cluster
 
 3. In the Node Pools tab:
 
-   - Click on Agent Pool's Node Size, and change the Node Size to a cheaper VM
+   - Optional: Click on Agent Pool's Node Size, and change the Node Size to a cheaper VM
 
      Azure [requires](https://learn.microsoft.com/en-us/azure/aks/quotas-skus-regions#restricted-vm-sizes) more than 2 CPUs per VM in AKS, so you can't choose any of the really cheap 2 vCPU VMs
 
-   - Change the Node count minimum to 1 and maximum to 3
+   - Change the Node count minimum to 1 and maximum to 1
+
+     In high-availability scenarios, you probably want a minimum of 3 VMs and a maximum of 10 or more.
+
+     In the Azure free trial, you can have a maximum of 4 vCPUs.  Given the requirement that AKS can only run on 4 vCPU VMs, a trial account therefore can only have 1 node in the agent pool.  This is not ideal for high-availability, but completely sufficient for our learning today.
 
    - Optional: Enable virtual nodes.
 
@@ -85,7 +91,7 @@ Create Kubernetes Cluster
 
 4. In the Networking tab
 
-   - Change the Network Policy to `Azure`.
+   - The Network Policy defaults to `none` which is sufficient for today.  You could also choose another option to fit your organization requirements.  See https://learn.microsoft.com/en-us/azure/aks/use-network-policies#differences-between-network-policy-engines-cilium-azure-npm-and-calico for more details about each option.
 
 5. In the Integrations tab, select the container registry created above.  This automatically creates the service principal and access permissions to pull containers from the registry into the cluster.
 

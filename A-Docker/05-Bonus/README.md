@@ -11,6 +11,7 @@ Finished the Docker excercises really fast? Here's some advanced scenarios you c
 - configure frontend and backend environment variables
 - startup a [Postgres](https://hub.docker.com/_/postgres) database
 - startup [Adminer](https://hub.docker.com/_/adminer), the Postgres sql admin
+- Challenge: modify the `backend` app to connect to Postgres
 
 3. Add a [health check](https://github.com/rodrigobdz/docker-compose-healthchecks) to docker-compose.yml that notices when frontend is unhealthy and [restarts](https://github.com/compose-spec/compose-spec/blob/master/deploy.md#restart_policy) it. Then exec into the frontend container and kill the Node.js process.
 

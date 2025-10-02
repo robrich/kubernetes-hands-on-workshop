@@ -36,7 +36,7 @@ Each Kubernetes object has an `apiVersion`, a `kind`, a `metadata` section, and 
    kind: Pod
    ```
 
-   This says we're using a `Pod` object, and it's found in Kubernetes's `v1` namespace.
+   This says we're using a `Pod` object, and it's found in Kubernetes's `v1` api space.
 
 3. Write these lines:
 

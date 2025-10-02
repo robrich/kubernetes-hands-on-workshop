@@ -15,6 +15,8 @@ Follow the instructions on https://docs.docker.com/desktop/install/linux-install
 
 2. Download [Docker Desktop](https://www.docker.com/products/docker-desktop/) and install as you would any Linux app.
 
+3. Download and install [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/).  Unlike Docker Desktop for Mac and Windows, Docker Desktop for Linux doesn't install kubectl for us.
+
 Though you can use Docker Engine for the first few chapters, it doesn't provision a Kubernetes cluster, making later work harder.  You can use Docker Engine together with Minikube, k3s, Podman, or other runtime that will provision both a Docker build environment and a Kubernetes cluster.
 
 

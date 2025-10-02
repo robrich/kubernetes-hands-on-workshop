@@ -21,6 +21,8 @@ We've tagged the image with the registry name and pushed it to Azure Container R
            image: REGISTRY_NAME.azurecr.io/backend:0.1
    ```
 
+   **Note**: In Azure Container Registry, did you pick a different `Domain name label scope`?  If so, enter the full registry name -- both the name you picked and the characters Azure added.
+
 4. Save this file.
 
 5. Change the image name in the `frontend/deployment.yaml` file too.

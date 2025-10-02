@@ -32,4 +32,5 @@ Helm allow us to template the yaml files to avoid the redundancy.
 
 Tutorials on Helm:
 
-- https://www.katacoda.com/courses/kubernetes/helm-package-manager
+- https://devopscube.com/create-helm-chart/
+- https://www.datacamp.com/tutorial/helm-chart

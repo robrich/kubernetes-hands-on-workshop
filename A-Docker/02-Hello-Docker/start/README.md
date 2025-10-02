@@ -10,6 +10,12 @@ Step 0: Clone this repository
 Head to https://github.com/robrich/kubernetes-hands-on-workshop, click on the green "Code" button, and choose to clone or download this repository content.  Save the files in any convenient folder on your machine.  Consider putting them in a path without spaces because using paths with spaces requires putting quotes around some commands.
 
 
+Step 0: Start Docker Desktop
+----------------------------
+
+If you've rebooted since installing, ensure the Docker whale is in the toolbar (bottom-right for Windows, top-right on Mac).  If not, start Docker Desktop from your application list.
+
+
 Step 0: Switch to Linux containers
 ----------------------------------
 
@@ -92,7 +98,7 @@ Step 2: Craft the Dockerfile
 Optional: Build a `package.json` file
 -------------------------------------
 
-If you referenced `npm` commands in your Dockerfile such as `npm install` or `npm start`, the process will fail later noting there is no package.json file. Let's create one.
+In this example, we didn't reference `npm` or any command-line steps.  If we did want to run `npm` commands in the Dockerfile such as `npm install` or `npm start`, the process will fail later noting there is no package.json file. If you'd like, we can create one.
 
 You'll need [Node.js](https://nodejs.org/en/download) installed to do this step. If you don't have Node.js installed, you can skip this part.
 
@@ -157,6 +163,8 @@ Step 5: Debugging a failed container
 ------------------------------------
 
 Did your container not start up correctly in Step 4?  Let's look for clues to what happened.
+
+Did your container work great?  Skim this step for techniques to use if you do get stuck later.
 
 1. Run `docker container list --all`.  This shows both running and stopped containers.
 
