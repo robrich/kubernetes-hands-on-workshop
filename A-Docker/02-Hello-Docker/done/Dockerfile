@@ -1,5 +1,5 @@
 FROM node:alpine
 WORKDIR /app
-COPY . /app
+COPY . .
 EXPOSE 3000
-CMD ["node", "server"]
+CMD ["node", "index.mjs"]

@@ -191,8 +191,8 @@ Downloading docker images takes a while, so let's kick this off so we make sure 
 **Note**: Running on Windows?  Ensure you're in Linux mode.  Right-click on the docker system tray icon, and choose "Switch to Linux Containers".  If it says "Switch to Windows containers", you don't need to do anything, you're already there.  If you unchecked "Windows containers" as you installed Docker Desktop, you don't have this option, and you're already on Linux containers.
 
 1. `docker pull node:alpine`
-2. `docker pull mcr.microsoft.com/dotnet/sdk:9.0-alpine`
-3. `docker pull mcr.microsoft.com/dotnet/aspnet:9.0-alpine`
+2. `docker pull mcr.microsoft.com/dotnet/sdk:10.0-alpine`
+3. `docker pull mcr.microsoft.com/dotnet/aspnet:10.0-alpine`
 
 You're ready
 ------------

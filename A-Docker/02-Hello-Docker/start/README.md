@@ -31,15 +31,15 @@ We need to make sure we're running Linux containers and not in Windows Container
 Step 1: Create the app
 ----------------------
 
-1. Go to [nodejs.org](https://nodejs.org/en/about) and click on "About".
+1. Go to [nodejs.org](https://nodejs.org/en/about) find the sample program.
 
 2. Copy the sample program.
 
 3. Paste into a new file.
 
-4. Save the file in this `start` folder, and name the file `server.js`.
+4. Save the file in this `start` folder, and name the file `index.mjs`.
 
-5. Modify this line: `server.listen(port, hostname, () => {` to this: `server.listen(port, () => {` (e.g., remove `hostname,`.)
+5. Modify this line: `server.listen(3000, '127.0.0.1', () => {` to this: `server.listen(3000, () => {` (e.g., remove `'127.0.0.1',`.)
 
 
 Step 2: Craft the Dockerfile
@@ -70,10 +70,10 @@ Step 2: Craft the Dockerfile
 4. Next line:
 
    ```
-   COPY . /app
+   COPY . .
    ```
 
-   This says "Copy all the files in my current folder on my drive into the `/app` directory in the image."
+   This says "Copy all the files in my current folder on my drive into the current directory in the image."
 
 4. Another line:
 
@@ -86,10 +86,10 @@ Step 2: Craft the Dockerfile
 5. Write this:
 
    ```
-   CMD ["node", "server"]
+   CMD ["node", "index.mjs"]
    ```
 
-   This says "The command line to run when starting the container is `node server`. In other words, Start Node with the `server.js` file."
+   This says "The command line to run when starting the container is `node index.mjs`. In other words, Start Node with the `index.mjs` file."
 
    Note that all the other lines get run as we build the image.  Only this line gets run as the container starts.
 
@@ -102,7 +102,7 @@ In this example, we didn't reference `npm` or any command-line steps.  If we did
 
 You'll need [Node.js](https://nodejs.org/en/download) installed to do this step. If you don't have Node.js installed, you can skip this part.
 
-1. From a terminal in the folder with the `Dockerfile` and `server.js` file, run this command from a command prompt:
+1. From a terminal in the folder with the `Dockerfile` and `index.mjs` file, run this command from a command prompt:
 
    ```
    npm init -y
@@ -113,13 +113,13 @@ This command builds a `package.json` file with good defaults. If you were buildi
 Step 3: Build the Dockerfile into an image
 ------------------------------------------
 
-1. From a terminal in the folder with the `Dockerfile` and `server.js` file, run this command from a command prompt:
+1. From a terminal in the folder with the `Dockerfile` and `index.mjs` file, run this command from a command prompt:
 
    ```
-   docker build --tag hellonode:0.1 .
+   docker build --tag hello-node:0.1 .
    ```
 
-   This says "Build the current directory's Dockerfile into an image, and tag the image with the name `hellonode` and the version `0.1`".
+   This says "Build the current directory's Dockerfile into an image, and tag the image with the name `hello-node` and the label (version) `0.1`".
 
    NOTE: If you're building on Windows, you'll get a security warning. It shows you that Windows Access Control Lists (ACLs) are different than Linux's Users & Groups. We're not setting file permissions here, so we're OK. It's safe to ignore this warning in this case.
 
@@ -141,10 +141,10 @@ As you work through this section, if you find it doesn't work, look for debuggin
 1. From a command prompt, run:
 
    ```
-   docker run -p 3000:3000 -d hellonode:0.1
+   docker run -p 3000:3000 -d hello-node:0.1
    ```
 
-   This says "Run the image named `hellonode`, version `0.1` as a container, and NAT the host's port 3000 to port 3000 in the container.  `-d` says "run in daemon mode" or "run in the background."
+   This says "Run the image named `hello-node`, label `0.1` as a container, and NAT the host's port 3000 to port 3000 in the container.  `-d` says "run in daemon mode" or "run in the background."
 
 2. Open a browser to [http://localhost:3000](http://localhost:3000).  Success!
 
@@ -174,11 +174,11 @@ Did your container work great?  Skim this step for techniques to use if you do g
 
 4. Remove the stopped container using Step 6 below, then return to Step 3 to rebuild the image and rerun the container.
 
-5. Start the container using `docker run -p 3000:3000 hellonode:0.1` without the `-d` so the console output goes straight to your screen.
+5. Start the container using `docker run -p 3000:3000 hello-node:0.1` without the `-d` so the console output goes straight to your screen.
 
 6. When you're ready, use Cntrl-C to break out of the console, and get back to the host's terminal.
 
-Is port 3000 already in use on your machine?  Change the host port to another port like 3001 with this command `docker run -p 3001:3000 hellonode:0.1`, then browse to `localhost:3001`.  Notice that - inside the container - the server is still listening on port 3000.
+Is port 3000 already in use on your machine?  Change the host port to another port like 3001 with this command `docker run -p 3001:3000 hello-node:0.1`, then browse to `localhost:3001`.  Notice that - inside the container - the server is still listening on port 3000.
 
 
 Step 6: Stop and Remove the container
@@ -202,7 +202,7 @@ Step 6: Stop and Remove the container
 Step 7: Change the code, rebuild, rerun
 ---------------------------------------
 
-1. Modify `server.js` to change `Hello World` to say something else interesting.
+1. Modify `index.mjs` to change `Hello World` to say something else interesting.
 
 2. Run a `docker build` command, changing the version label to `0.2`.
 
