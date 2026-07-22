@@ -20,7 +20,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 // return content so we know the server is running
-app.MapGet("/", () => "Backend is running!");
+app.MapGet("/", () => "Backend is running! Go to /swagger to see the API.");
 
 // get all frameworks
 app.MapGet("/framework", () => FrameworkDataStore.Database);

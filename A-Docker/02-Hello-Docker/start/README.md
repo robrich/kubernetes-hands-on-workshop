@@ -31,7 +31,7 @@ We need to make sure we're running Linux containers and not in Windows Container
 Step 1: Create the app
 ----------------------
 
-1. Go to [nodejs.org](https://nodejs.org/en/about) find the sample program.
+1. Go to [nodejs.org](https://nodejs.org/) to find the sample program.
 
 2. Copy the sample program.
 
