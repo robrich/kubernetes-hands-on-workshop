@@ -4,6 +4,14 @@ import database from '../data/database.js';
 const router = Router();
 export default router;
 
+// require a shared-secret API key for requests that create/modify/delete data
+function requireApiKey(req, res, next) {
+  if (!process.env.API_KEY || req.get('x-api-key') !== process.env.API_KEY) {
+    return res.status(401).json({error: 'Unauthorized'});
+  }
+  next();
+}
+
 // get all frameworks
 router.get('/', async (req, res) => {
   return res.json(database);
@@ -20,7 +28,7 @@ router.get('/:id?', async (req, res) => {
 });
 
 // add new
-router.post('/', async (req, res) => {
+router.post('/', requireApiKey, async (req, res) => {
   const id = database.length + 1;
   const framework = req.body;
   framework.id = id;
