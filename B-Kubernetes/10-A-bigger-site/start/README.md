@@ -9,7 +9,7 @@ Here's a network diagram of the application we'll build:
 
 ![A Bigger Site Architecture](architecture.png)
 
-1. We connect to http://localhost:32xxx, the nodePort of frontend service.
+1. We connect to http://localhost:3000, the port of frontend service.
 2. Kubernetes automatically proxies this across the Kubernetes "router" to the LAN side.
 3. frontend service load balances across all instances of frontend pod created by frontend deployment.
 4. frontend service connects to a chosen frontend pod on port 3000.
@@ -67,8 +67,6 @@ Frontend
 
 9. Change references from `hellonode` to `frontend`.
 
-10. Optional: If you want to specify the service's `nodePort` in the yaml file, change this port to be unique in the range 32000-33999.  If using a Kind cluster, ensure it's one of the ports forwarded in `00-Install/kind.yaml`.
-
 
 Backend
 -------
@@ -92,8 +90,6 @@ Backend
    The service name is the DNS entry for other pods to consume.  In `frontend`'s source code in `routes/index.js` it specifies `http://backend:5000`.  The frontend is able to resolve this URL to the backend because the backend service is named `backend`.
 
    If you'd prefer a different naming convention, change both the service name here and the `frontend`'s `routes/index.js` file with your new convention.
-
-7. Optional: If you want to specify the service's `nodePort` in the yaml file, change this port to be unique in the range 32000-33999.  If using a Kind cluster, ensure it's one of the ports forwarded in `00-Install/kind.yaml`.
 
 
 Schedule all the things
@@ -132,15 +128,9 @@ Schedule all the things
 Visit the site
 --------------
 
-1. Let's get the `NodePort` that K8s automatically assigned to the frontend service
+1. Browse to `http://localhost:3000/`, the port for the frontend service.
 
-   ```
-   kubectl get svc
-   ```
-
-   Note the `NodePort` (the 30,000 range port) for the `frontend`.
-
-2. Browse to `http://localhost:NODE_PORT/` substituting the `NodePort` you found above.  My service was on port `30123` so I'll browse to `http://localhost:30123/`.
+   Because we specified service `type: LoadBalancer`, Docker Desktop forwards the traffic to Kubernetes' KinD cluster.
 
 Success!  We're using microservices in Kubernetes!
 
@@ -150,7 +140,7 @@ Debugging the site
 
 ### No answer
 
-Did you visit localhost:32001 and get no answer? Maybe the containers aren't running.
+Did you visit localhost:3000 and get no answer? Maybe the containers aren't running.
 
 ```
 kubectl get all
