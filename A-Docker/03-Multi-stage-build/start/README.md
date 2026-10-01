@@ -7,9 +7,11 @@ In Node, we deploy our source.  In .NET, we build first, and deploy built artifa
 Step 1: Build the Dockerfile
 ----------------------------
 
-1. Create a new file named `Dockerfile` inside the `src` directory. If you haven't yet cloned this repository, you'll need the content from https://github.com/robrich/kubernetes-hands-on-workshop/tree/main/03-Multi-stage-build/start/src folder (the `src` directory next to this README.md file).
+1. Clone this repository if you haven't already.  You'll need content from the `src` directory for this section.
 
-2. Add the line
+2. Create a new file named `Dockerfile` inside the `src` directory, the directory right next to this README.md file.
+
+3. Add the line
 
    ```
    FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine
@@ -17,7 +19,7 @@ Step 1: Build the Dockerfile
 
    This says "start with the [.NET build tools](https://hub.docker.com/r/microsoft/dotnet) base image, and use the alpine flavor of it."  The alpine linux distribution is known for being really tiny.
 
-3. Add the line:
+4. Add the line:
 
    ```
    WORKDIR /src
@@ -25,7 +27,7 @@ Step 1: Build the Dockerfile
 
    This says "I want my process in the container to start from the `/src` directory."  It will create the directory if it doesn't exist.
 
-4. Next line:
+5. Next line:
 
    ```
    COPY MultiStage.csproj .
@@ -33,7 +35,7 @@ Step 1: Build the Dockerfile
 
    This says "copy the dependencies manifest file from my machine to the current directory in the image."  In .NET, this is the `*.csproj` file and the `*.sln` file if it exists.  In Node.js, this is the `project.json` file.  In Python, this is the `requirements.txt` file.  In Java, this is the pom file.
 
-5. Add this line:
+6. Add this line:
 
    ```
    RUN dotnet restore MultiStage.csproj
@@ -43,7 +45,7 @@ Step 1: Build the Dockerfile
 
    We copy only the project's manifest file first, then restore dependencies so we can benefit from Docker's layer caching.  When we change our app's source code and rebuild the image, we don't need to re-download the libraries if the source manifest didn't change.
 
-6. Next section:
+7. Next section:
 
    ```
    COPY . .
@@ -51,13 +53,13 @@ Step 1: Build the Dockerfile
 
    This copies all the rest of the content from the directory where we'll run the build command on our machine into the current directory in the image.
 
-7. Open the `.dockerignore` text file inside the `src` directory.  The syntax of a `.dockerignore` file is nearly identical to a `.gitignore` file.  This file tells the `COPY` command which things it should not copy.
+8. Open the `.dockerignore` text file inside the `src` directory.  The syntax of a `.dockerignore` file is nearly identical to a `.gitignore` file.  This file tells the `COPY` command which things it should not copy.
 
    If you don't have a `.dockerignore` file, it'll copy everything.
 
    In this case, we've chosen to not copy in all the user-specific files, configuration files for various editors, and other files we don't need.
 
-8. Back in the `Dockerfile` let's add these two lines:
+9. Back in the `Dockerfile` let's add these two lines:
 
    ```
    RUN dotnet build MultiStage.csproj -c Release
@@ -66,15 +68,15 @@ Step 1: Build the Dockerfile
 
    These commands tell .NET to build the application, and to publish the application to the `/app` directory, creating it if it doesn't exist.
 
-9. Add this line:
+10. Add this line:
 
-   ```
-   WORKDIR /app
-   ```
+    ```
+    WORKDIR /app
+    ```
 
    We've seen this line a few times before.  Roughly, it says "mkdir -p /app && cd /app".
 
-10. Add these lines:
+11. Add these lines:
 
    ```
    ENV ASPNETCORE_URLS=http://+:5000
@@ -83,7 +85,7 @@ Step 1: Build the Dockerfile
 
    These lines tell .NET and Docker respectively what ports to use for the web server.  We saw a similar `EXPOSE` line in the Node app's Dockerfile.
 
-11. Add this line:
+12. Add this line:
 
     ```
     CMD ["dotnet", "MultiStage.dll"]
@@ -91,7 +93,7 @@ Step 1: Build the Dockerfile
 
     This is the command it'll run when the container starts up.  All the other lines are run at build time.  This starts the web server.
 
-12. Save the Dockerfile.  Make sure it's `Dockerfile` without an extension, not ~~Dockerfile.txt~~.
+13. Save the Dockerfile.  Make sure it's `Dockerfile` without an extension, not ~~Dockerfile.txt~~.
 
 
 Step 2: Build the Dockerfile into an image
