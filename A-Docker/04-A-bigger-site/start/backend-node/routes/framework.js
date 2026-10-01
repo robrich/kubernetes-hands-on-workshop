@@ -45,10 +45,14 @@ router.put('/:id', async (req, res,) => {
 });
 
 router.delete('/:id', async (req, res) => {
+  if (!process.env.ADMIN_TOKEN || req.headers.authorization !== `Bearer ${process.env.ADMIN_TOKEN}`) {
+    return res.status(401).json({error: 'Unauthorized'});
+  }
+  const id = req.params.id;
   const index = database.findIndex(d => d.id == id);
   if (index < 0) {
     return res.status(404).json({error: 'Not Found'});
   }
-  database[index] = framework;
+  database.splice(index, 1);
   return res.json(database);
 });
