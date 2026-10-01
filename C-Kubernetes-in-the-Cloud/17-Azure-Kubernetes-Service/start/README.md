@@ -27,7 +27,25 @@ We've tagged the image with the registry name and pushed it to Azure Container R
 
 5. Change the image name in the `frontend/deployment.yaml` file too.
 
-6. If you changed it to ~~0.2~~ during the rolling update excercise, change the version back to in `frontend/deployment.yaml` to `0.1` in all places.
+6. Open `backend/service.yaml` and change this line:
+
+   change from this:
+
+   ```
+   type: LoadBalancer
+   ```
+
+   to this:
+
+   ```
+   type: ClusterIP
+   ```
+
+   Note: specifying type: LoadBalancer will provision a hardware load balancer in Azure.  That's an expensive resource!
+
+7. Change the service type in `frontend/service.yaml` too.
+
+8. If you changed it to ~~0.2~~ during the rolling update excercise, change the version back in `frontend/deployment.yaml` to `0.1` in all places.
 
 
 Schedule all the things

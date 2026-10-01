@@ -118,17 +118,11 @@ Step 2: Schedule the service
    kubectl get services
    ```
 
-   Do you see the service?
+   Do you see the service?  What port and node port did it get?
 
-3. Run this command:
+4. Open a browser to `http://localhost:3000/`.  Because we said the service was of `type: LoadBalancer`, KinD exposed this service's port (3000 in this case) to the Docker network, and Docker Desktop shimmed it in from the host.
 
-   ```
-   kubectl describe service hellonode-service
-   ```
-
-   This command tells us a lot about the service including the `NodePort` that Kubernetes randomly picked.
-
-4. Open a browser to `http://localhost:NODE_PORT/`, replacing `NODE_PORT` with the `NodePort` you found in step 3.  When I ran step 3, I got `NodePort:   <unset>  32012/TCP` so I'll browse to `http://localhost:32012`.  (Why does it say "unset" first?  Because we didn't give [the service's port a name](https://stackoverflow.com/questions/42528409/kubernetes-what-does-unset-mean-in-port-in-a-service).)
+Note: Why does it say "unset" first?  Because we didn't give [the service's port a name](https://stackoverflow.com/questions/42528409/kubernetes-what-does-unset-mean-in-port-in-a-service).
 
 
 What happened
@@ -136,11 +130,11 @@ What happened
 
 This is how our browser got the results:
 
-1. Browser looks to localhost:32012.
+1. Browser looks to localhost:3000.
 
-2. Docker-desktop forwards 32012 to the Kubernetes cluster.
+2. Docker Desktop forwards 3000 to the Kubernetes KinD cluster running in a container.
 
-3. Kubernetes forwards 32012 to `hellonode-service`'s port 3000.
+3. Kubernetes forwards 3000 to `hellonode-service`'s port 3000.
 
 4. The service looks for pods matching `app: hellonode`, and randomly picks a pod.
 
