@@ -110,7 +110,7 @@ Each Kubernetes object has an `apiVersion`, a `kind`, a `metadata` section, and 
 Podman
 ------
 
-If using Podman, we need to push images from the Podman instance into the Kind cluster.
+If using Podman, we need to push images from the Podman instance into the Kind cluster.  If not using Podman, you can skip this step.
 
 1. Open Podman Desktop.
 

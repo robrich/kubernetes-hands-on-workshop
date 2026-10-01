@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: hellonode-service
 spec:
-  type: NodePort
+  type: LoadBalancer # Docker Desktop forwards `LoadBalancer` to the KinD cluster
   selector:
     app: hellonode
   ports:

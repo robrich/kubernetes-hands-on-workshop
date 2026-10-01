@@ -63,10 +63,10 @@ Step 1: Craft a service.yaml file
 5. Here's some details about the service:
 
    ```
-     type: NodePort
+     type: LoadBalancer
    ```
 
-   A `NodePort` service creates an inbound port on each node in the cluster.  Kubernetes randomly picks a port in the 30,000 range.  Because Docker-desktop automatically proxies traffic from the host machine into the cluster, we'll be able to hit this `NodePort` from our browser.  In production, these ports would be exposed to the internet if the firewall around our Kubernetes cluster allowed it.
+   Docker Desktop will forward a service `type: LoadBalancer` into the KinD cluster.  This is perfect for local development.  In production, a `type: LoadBalancer` would provision a hardware load balancer which might be quite expensive.  Don't use `type: LoadBalancer` in production unless you need it for non-HTTP workloads.
 
 6. Add these lines:
 

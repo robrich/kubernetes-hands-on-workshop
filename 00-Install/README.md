@@ -146,11 +146,13 @@ Enable Kubernetes Mode
 
 4. Enable Kubernetes mode
 
-5. On the bottom-right, click `Apply and Restart`.
+5. Ensure you pick the cluster type `kind`.  [KinD](https://kind.sigs.k8s.io/) or Kubernetes in Docker runs the Kubernetes cluster in one or more Docker containers.
+
+6. On the bottom-right, click `Apply and Restart`.
 
    The first time you do this, it'll take a good while to download all the containers and start the Kubernetes control plane.
 
-6. You'll know Kubernetes mode is ready when you see `Kubernetes is running` on the bottom-left corner of Docker Desktop and in the menu from the whale icon.
+7. You'll know Kubernetes mode is ready when you see `Kubernetes is running` on the bottom-left corner of Docker Desktop and in the menu from the whale icon.
 
 ### **Don't have the Kubernetes tab?**
 
