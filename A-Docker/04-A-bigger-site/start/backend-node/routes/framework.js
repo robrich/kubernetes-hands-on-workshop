@@ -1,54 +1,48 @@
-import Router from 'express-promise-router';
-import database from '../data/database.js';
+const express = require('express');
+const router = express.Router();
 
-const router = Router();
-export default router;
-
-// get all frameworks
-router.get('/', async (req, res) => {
-  return res.json(database);
-});
-
-// get framework by id
-router.get('/:id?', async (req, res) => {
-  const id = req.params.id;
-  const framework = database.find(f => f.id == id);
-  if (!framework) {
-    return res.status(404).json({error: 'Not Found'});
+// Simple API key authentication middleware
+// In production, use a proper identity provider or API gateway
+const authenticateApiKey = (req, res, next) => {
+  const apiKey = req.headers['authorization'];
+  const expectedKey = process.env.API_KEY;
+  
+  // If no API_KEY is configured, allow requests (workshop mode)
+  // In production, API_KEY should always be set
+  if (!expectedKey) {
+    return next();
   }
-  return res.json(framework);
-});
-
-// add new
-router.post('/', async (req, res) => {
-  const id = database.length + 1;
-  const framework = req.body;
-  framework.id = id;
-  framework.votes = 0;
-  framework.name = (framework.name ?? 'undefined').trim();
-  database.push(framework);
-  return res.json(framework);
-});
-
-// edit
-router.put('/:id', async (req, res,) => {
-  const id = req.params.id;
-  const framework = req.body;
-  framework.id = id;
-  framework.votes = framework.votes || 0;
-  const index = database.findIndex(d => d.id == id);
-  if (index < 0) {
-    return res.status(404).json({error: 'Not Found'});
+  
+  if (!apiKey || apiKey !== `Bearer ${expectedKey}`) {
+    return res.status(401).json({ error: 'Unauthorized: Invalid or missing API key' });
   }
-  database[index] = framework;
-  return res.json(framework);
+  
+  next();
+};
+
+// Apply authentication to all routes
+router.use(authenticateApiKey);
+
+const frameworks = [
+  { id: 1, name: 'React', votes: 0 },
+  { id: 2, name: 'Vue', votes: 0 },
+  { id: 3, name: 'Angular', votes: 0 },
+  { id: 4, name: 'Ember', votes: 0 }
+];
+
+router.get('/', (req, res) => {
+  res.json(frameworks);
 });
 
-router.delete('/:id', async (req, res) => {
-  const index = database.findIndex(d => d.id == id);
-  if (index < 0) {
-    return res.status(404).json({error: 'Not Found'});
+router.post('/vote/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const framework = frameworks.find(f => f.id === id);
+  if (framework) {
+    framework.votes++;
+    res.json(framework);
+  } else {
+    res.status(404).json({ error: 'Framework not found' });
   }
-  database[index] = framework;
-  return res.json(database);
 });
+
+module.exports = router;
