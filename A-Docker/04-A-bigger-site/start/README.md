@@ -120,3 +120,18 @@ Shut down the containers
 5. For each remaining container that we created today: `docker container rm -f ...` substituting the container name or id for `...`.  This both stops and removes the container in one command.
 
 6. `docker container list --all` to ensure it's empty.
+
+
+Security considerations
+------------------------
+
+The backend API used in this workshop does not implement authentication or
+authorization. It is intended to run within the trusted environment created
+by the workshop.
+
+Do not expose the backend API directly to the public Internet.
+
+If deploying this application outside the workshop environment, place the API
+behind an appropriate authentication and authorization layer, such as an API
+gateway, ingress, or identity-aware proxy. Authentication should be enforced
+at that layer rather than embedding a shared secret in the browser frontend.
